@@ -6,12 +6,12 @@ import { NavItens } from "./navigation";
 
 @Component({
   selector: 'app-navigation-listitem',
-  imports: [MatListModule, RouterLink, MatIcon, RouterLinkActive, RouterLink],
+  imports: [MatListModule, RouterLink, MatIcon,  RouterLink, RouterLinkActive],
   template: `
     <mat-list-item
       [activated]="router.url === item().url ? true : false"
       [routerLink]="item().url"
-      routerLinkActive="!bg-red-100"
+      routerLinkActive="!bg-[#d8d7db]"
     >
       <mat-icon matListItemIcon>{{ item().icon }}</mat-icon>
       <span matListItemTitle>
