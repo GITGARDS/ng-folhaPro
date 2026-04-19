@@ -9,7 +9,7 @@ import { Funcionarios } from "./funcionarios/funcionarios";
   imports: [TitleCasePipe, Funcionarios, FuncionarioCard, CurrencyPipe],
   template: `
     <h1 class="text-3xl py-3 mb-2 text-shadow-md">{{ title | titlecase }}</h1>
-    <div class="flex flex-wrap items-center gap-4">
+    <div class="flex flex-wrap items-center gap-4 mb-4">
       <app-funcionario-card title="Funcionarios Ativos" icon="people">
         <ng-container valor>{{ funcionarioService.getTotalFuncionariosAtivos() }}</ng-container>
       </app-funcionario-card>
@@ -18,6 +18,7 @@ import { Funcionarios } from "./funcionarios/funcionarios";
         <ng-container valor>{{ funcionarioService.getTotalSalarioBase() | currency }}</ng-container>
       </app-funcionario-card>
     </div>
+
     <app-funcionarios />
   `,
   styles: ``,
@@ -25,7 +26,4 @@ import { Funcionarios } from "./funcionarios/funcionarios";
 export default class Funcionario {
   title = 'funcionarios';
   funcionarioService = inject(FuncionarioService);
-  constructor() {
-    this.funcionarioService.findAll();
-  }
 }

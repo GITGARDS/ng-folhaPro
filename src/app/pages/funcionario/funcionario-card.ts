@@ -6,13 +6,13 @@ import { MatIcon } from "@angular/material/icon";
   imports: [MatIcon],
   template: `
     <div
-      class="w-[256px] h-[128px] flex justify-between items-center gap-10 bg-gray-100 rounded-3xl px-8 group hover:bg-gray-200 transition-colors duration-100"
+      class="w-[256px] h-[128px] flex justify-between items-center gap-10 bg-gray-100 rounded-3xl px-8 group hover:bg-gray-200 transition-colors duration-100 border-2 border-dashed border-gray-300"
     >
       <div>
-        <p class="text-lg font-bold text-gray-500 text-shadow tracking-wider">
+        <p class="block-12 text-sm text-gray-500 text-shadow tracking-wider">
           {{ title() }}
         </p>
-        <span class="text-sm font-normal text-gray-500 text-shadow tracking-wider">
+        <span class="text-lg font-bold text-gray-500 text-shadow tracking-wider">
           <ng-content select="[valor]" />
         </span>
       </div>

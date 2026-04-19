@@ -8,11 +8,6 @@ import { FuncionarioModel } from "../../../models/funcionario";
 // TODO: Replace this with your own data model type
 
 // TODO: replace this with real data from your application
-const EXAMPLE_DATA: Partial<FuncionarioModel>[] = [
-  { id: 1, nome: 'Hydrogen', salarioBase: 1000, ativo: true },
-  { id: 2, nome: 'Helium', salarioBase: 2000, ativo: true },
-  { id: 3, nome: 'Rosana', salarioBase: 3000, ativo: false },
-];
 
 /**
  * Data source for the Funcionarios view. This class should
@@ -20,20 +15,13 @@ const EXAMPLE_DATA: Partial<FuncionarioModel>[] = [
  * (including sorting, pagination, and filtering).
  */
 export class FuncionariosDataSource extends DataSource<FuncionarioModel> {
-  data: Partial<FuncionarioModel>[] = EXAMPLE_DATA;
+  data: FuncionarioModel[] = [];
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
 
+
   constructor() {
     super();
-  }
-
-  getTotalSalarioBase(): number {
-    return this.data.reduce((total, f) => total + f.salarioBase!, 0);
-  }
-
-  getTotalAtivos(): number {
-    return this.data.filter((f) => f.ativo).length;
   }
 
   /**
@@ -47,7 +35,7 @@ export class FuncionariosDataSource extends DataSource<FuncionarioModel> {
       // stream for the data-table to consume.
       return merge(observableOf(this.data), this.paginator.page, this.sort.sortChange).pipe(
         map(() => {
-          return this.getPagedData(this.getSortedData([...this.data] as FuncionarioModel[]));
+          return this.getPagedData(this.getSortedData([...this.data]));
         }),
       );
     } else {
