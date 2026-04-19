@@ -5,7 +5,7 @@ import { MatDivider } from "@angular/material/divider";
 import { MatIcon } from "@angular/material/icon";
 import { MatMenu, MatMenuItem, MatMenuTrigger } from "@angular/material/menu";
 import { Observable, map, shareReplay } from "rxjs";
-import { NavigationService } from "../../../services/navigation";
+import { NavigationService } from "../../../services/navigation.service";
 
 @Component({
   selector: 'app-header-auth',

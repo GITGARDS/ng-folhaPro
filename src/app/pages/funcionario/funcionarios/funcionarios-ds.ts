@@ -5,93 +5,35 @@ import { Observable, merge, of as observableOf } from "rxjs";
 import { map } from "rxjs/operators";
 import { FuncionarioModel } from "../../../models/funcionario";
 
+// TODO: Replace this with your own data model type
+
 // TODO: replace this with real data from your application
-const EXAMPLE_DATA: FuncionarioModel[] = [
-  {
-    id: 1,
-    nome: 'João',
-    cpf: '123.456.789-00',
-    dataNascimento: '01/01/2000',
-    nomeMae: 'Maria',
-    nacionalidade: 'Brasileiro',
-    naturalidade: 'São Paulo',
-    genero: 'Masculino',
-    racaCor: 'Branco',
-    estadoCivil: 'Solteiro',
-    enderecoResidencial: 'Rua A, 123',
-    rg: '123456789',
-    ctpsDigital: '123456789',
-    pisPasep: '123456789',
-    tituloEleitor: '123456789',
-    certificadoReservista: '123456789',
-    dataAdmissao: '01/01/2000',
-    categoriaTrabalhador: 'Funcionário',
-    cargoFuncaoDesempenhada: 'Desenvolvedor',
-    salarioBase: 1000,
-    jornadaTrabalho: '8 horas',
-    departamentoCentroCusto: 'Departamento A',
-    tipoContrato: 'CLT',
-    vinculoSindicato: 'Sindicato X',
-    insalubridade: 'Não',
-    suporteTopPonto: 'Sim',
-    tipoConta: 'Conta Corrente',
-    banco: 'Banco X',
-    agencia: '1234',
-    conta: '123456789',
-    valeTransporte: 'Sim',
-    planoSaude: 'Plano X',
-    planoOdontologico: 'Plano Y',
-  },
-  {
-    id: 2,
-    nome: 'Maria',
-    cpf: '123.456.789-00',
-    dataNascimento: '01/01/2000',
-    nomeMae: 'Maria',
-    nacionalidade: 'Brasileiro',
-    naturalidade: 'São Paulo',
-    genero: 'Feminino',
-    racaCor: 'Branco',
-    estadoCivil: 'Solteiro',
-    enderecoResidencial: 'Rua A, 123',
-    rg: '123456789',
-    ctpsDigital: '123456789',
-    pisPasep: '123456789',
-    tituloEleitor: '123456789',
-    certificadoReservista: '123456789',
-    dataAdmissao: '01/01/2000',
-    categoriaTrabalhador: 'Funcionário',
-    cargoFuncaoDesempenhada: 'Desenvolvedor',
-    salarioBase: 1000,
-    jornadaTrabalho: '8 horas',
-    departamentoCentroCusto: 'Departamento A',    
-    tipoContrato: 'CLT',
-    vinculoSindicato: 'Sindicato X',
-    insalubridade: 'Não',
-    suporteTopPonto: 'Sim',
-    tipoConta: 'Conta Corrente',
-    banco: 'Banco X',
-    agencia: '1234',
-    conta: '123456789',
-    valeTransporte: 'Sim',
-    planoSaude: 'Plano X',
-    planoOdontologico: 'Plano Y',
-  },
-  
+const EXAMPLE_DATA: Partial<FuncionarioModel>[] = [
+  { id: 1, nome: 'Hydrogen', salarioBase: 1000, ativo: true },
+  { id: 2, nome: 'Helium', salarioBase: 2000, ativo: true },
+  { id: 3, nome: 'Rosana', salarioBase: 3000, ativo: false },
 ];
 
 /**
- * Data source for the FuncionarioTable view. This class should
+ * Data source for the Funcionarios view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class FuncionarioTableds extends DataSource<FuncionarioModel> {
-  data: FuncionarioModel[] = EXAMPLE_DATA;
+export class FuncionariosDataSource extends DataSource<FuncionarioModel> {
+  data: Partial<FuncionarioModel>[] = EXAMPLE_DATA;
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
 
   constructor() {
     super();
+  }
+
+  getTotalSalarioBase(): number {
+    return this.data.reduce((total, f) => total + f.salarioBase!, 0);
+  }
+
+  getTotalAtivos(): number {
+    return this.data.filter((f) => f.ativo).length;
   }
 
   /**
@@ -105,7 +47,7 @@ export class FuncionarioTableds extends DataSource<FuncionarioModel> {
       // stream for the data-table to consume.
       return merge(observableOf(this.data), this.paginator.page, this.sort.sortChange).pipe(
         map(() => {
-          return this.getPagedData(this.getSortedData([...this.data]));
+          return this.getPagedData(this.getSortedData([...this.data] as FuncionarioModel[]));
         }),
       );
     } else {

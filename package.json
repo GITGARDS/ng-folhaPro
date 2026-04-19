@@ -5,7 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development"
+    "watch": "ng build --watch --configuration development",
+    "js": "json-server --watch db/db.json --port 3000"
   },
   "private": true,
   "packageManager": "npm@11.3.0",
@@ -26,6 +27,7 @@
     "@angular/cli": "^21.2.2",
     "@angular/compiler-cli": "^21.2.0",
     "@tailwindcss/postcss": "^4.1.12",
+    "json-server": "^1.0.0-beta.15",
     "postcss": "^8.5.3",
     "prettier": "^3.8.1",
     "tailwindcss": "^4.1.12",

@@ -32,4 +32,5 @@ export type FuncionarioModel = {
   valeTransporte: string;
   planoSaude: string;
   planoOdontologico: string;
+  ativo: boolean;
 };
