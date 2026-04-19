@@ -14,7 +14,7 @@ html {
         tertiary: mat.$blue-palette,
       ),
       // typography: Roboto,
-      typography: 'Google Sans Flex',
+      typography: 'Google Sans',
       density: 0,
     )
   );
@@ -30,6 +30,7 @@ body {
   // Angular Material's system-level CSS variables. Learn more about these
   // variables at https://material.angular.dev/guide/system-variables
   background-color: var(--mat-sys-surface);
+  // background-color: #fafafa;
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
 

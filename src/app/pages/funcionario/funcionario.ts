@@ -8,7 +8,7 @@ import { Funcionarios } from "./funcionarios/funcionarios";
   selector: 'app-funcionario',
   imports: [TitleCasePipe, Funcionarios, FuncionarioCard, CurrencyPipe],
   template: `
-    <h1 class="text-3xl py-3 mb-2 text-shadow-md">{{ title | titlecase }}</h1>
+    <h1 class="text-3xl py-3 mb-2 text-black">{{ title | titlecase }}</h1>
     <div class="flex flex-wrap items-center gap-4 mb-4">
       <app-funcionario-card title="Funcionarios Ativos" icon="people">
         <ng-container valor>{{ funcionarioService.getTotalFuncionariosAtivos() }}</ng-container>

@@ -33,14 +33,15 @@ import { FuncionariosDataSource } from "./funcionarios-ds";
     MatInput,
   ],
   template: `
-    <mat-card class="p-2">
-      <div class="flex items-center gap-5">
-        <div class="w-[500px]">
-          <mat-form-field class="w-full">
+    <mat-card appearance="outlined" class="!shadow-sm !shadow-gray-400">
+      <div class="flex items-center gap-5 m-4">
+        <div class="w-[500px] mt-4">
+          <mat-form-field class="w-full" appearance="outline">
             <mat-label>Filter</mat-label>
             <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
           </mat-form-field>
         </div>
+
         <button
           matIconButton
           class="!bg-blue-500 !text-white"
@@ -51,6 +52,7 @@ import { FuncionariosDataSource } from "./funcionarios-ds";
           <mat-icon>add</mat-icon>
         </button>
       </div>
+
       <table mat-table class="full-width-table" matSort aria-label="Elements">
         <!-- Id Column -->
         <ng-container matColumnDef="id">
@@ -65,9 +67,9 @@ import { FuncionariosDataSource } from "./funcionarios-ds";
           <td mat-cell *matCellDef="let row" class="py-6 px-6">
             <div class="flex items-center gap-3">
               <div
-                class="w-8 h-8 rounded-full bg-[#c2e7ff] flex items-center justify-center text-zinc-500 font-bold text-xs"
+                class="w-8 h-8 rounded-full bg-emerald-500  flex items-center justify-center text-zinc-500 font-bold text-xs"
               >
-                <span class="text-blue-900">
+                <span class="text-white font-bold text-xs">
                   {{ row.nome?.charAt(0) }}
                 </span>
               </div>
@@ -110,6 +112,7 @@ import { FuncionariosDataSource } from "./funcionarios-ds";
       </table>
 
       <mat-paginator
+        class="m-4"
         #paginator
         [length]="dataSource.data.length"
         [pageIndex]="0"
@@ -123,6 +126,14 @@ import { FuncionariosDataSource } from "./funcionarios-ds";
   styles: `
     .full-width-table {
       width: 100%;
+    }
+    .mat-mdc-row .mat-mdc-cell {
+      border-bottom: 1px solid #e5e7eb;
+      border-top: 1px solid #e5e7eb;
+      cursor: pointer;
+    }
+    .mat-mdc-row:hover .mat-mdc-cell {
+      background-color: #e5e7eb !important;
     }
   `,
 })
