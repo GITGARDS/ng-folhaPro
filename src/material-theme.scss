@@ -13,7 +13,8 @@ html {
         primary: mat.$azure-palette,
         tertiary: mat.$blue-palette,
       ),
-      typography: Roboto,
+      // typography: Roboto,
+      typography: 'Google Sans Flex',
       density: 0,
     )
   );
