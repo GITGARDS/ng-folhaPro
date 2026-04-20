@@ -19,7 +19,10 @@ import { Funcionarios } from "./funcionarios/funcionarios";
       </app-funcionario-card>
     </div>
 
-    <app-funcionarios />
+    <div class="max-w-[1000px]"
+    >
+      <app-funcionarios />
+    </div>
   `,
   styles: ``,
 })

@@ -9,8 +9,12 @@ import { FuncionarioModel } from "../models/funcionario";
 export class FuncionarioService {
   private url = environment.apiUrl + '/funcionarios';
   private httpCliente = inject(HttpClient);
-  funcionarios = signal<FuncionarioModel[]>([]);
+  private funcionarios = signal<FuncionarioModel[]>([]);
 
+
+  getFuncionarios() {
+    return this.funcionarios();
+  }
   getTotalSalarioBase(): number {
     return this.funcionarios().reduce((total, f) => total + f.salarioBase, 0);
   }

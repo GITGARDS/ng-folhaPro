@@ -32,6 +32,9 @@ import { FuncionariosDataSource } from "./funcionarios-ds";
     MatLabel,
     MatInput,
   ],
+  
+  
+  
   template: `
     <mat-card appearance="outlined" class="!shadow-sm !shadow-gray-400">
       <div class="flex items-center gap-5 m-4">
@@ -154,17 +157,29 @@ export class Funcionarios implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.dataSource.data = this.funcionarioService.funcionarios();
-      this.table.dataSource = this.dataSource;
-    }, 50);
+    this.teste();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
+  teste() {
+    setTimeout(() => {
+      this.dataSource.data = this.funcionarioService.getFuncionarios();
+      this.table.dataSource = this.dataSource;
+    }, 50);
+  }
   onNovo() {
-    const dialogRef = this.dialog.open(FuncionarioForm, {
-      data: { funcionario: null },
-    });
+    // const dialogRef = this.dialog.open(FuncionarioForm, {
+    //   data: { funcionario: null },
+    // });
+
+    const fl = this.funcionarioService.getFuncionarios().length + 1;
+
+    const novo: Partial<FuncionarioModel> = {
+      nome: 'funcionario-' + fl,
+      salarioBase: fl * 1000,
+      ativo: true,
+    };
+    this.funcionarioService.create(novo as FuncionarioModel);
   }
   onEditar(reg: any) {
     const dialogRef = this.dialog.open(FuncionarioForm, {
@@ -172,7 +187,7 @@ export class Funcionarios implements AfterViewInit {
     });
   }
   onExcluir(id: number) {
-    console.log(id);
+    this.funcionarioService.deleteById(id);
   }
 
   applyFilter($event: KeyboardEvent) {}
