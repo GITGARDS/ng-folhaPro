@@ -1,36 +1,40 @@
-import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { delay } from "rxjs";
-import { environment } from "../../environments/environment.development";
+import { Firestore, collectionData } from "@angular/fire/firestore";
+import { addDoc, collection, deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { delay, map } from "rxjs";
 import { FuncionarioModel } from "../models/funcionario";
 
 @Injectable({
   providedIn: 'root',
 })
 export class FuncionarioService {
-  private url = environment.apiUrl + '/funcionarios';
-  private httpCliente = inject(HttpClient);
-  private isDelay = 500;
+  firestore = inject(Firestore);
+  funcinarioCollection = collection(this.firestore, 'funcionario');
+  private isDelay = 10;
 
   findAll() {
-    return this.httpCliente.get<FuncionarioModel[]>(this.url);
+    const ret = collectionData(this.funcinarioCollection, { idField: 'id' }).pipe(
+      delay(this.isDelay),
+      map((data) => data as FuncionarioModel[]),
+    );
+    return ret;
   }
 
-  findById(id: number) {
-    return this.httpCliente.get<FuncionarioModel>(`${this.url}/${id}`).pipe(delay(this.isDelay));
+  async findById(id: number) {
   }
 
-  create(funcionario: FuncionarioModel) {
-    return this.httpCliente.post<FuncionarioModel>(this.url, funcionario).pipe(delay(this.isDelay));
+  async create(funcionario: FuncionarioModel) {
+    const docRef = await addDoc(this.funcinarioCollection, { ...funcionario });
+    return docRef.id;
   }
 
-  updateById(funcionario: FuncionarioModel) {
-    return this.httpCliente
-      .put<FuncionarioModel>(`${this.url}/${funcionario.id}`, funcionario)
-      .pipe(delay(this.isDelay));
+  async updateById(id: string, funcionario: FuncionarioModel) {
+    const docRef = doc(this.firestore, `funcionario`, id);
+    await updateDoc(docRef, { ...funcionario });
   }
 
-  deleteById(id: number) {
-    return this.httpCliente.delete<FuncionarioModel>(`${this.url}/${id}`);
+  async deleteById(id: string) {
+    const docRef = doc(this.firestore, `funcionario`, id);
+    await deleteDoc(docRef);
   }
 }

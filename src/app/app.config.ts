@@ -1,12 +1,15 @@
-import { provideHttpClient, withFetch } from "@angular/common/http";
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from "@angular/core";
+import { initializeApp, provideFirebaseApp } from "@angular/fire/app";
+import { getFirestore, provideFirestore } from "@angular/fire/firestore";
 import { provideRouter, withViewTransitions } from "@angular/router";
+import { environment } from "../environments/environment.development";
 import { routes } from "./app.routes";
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes, withViewTransitions()),
-    provideHttpClient(withFetch()),
-  ]
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideFirestore(() => getFirestore()),
+  ],
 };

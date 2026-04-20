@@ -9,7 +9,7 @@ type FuncionarioState = {
 };
 
 const initialState: FuncionarioState = {
-  funcionarios: [] as FuncionarioModel[],
+  funcionarios: [],
   isLoading: false,
 };
 
@@ -44,48 +44,36 @@ export const FuncionarioStore = signalStore(
       });
     },
 
-    create: signalMethod((funcionario: FuncionarioModel) => {
+    create: signalMethod(async (funcionario: FuncionarioModel) => {
       patchState(store, { isLoading: true });
-
-      return funcionarioService.create(funcionario).subscribe({
-        next: (funcionario) => {
-          console.log('create', funcionario);
-          patchState(store, (state) => ({
-            ...state,
-            funcionarios: [...state.funcionarios, funcionario],
-            isLoading: false,
-          }));
-        },
-      });
+      const id = await funcionarioService.create(funcionario);      
+      patchState(store, (state) => ({
+        ...state,
+        funcionarios: [...state.funcionarios, { ...funcionario, id }],
+        isLoading: false,
+      }));
     }),
 
-    updateById: signalMethod((funcionario: FuncionarioModel) => {
+    updateById: signalMethod(async (params: { id: string; funcionario: FuncionarioModel }) => {
       patchState(store, { isLoading: true });
-      return funcionarioService.updateById(funcionario).subscribe({
-        next: (funcionario) => {
-          console.log('updateById', funcionario);
-          patchState(store, (state) => ({
-            ...state,
-            funcionarios: state.funcionarios.map((f) =>
-              f.id === funcionario.id ? funcionario : f,
-            ),
-            isLoading: false,
-          }));
-        },
-      });
+      await funcionarioService.updateById(params.id, params.funcionario);
+      patchState(store, (state) => ({
+        ...state,
+        funcionarios: state.funcionarios.map((f) =>
+          f.id === params.id ? { ...f, ...params.funcionario } : f,
+        ),
+        isLoading: false,
+      }));
     }),
 
-    deleteById: signalMethod((id: number) => {
+    deleteById: signalMethod(async (id: number) => {
       patchState(store, { isLoading: true });
-      funcionarioService.deleteById(id).subscribe({
-        next: () => {
-          patchState(store, (state) => ({
-            ...state,
-            funcionarios: state.funcionarios.filter((f) => f.id !== id),
-            isLoading: false,
-          }));
-        },
-      });
+      await funcionarioService.deleteById(id.toString());
+      patchState(store, (state) => ({
+        ...state,
+        funcionarios: state.funcionarios.filter((f) => f.id !== id),
+        isLoading: false,
+      }));
     }),
   })),
 );

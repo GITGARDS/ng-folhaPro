@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ViewChild, inject } from "@angular/core";
 import { MatIconButton, MatMiniFabButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
+import { MatSpinner } from "@angular/material/progress-spinner";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { FuncionarioModel } from "../../../models/funcionario";
@@ -16,9 +17,18 @@ import { FuncionarioStore } from "../../../store/funcionario.store";
     MatIconButton,
     MatIcon,
     MatMiniFabButton,
+    MatSpinner,
   ],
   template: `
-    <div>
+    <div class="relative">
+      @if (funcionarioStore.isLoading()) {
+        <div
+          class="absolute w-full h-full top-0 left-0 bg-[rgba(0,0,0,0.15)] backdrop-blur-sm  z-10 flex items-center justify-center"
+        >
+          <mat-spinner></mat-spinner>
+        </div>
+      }
+
       <div class="p-4">
         <button matMiniFab (click)="onCreate()">
           <mat-icon>add</mat-icon>
@@ -48,7 +58,7 @@ import { FuncionarioStore } from "../../../store/funcionario.store";
             <button mat-icon-button (click)="onFindById(row.id)">
               <mat-icon>search</mat-icon>
             </button>
-            <button mat-icon-button (click)="onUpdateById(row)">
+            <button mat-icon-button (click)="onUpdateById(row.id, row)">
               <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button (click)="onDeleteById(row.id)">
@@ -95,7 +105,7 @@ export class FuncionarioLista implements AfterViewInit {
       this.dataSource.data = this.funcionarioStore.funcionarios();
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-    }, 600);
+    }, 400);
   }
 
   onFindById(id: number) {
@@ -115,10 +125,10 @@ export class FuncionarioLista implements AfterViewInit {
     }
   }
 
-  onUpdateById(funcionario: FuncionarioModel) {
+  onUpdateById(id: string, funcionario: FuncionarioModel) {
     if (confirm('Tem certeza?')) {
       const funcionario2 = { ...funcionario, ativo: !funcionario.ativo, salarioBase: 1000 };
-      this.funcionarioStore.updateById(funcionario2);
+      this.funcionarioStore.updateById({ id, funcionario: funcionario2 });
       this.onAtualiza();
     }
   }

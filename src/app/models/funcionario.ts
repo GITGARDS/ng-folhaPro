@@ -1,5 +1,5 @@
 export type FuncionarioModel = {
-  id: number;
+  id: number | string;
   nome: string;
   cpf: string;
   dataNascimento: string;
