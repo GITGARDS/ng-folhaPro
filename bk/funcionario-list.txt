@@ -103,19 +103,7 @@ import { FuncionarioStore } from "../../../store/funcionario.store";
       </mat-paginator>
     </div>
   `,
-  styles: `
-    .mat-mdc-row {
-      height: 10px;
-    }
-    .mat-mdc-row .mat-mdc-cell {
-      border-bottom: 1px solid transparent;
-      border-top: 1px solid transparent;
-      cursor: pointer;
-    }
-    .mat-mdc-row:hover .mat-mdc-cell {
-      background-color: rgba(0, 0, 0, 0.05);
-    }
-  `,
+  styles: ``,
 })
 export class FuncionarioList {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
