@@ -178,7 +178,7 @@ export class FuncionarioList {
       data: { funcionario: {} as FuncionarioModel },
       minWidth: '700px',
       maxWidth: '700px',
-      height: '700px',
+      height: '750px',
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '300ms',
     });
@@ -195,7 +195,7 @@ export class FuncionarioList {
       data: { funcionario: funcionario as FuncionarioModel },
       minWidth: '700px',
       maxWidth: '700px',
-      height: '700px',
+      height: '750px',
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '300ms',
     });

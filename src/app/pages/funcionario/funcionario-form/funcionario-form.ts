@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from "@angular/material/dialog";
+import { MatIcon } from "@angular/material/icon";
 import { MatError, MatFormField, MatInput, MatLabel } from "@angular/material/input";
 import { MatOption, MatSelect } from "@angular/material/select";
 import { MatTabsModule } from "@angular/material/tabs";
@@ -25,10 +26,23 @@ import { NgxMaskDirective } from "ngx-mask";
     MatCheckboxModule,
     MatSelect,
     MatOption,
-    NgxMaskDirective
+    NgxMaskDirective,
+    MatIcon,
   ],
   template: `
-    <h2 mat-dialog-title>{{ dataForm.value.id ? 'Alterar' : 'Novo' }} Funcionario</h2>
+    <div class="flex items-center justify-center bg-emerald-600">
+      <h2 mat-dialog-title>
+          <span
+            class="text-white uppercase text-shadow-2xs font-bold text-shadow-gray-600 gap-2"
+          >
+            <mat-icon>
+              {{ dataForm.value.id ? 'edit' : 'add' }}
+            </mat-icon>
+            {{ dataForm.value.id ? dataForm.value.nome : 'Novo Funcionario' }}
+          </span>
+      </h2>
+    </div>
+
     <mat-dialog-content class="mat-typography">
       <form [formGroup]="dataForm">
         <mat-tab-group animationDuration="500ms" mat-stretch-tabs="false" mat-align-tabs="start">
