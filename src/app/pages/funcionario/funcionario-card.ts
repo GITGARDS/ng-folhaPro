@@ -6,7 +6,7 @@ import { MatIcon } from "@angular/material/icon";
   imports: [MatIcon],
   template: `
     <div
-      class="min-w-[250px] p-2 flex justify-between items-center gap-4 bg-[#e8f0fe] rounded-full hover:bg-gray-200 transition-colors duration-100 cursor-default"
+      class="min-w-[250px] p-2 flex justify-between items-center gap-4 border-2 border-dashed border-gray-300  bg-[#e8f0fe] rounded-full hover:bg-gray-200 transition-colors duration-100 cursor-default"
     >
       <div class="flex items-center bg-purple-900  p-2 rounded-full">
         <mat-icon class="!text-white">

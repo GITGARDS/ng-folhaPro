@@ -1,14 +1,17 @@
 import { Component, ViewChild, effect, inject } from "@angular/core";
 import { MatIconButton } from "@angular/material/button";
 import { MatCard } from "@angular/material/card";
+import { MatDialog } from "@angular/material/dialog";
 import { MatIcon } from "@angular/material/icon";
 import { MatFormField, MatInput, MatLabel } from "@angular/material/input";
 import { MatPaginator } from "@angular/material/paginator";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatTooltip } from "@angular/material/tooltip";
-import { FuncionarioModel } from "../../models/funcionario";
-import { FuncionarioStore } from "../../store/funcionario.store";
+import { FuncionarioModel } from "../../../models/funcionario";
+import { FuncionarioStore } from "../../../store/funcionario.store";
+import { FuncionarioForm } from "../funcionario-form/funcionario-form";
 
 @Component({
   selector: 'app-funcionario-list',
@@ -23,9 +26,18 @@ import { FuncionarioStore } from "../../store/funcionario.store";
     MatPaginator,
     MatCard,
     MatSortModule,
+    MatProgressSpinnerModule,
   ],
   template: `
-    <div>
+    <div class="relative">
+      @if (funcionarioStore.isLoading()) {
+        <div
+          class="absolute w-full h-full top-0 left-0 bg-white/10 backdrop-blur-sm z-50 flex items-center justify-center"
+        >
+          <mat-spinner></mat-spinner>
+        </div>
+      }
+
       <section class="py-2">
         <mat-form-field>
           <mat-label>Filter</mat-label>
@@ -42,7 +54,7 @@ import { FuncionarioStore } from "../../store/funcionario.store";
         </button>
       </section>
       <section>
-        <mat-card appearance="outlined" class="overflow-hidden">
+        <mat-card appearance="raised" class="overflow-hidden">
           <div class="h-[500px] overflow-auto">
             <table mat-table matSort [dataSource]="dataSource">
               <!-- Id Column -->
@@ -50,10 +62,23 @@ import { FuncionarioStore } from "../../store/funcionario.store";
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
                 <td mat-cell *matCellDef="let row">{{ row.id }}</td>
               </ng-container>
+
               <!-- Nome Column -->
               <ng-container matColumnDef="nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
-                <td mat-cell *matCellDef="let row">{{ row.nome }}</td>
+                <td mat-cell *matCellDef="let row">
+                  <div class="flex gap-2">
+                    <span
+                      class="w-8 h-8 rounded-full flex items-center justify-center text-lg  text-white bg-em"
+                      [style.background-color]="onGetColor(row.id.charAt(0))"
+                    >
+                      {{ row.nome.charAt(0) }}
+                    </span>
+                    <span class="flex items-center">
+                      {{ row.nome }}
+                    </span>
+                  </div>
+                </td>
               </ng-container>
               <!-- Salario Base Column -->
               <ng-container matColumnDef="salarioBase">
@@ -68,7 +93,7 @@ import { FuncionarioStore } from "../../store/funcionario.store";
               <!-- Actions Column -->
               <ng-container matColumnDef="actions" stickyEnd>
                 <th mat-header-cell *matHeaderCellDef>Actions</th>
-                <td mat-cell *matCellDef="let row" class="!bg-gray-200 !max-w-[110px] !text-center">
+                <td mat-cell *matCellDef="let row" class="!bg-gray-200 !max-w-[150px] !text-center">
                   <button
                     mat-icon-button
                     (click)="onFindById(row.id)"
@@ -76,11 +101,7 @@ import { FuncionarioStore } from "../../store/funcionario.store";
                   >
                     <mat-icon>search</mat-icon>
                   </button>
-                  <button
-                    mat-icon-button
-                    (click)="onUpdateById(row.id, row)"
-                    matTooltip="Editar registro"
-                  >
+                  <button mat-icon-button (click)="onUpdateById(row)" matTooltip="Editar registro">
                     <mat-icon>edit</mat-icon>
                   </button>
                   <button
@@ -93,7 +114,7 @@ import { FuncionarioStore } from "../../store/funcionario.store";
                 </td>
               </ng-container>
               <tr
-                class="!bg-gray-200"
+                class="!bg-gray-200 bg-gra"
                 mat-header-row
                 *matHeaderRowDef="displayedColumns; sticky: true"
               ></tr>
@@ -142,23 +163,38 @@ export class FuncionarioList {
     console.log('onFindById', id);
   }
 
+  readonly dialog = inject(MatDialog);
+
   onCreate() {
-    if (confirm('Confirma criacao?')) {
-      const id = this.funcionarioStore.funcionarios().length + 1;
-      const funcionario: Partial<FuncionarioModel> = {
-        id,
-        nome: `Funcionario ${id}`,
-      };
-      const ret = this.funcionarioStore.create(funcionario as FuncionarioModel);
+    const dialogRef = this.dialog.open(FuncionarioForm, {
+      data: { funcionario: {} as FuncionarioModel },
+      minWidth: '700px',
+      maxWidth: '700px',
+      height: '700px',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '300ms',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      const ret = this.funcionarioStore.create(result as FuncionarioModel);
       console.log('onCreate', ret);
-    }
+    });
   }
 
-  onUpdateById(id: string, funcionario: FuncionarioModel) {
-    if (confirm('Tem certeza?')) {
-      const data = { ...funcionario, ativo: !funcionario.ativo, salarioBase: 1000 };
-      this.funcionarioStore.updateById({ id, funcionario: data });
-    }
+  onUpdateById(funcionario: FuncionarioModel) {
+    const dialogRef = this.dialog.open(FuncionarioForm, {
+      data: { funcionario: funcionario as FuncionarioModel },
+      minWidth: '700px',
+      maxWidth: '700px',
+      height: '700px',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '300ms',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      this.funcionarioStore.updateById({
+        id: funcionario.id as string,
+        funcionario: result as FuncionarioModel,
+      });
+    });
   }
 
   onDeleteById(id: number) {
@@ -172,6 +208,36 @@ export class FuncionarioList {
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
+    }
+  }
+  onGetColor(arg0: any) {
+    switch (arg0) {
+      case '1':
+        return 'blue';
+      case '2':
+        return 'green';
+      case '3':
+        return 'yellow';
+      case '4':
+        return 'red';
+      case '5':
+        return 'black';
+      case 'A':
+        return 'gray';
+      case 'B':
+        return 'white';
+      case 'C':
+        return 'brown';
+      case 'D':
+        return 'orange';
+      case 'E':
+        return 'cyan';
+      case 'F':
+        return 'magenta';
+      case 'G':
+        return 'olive';
+      default:
+        return '#6a7282';
     }
   }
 }
