@@ -22,7 +22,7 @@ export const FuncionarioStore = signalStore(
     totalfuncionariosAtivos: computed(() => funcionarios().filter((f) => f.ativo)),
     totalSalarioBase: computed(() =>
       funcionarios().reduce(
-        (acc, f) => (f.salarioBase && f.ativo ? acc + f.salarioBase : acc + 0),
+        (acc, f) => (f.salarioBase && f.ativo ? acc + Number(f.salarioBase) : acc + 0),
         0,
       ),
     ),

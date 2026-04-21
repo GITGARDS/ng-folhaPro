@@ -1,4 +1,4 @@
-import { CurrencyPipe, TitleCasePipe } from "@angular/common";
+import { CommonModule, CurrencyPipe, TitleCasePipe } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { FuncionarioStore } from "../../store/funcionario.store";
 import { FuncionarioCard } from "./funcionario-card";
@@ -6,7 +6,7 @@ import { FuncionarioList } from "./funcionario-list/funcionario-list";
 
 @Component({
   selector: 'app-funcionario',
-  imports: [TitleCasePipe, FuncionarioCard, CurrencyPipe, FuncionarioList],
+  imports: [TitleCasePipe, FuncionarioCard, FuncionarioList, CommonModule, CurrencyPipe],
   template: `
     <div class="bg-pink-50 p-4 rounded-4xl border-8 border-gray-300">
       <div class="max-w-[1000px] mx-auto">
@@ -23,7 +23,7 @@ import { FuncionarioList } from "./funcionario-list/funcionario-list";
 
             <app-funcionario-card title="Salario Base" icon="outlet">
               <ng-container valor>{{
-                funcionarioStore.totalSalarioBase() | currency
+                this.funcionarioStore.totalSalarioBase() | currency: 'BRL'
               }}</ng-container>
             </app-funcionario-card>
           </div>

@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from "@angular/core";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
+import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import { MatError, MatFormField, MatInput, MatLabel } from "@angular/material/input";
+import { MatOption, MatSelect } from "@angular/material/select";
 import { MatTabsModule } from "@angular/material/tabs";
+import { NgxMaskDirective } from "ngx-mask";
 
 /**
  * @title Dialog with header, scrollable content and actions
@@ -19,9 +22,13 @@ import { MatTabsModule } from "@angular/material/tabs";
     MatError,
     MatTabsModule,
     MatLabel,
+    MatCheckboxModule,
+    MatSelect,
+    MatOption,
+    NgxMaskDirective
   ],
   template: `
-    <h2 mat-dialog-title>{{ dataForm.value.id ? 'Novo' : 'Alterar' }} Funcionario</h2>
+    <h2 mat-dialog-title>{{ dataForm.value.id ? 'Alterar' : 'Novo' }} Funcionario</h2>
     <mat-dialog-content class="mat-typography">
       <form [formGroup]="dataForm">
         <mat-tab-group animationDuration="500ms" mat-stretch-tabs="false" mat-align-tabs="start">
@@ -47,14 +54,14 @@ import { MatTabsModule } from "@angular/material/tabs";
               <div class="grid grid-cols-6 gap-2">
                 <mat-form-field class="col-span-3" [appearance]="formAparence">
                   <mat-label>CPF</mat-label>
-                  <input matInput formControlName="cpf" />
+                  <input matInput type="text" formControlName="cpf" mask="000.000.000-00" />
                   @if (dataForm.controls['cpf'].hasError('required')) {
                     <mat-error>Cpf is <strong>required</strong></mat-error>
                   }
                 </mat-form-field>
                 <mat-form-field class="col-span-3" [appearance]="formAparence">
                   <mat-label>Data Nascimento</mat-label>
-                  <input matInput formControlName="dataNascimento" />
+                  <input matInput type="date" formControlName="dataNascimento" />
                   @if (dataForm.controls['dataNascimento'].hasError('required')) {
                     <mat-error>dataNascimento is <strong>required</strong></mat-error>
                   }
@@ -90,7 +97,12 @@ import { MatTabsModule } from "@angular/material/tabs";
 
                 <mat-form-field class="col-span-2" [appearance]="formAparence">
                   <mat-label>Genero</mat-label>
-                  <input matInput formControlName="genero" />
+
+                  <mat-select formControlName="genero">
+                    <mat-option value="M">Masculino</mat-option>
+                    <mat-option value="F">Feminino</mat-option>
+                  </mat-select>
+
                   @if (dataForm.controls['genero'].hasError('required')) {
                     <mat-error>genero is <strong>required</strong></mat-error>
                   }
@@ -100,7 +112,11 @@ import { MatTabsModule } from "@angular/material/tabs";
               <div class="grid grid-cols-6 gap-2">
                 <mat-form-field class="col-span-2" [appearance]="formAparence">
                   <mat-label>Raca Cor</mat-label>
-                  <input matInput formControlName="racaCor" />
+                  <mat-select formControlName="racaCor">
+                    @for (item of racaCorSelect(); track $index) {
+                      <mat-option [value]="item.valor">{{ item.label }}</mat-option>
+                    }
+                  </mat-select>
                   @if (dataForm.controls['racaCor'].hasError('required')) {
                     <mat-error>racaCor is <strong>required</strong></mat-error>
                   }
@@ -108,18 +124,23 @@ import { MatTabsModule } from "@angular/material/tabs";
 
                 <mat-form-field class="col-span-2" [appearance]="formAparence">
                   <mat-label>Estado Civil</mat-label>
-                  <input matInput formControlName="estadoCivil" />
+                  <mat-select formControlName="estadoCivil">
+                    @for (item of estadoCivilSelect(); track $index) {
+                      <mat-option [value]="item.valor">{{ item.label }}</mat-option>
+                    }
+                  </mat-select>
                   @if (dataForm.controls['estadoCivil'].hasError('required')) {
                     <mat-error>estadoCivil is <strong>required</strong></mat-error>
                   }
                 </mat-form-field>
-                <mat-form-field class="col-span-2" [appearance]="formAparence">
-                  <mat-label>Ativo</mat-label>
-                  <input matInput formControlName="ativo" />
+              </div>
+              <div class="grid grid-cols-6 gap-2">
+                <div class="col-span-1">
+                  <mat-checkbox formControlName="ativo">Ativo</mat-checkbox>
                   @if (dataForm.controls['ativo'].hasError('required')) {
                     <mat-error>ativo is <strong>required</strong></mat-error>
                   }
-                </mat-form-field>
+                </div>
               </div>
             </div>
           </mat-tab>
@@ -189,7 +210,7 @@ import { MatTabsModule } from "@angular/material/tabs";
               <div class="grid grid-cols-6 gap-2">
                 <mat-form-field class="col-span-2" [appearance]="formAparence">
                   <mat-label>Data Admissão</mat-label>
-                  <input matInput formControlName="dataAdmissao" />
+                  <input matInput type="date" formControlName="dataAdmissao" />
                   @if (dataForm.controls['dataAdmissao'].hasError('required')) {
                     <mat-error>dataAdmissao is <strong>required</strong></mat-error>
                   }
@@ -207,7 +228,11 @@ import { MatTabsModule } from "@angular/material/tabs";
 
                 <mat-form-field class="col-span-2" [appearance]="formAparence">
                   <mat-label>Categoria Trabalhador</mat-label>
-                  <input matInput formControlName="categoriaTrabalhador" />
+                  <mat-select formControlName="categoriaTrabalhador">
+                    @for (item of categoriaTrabalhadorSelect(); track $index) {
+                      <mat-option [value]="item.valor">{{ item.label }}</mat-option>
+                    }
+                  </mat-select>
                   @if (dataForm.controls['categoriaTrabalhador'].hasError('required')) {
                     <mat-error>categoriaTrabalhador is <strong>required</strong></mat-error>
                   }
@@ -215,7 +240,11 @@ import { MatTabsModule } from "@angular/material/tabs";
 
                 <mat-form-field class="col-span-2" [appearance]="formAparence">
                   <mat-label>Tipo Contrato</mat-label>
-                  <input matInput formControlName="tipoContrato" />
+                  <mat-select formControlName="tipoContrato">
+                    @for (item of tipoContratoSelect(); track $index) {
+                      <mat-option [value]="item.valor">{{ item.label }}</mat-option>
+                    }
+                  </mat-select>
                   @if (dataForm.controls['tipoContrato'].hasError('required')) {
                     <mat-error>tipoContrato is <strong>required</strong></mat-error>
                   }
@@ -253,7 +282,7 @@ import { MatTabsModule } from "@angular/material/tabs";
               <div class="grid grid-cols-6 gap-2">
                 <mat-form-field class="col-span-2" [appearance]="formAparence">
                   <mat-label>Salário Base</mat-label>
-                  <input matInput formControlName="salarioBase" />
+                  <input matInput type="number" formControlName="salarioBase" />
                   @if (dataForm.controls['salarioBase'].hasError('required')) {
                     <mat-error>salarioBase is <strong>required</strong></mat-error>
                   }
@@ -263,7 +292,11 @@ import { MatTabsModule } from "@angular/material/tabs";
               <div class="grid grid-cols-6 gap-2">
                 <mat-form-field class="col-span-1" [appearance]="formAparence">
                   <mat-label>Tipo Conta</mat-label>
-                  <input matInput formControlName="tipoConta" />
+                  <mat-select formControlName="tipoConta">
+                    @for (item of tipoContaSelect(); track $index) {
+                      <mat-option [value]="item.valor">{{ item.label }}</mat-option>
+                    }
+                  </mat-select>
                   @if (dataForm.controls['tipoConta'].hasError('required')) {
                     <mat-error>tipoConta is <strong>required</strong></mat-error>
                   }
@@ -381,7 +414,7 @@ export class FuncionarioForm {
     tituloEleitor: [''],
     certificadoReservista: [''],
     enderecoResidencial: [''],
-    dataAdmissao: [''],
+    dataAdmissao: ['', Validators.required],
     cargoFuncaoDesempenhada: [''],
     categoriaTrabalhador: [''],
     tipoContrato: [''],
@@ -403,4 +436,49 @@ export class FuncionarioForm {
   onSubmit() {
     this.dialogRef.close(this.dataForm.value);
   }
+
+  racaCorSelect = signal([
+    { label: 'Outro', valor: 'outro' },
+    { label: 'Branca', valor: 'branca' },
+    { label: 'Preta', valor: 'preta' },
+    { label: 'Parda', valor: 'parda' },
+    { label: 'Amarela', valor: 'amarela' },
+    { label: 'Indigena', valor: 'indigena' },
+  ]);
+  estadoCivilSelect = signal([
+    { label: 'Outro', valor: 'outro' },
+    { label: 'Solteiro', valor: 'solteiro' },
+    { label: 'Casado', valor: 'casado' },
+    { label: 'Divorciado', valor: 'divorciado' },
+    { label: 'Viuvo', valor: 'viuvo' },
+    { label: 'Uniao Estavel', valor: 'uniao_estavel' },
+  ]);
+  categoriaTrabalhadorSelect = signal([
+    { label: 'Outro', valor: 'outro' },
+    { label: 'Geral', valor: 'geral' },
+    { label: 'Domestico', valor: 'domestico' },
+    { label: 'Indeterminante', valor: 'indeterminante' },
+    { label: 'Aprendiz', valor: 'aprendiz' },
+    { label: 'Avulso', valor: 'avulso' },
+    { label: 'Publico', valor: 'publico' },
+  ]);
+  tipoContratoSelect = signal([
+    { label: 'Outro', valor: 'outro' },
+    { label: 'Indeterminado', valor: 'indeterminado' },
+    { label: 'Intermitente', valor: 'intermitente' },
+    { label: 'Temporario', valor: 'temporario' },
+    { label: 'Aprendiz', valor: 'aprendiz' },
+    { label: 'Horista', valor: 'horista' },
+    { label: 'Mensalista', valor: 'mensalista' },
+    { label: 'Contrato', valor: 'contrato' },
+    { label: 'CLT', valor: 'clt' },
+    { label: 'PJ', valor: 'pj' },
+    { label: 'Estagiario', valor: 'estagiario' },
+  ]);
+  tipoContaSelect = signal([
+    { label: 'Outro', valor: 'outro' },
+    { label: 'Corrente', valor: 'corrente' },
+    { label: 'Poupanca', valor: 'poupanca' },
+    { label: 'Salario', valor: 'salario' },
+  ]);
 }

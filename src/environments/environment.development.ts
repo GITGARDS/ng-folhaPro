@@ -1,6 +1,6 @@
 export const environment = {
-    production: false,
-    firebaseConfig: {
+  production: false,
+  firebaseConfig: {
     apiKey: 'AIzaSyDl0SF8APmDbCotEM5jSZ8huRZ0b_hPJMM',
     authDomain: 'portifolio-2362e.firebaseapp.com',
     projectId: 'portifolio-2362e',
@@ -9,5 +9,4 @@ export const environment = {
     appId: '1:169087849079:web:9b52fa6054a73455122c72',
     measurementId: 'G-ZGVQ74B8Y6',
   },
-
 };

@@ -13,11 +13,10 @@ export class FuncionarioService {
   private isDelay = 1000;
 
   findAll() {
-    const ret = collectionData(this.funcinarioCollection, { idField: 'id' }).pipe(
+    return collectionData(this.funcinarioCollection, { idField: 'id' }).pipe(
       delay(this.isDelay),
       map((data) => data as FuncionarioModel[]),
     );
-    return ret;
   }
 
   async findById(id: number) {}

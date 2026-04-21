@@ -1,3 +1,4 @@
+import { CurrencyPipe, DatePipe } from "@angular/common";
 import { Component, ViewChild, effect, inject } from "@angular/core";
 import { MatIconButton } from "@angular/material/button";
 import { MatCard } from "@angular/material/card";
@@ -27,6 +28,8 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
     MatCard,
     MatSortModule,
     MatProgressSpinnerModule,
+    CurrencyPipe,
+    DatePipe
   ],
   template: `
     <div class="relative">
@@ -82,8 +85,13 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
               </ng-container>
               <!-- Salario Base Column -->
               <ng-container matColumnDef="salarioBase">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Salario Base</th>
-                <td mat-cell *matCellDef="let row">{{ row.salarioBase }}</td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Salario</th>
+                <td mat-cell *matCellDef="let row">{{ row.salarioBase | currency: 'BRL' }}</td>
+              </ng-container>
+              <!-- Data Admissao Column -->
+              <ng-container matColumnDef="dataAdmissao">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Admissao</th>
+                <td mat-cell *matCellDef="let row">{{ row.dataAdmissao | date: 'dd/MM/yyyy' }}</td>
               </ng-container>
               <!-- Status Column -->
               <ng-container matColumnDef="status">
@@ -145,7 +153,7 @@ export class FuncionarioList {
   dataSource: MatTableDataSource<FuncionarioModel> = new MatTableDataSource<FuncionarioModel>(
     this.funcionarioStore.funcionarios(),
   );
-  displayedColumns: string[] = ['id', 'nome', 'salarioBase', 'status', 'actions'];
+  displayedColumns: string[] = ['id', 'nome', 'salarioBase', 'dataAdmissao', 'status', 'actions'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -175,8 +183,10 @@ export class FuncionarioList {
       exitAnimationDuration: '300ms',
     });
     dialogRef.afterClosed().subscribe((result) => {
-      const ret = this.funcionarioStore.create(result as FuncionarioModel);
-      console.log('onCreate', ret);
+      if (!result) {
+        return;
+      }
+      this.funcionarioStore.create(result as FuncionarioModel);
     });
   }
 
@@ -190,6 +200,9 @@ export class FuncionarioList {
       exitAnimationDuration: '300ms',
     });
     dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
       this.funcionarioStore.updateById({
         id: funcionario.id as string,
         funcionario: result as FuncionarioModel,
