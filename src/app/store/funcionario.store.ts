@@ -29,8 +29,9 @@ export const FuncionarioStore = signalStore(
   })),
 
   withMethods((store, funcionarioService = inject(FuncionarioService)) => ({
-    findall() {
-      if (store.funcionarios.length > 0) return;
+    async carregaLista() {
+      if (store.funcionarios.length > 0 ) return;
+      await new Promise((resolve) => setTimeout(resolve, 500));
       patchState(store, { isLoading: true });
       funcionarioService.findAll().subscribe({
         next: (funcionarios) => {
@@ -46,7 +47,7 @@ export const FuncionarioStore = signalStore(
 
     create: signalMethod(async (funcionario: FuncionarioModel) => {
       patchState(store, { isLoading: true });
-      const id = await funcionarioService.create(funcionario);      
+      const id = await funcionarioService.create(funcionario);
       patchState(store, (state) => ({
         ...state,
         funcionarios: [...state.funcionarios, { ...funcionario, id }],

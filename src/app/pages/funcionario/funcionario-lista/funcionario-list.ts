@@ -1,0 +1,174 @@
+import { Component, ViewChild, effect, inject } from "@angular/core";
+import { MatIconButton, MatMiniFabButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
+import { MatInput } from "@angular/material/input";
+import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatFormField, MatLabel } from "@angular/material/select";
+import { MatSort, MatSortModule } from "@angular/material/sort";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { FuncionarioModel } from "../../../models/funcionario";
+import { FuncionarioStore } from "../../../store/funcionario.store";
+
+@Component({
+  selector: 'app-funcionario-list',
+  imports: [
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatIcon,
+    MatMiniFabButton,
+    MatIconButton,
+    MatProgressSpinnerModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+  ],
+  template: `
+    <div class="relative">
+      @if (funcionarioStore.isLoading()) {
+        <div
+          class="absolute w-full h-full top-0 left-0 bg-[rgba(0,0,0,0.15)] backdrop-blur-sm  z-10 flex items-center justify-center"
+        >
+          <mat-spinner></mat-spinner>
+        </div>
+      }
+      <div class="flex-1 items-center mx-4">
+        <mat-form-field>
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
+        </mat-form-field>
+
+        <button matMiniFab (click)="onCreate()" class="mx-4">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+      <section class="max-w-full overflow-auto">
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          class="full-width-table"
+          matSort
+          aria-label="Elements"
+        >
+          <!-- Id Column -->
+          <ng-container matColumnDef="id" sticky>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+            <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+          </ng-container>
+
+          <!-- Nome Column -->
+          <ng-container matColumnDef="nome">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
+            <td mat-cell *matCellDef="let row">{{ row.nome }}</td>
+          </ng-container>
+          <!-- Salario Base Column -->
+          <ng-container matColumnDef="salarioBase">
+            <th mat-header-cell *matHeaderCellDef>Salario Base</th>
+            <td mat-cell *matCellDef="let row">{{ row.salarioBase }}</td>
+          </ng-container>
+          <!-- Status Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let row">{{ row.ativo }}</td>
+          </ng-container>
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions" stickyEnd>
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let row">
+              <button mat-icon-button (click)="onFindById(row.id)">
+                <mat-icon>search</mat-icon>
+              </button>
+              <button mat-icon-button (click)="onUpdateById(row.id, row)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button (click)="onDeleteById(row.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </section>
+
+      <mat-paginator
+        class="m-4"
+        #paginator
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 20]"
+        aria-label="Select page"
+      >
+      </mat-paginator>
+    </div>
+  `,
+  styles: `
+    .mat-mdc-row {
+      height: 10px;
+    }
+    .mat-mdc-row .mat-mdc-cell {
+      border-bottom: 1px solid transparent;
+      border-top: 1px solid transparent;
+      cursor: pointer;
+    }
+    .mat-mdc-row:hover .mat-mdc-cell {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  `,
+})
+export class FuncionarioList {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  dataSource!: MatTableDataSource<FuncionarioModel>;
+
+  /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
+  displayedColumns: string[] = ['id', 'nome', 'salarioBase', 'status', 'actions'];
+  funcionarioStore = inject(FuncionarioStore);
+
+  constructor() {
+    this.funcionarioStore.carregaLista();
+    effect(() => {
+      this.dataSource = new MatTableDataSource(this.funcionarioStore.funcionarios());
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
+
+  onFindById(id: number) {
+    console.log('onFindById', id);
+  }
+
+  onCreate() {
+    if (confirm('Confirma criacao?')) {
+      const id = this.funcionarioStore.funcionarios().length + 1;
+      const funcionario: Partial<FuncionarioModel> = {
+        id,
+        nome: `Funcionario ${id}`,
+      };
+      const ret = this.funcionarioStore.create(funcionario as FuncionarioModel);
+      console.log('onCreate', ret);
+    }
+  }
+
+  onUpdateById(id: string, funcionario: FuncionarioModel) {
+    if (confirm('Tem certeza?')) {
+      const data = { ...funcionario, ativo: !funcionario.ativo, salarioBase: 1000 };
+      this.funcionarioStore.updateById({ id, funcionario: data });
+    }
+  }
+
+  onDeleteById(id: number) {
+    if (confirm('Tem certeza?')) {
+      this.funcionarioStore.deleteById(id);
+    }
+  }
+
+  applyFilter($event: KeyboardEvent) {
+    const filterValue = (event?.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+}

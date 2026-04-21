@@ -10,7 +10,7 @@ import { FuncionarioModel } from "../models/funcionario";
 export class FuncionarioService {
   firestore = inject(Firestore);
   funcinarioCollection = collection(this.firestore, 'funcionario');
-  private isDelay = 10;
+  private isDelay = 1000;
 
   findAll() {
     const ret = collectionData(this.funcinarioCollection, { idField: 'id' }).pipe(
@@ -20,10 +20,10 @@ export class FuncionarioService {
     return ret;
   }
 
-  async findById(id: number) {
-  }
+  async findById(id: number) {}
 
   async create(funcionario: FuncionarioModel) {
+    await new Promise((resolve) => setTimeout(resolve, this.isDelay));
     const docRef = await addDoc(this.funcinarioCollection, { ...funcionario });
     return docRef.id;
   }

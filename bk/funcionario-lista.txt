@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild, inject } from "@angular/core";
+import { AfterViewInit, Component, ViewChild, effect, inject } from "@angular/core";
 import { MatIconButton, MatMiniFabButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
@@ -93,6 +93,9 @@ export class FuncionarioLista implements AfterViewInit {
 
   constructor() {
     this.funcionarioStore.findall();
+    effect(() => {
+      this.dataSource = new MatTableDataSource(this.funcionarioStore.funcionarios());
+    });
   }
 
   ngAfterViewInit(): void {
@@ -101,7 +104,6 @@ export class FuncionarioLista implements AfterViewInit {
 
   onAtualiza() {
     setTimeout(() => {
-      this.dataSource = new MatTableDataSource(this.funcionarioStore.funcionarios());
       this.dataSource.data = this.funcionarioStore.funcionarios();
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -121,7 +123,7 @@ export class FuncionarioLista implements AfterViewInit {
       };
       const ret = this.funcionarioStore.create(funcionario as FuncionarioModel);
       console.log('onCreate', ret);
-      this.onAtualiza();
+      // this.onAtualiza();
     }
   }
 
@@ -129,14 +131,14 @@ export class FuncionarioLista implements AfterViewInit {
     if (confirm('Tem certeza?')) {
       const funcionario2 = { ...funcionario, ativo: !funcionario.ativo, salarioBase: 1000 };
       this.funcionarioStore.updateById({ id, funcionario: funcionario2 });
-      this.onAtualiza();
+      // this.onAtualiza();
     }
   }
 
   onDeleteById(id: number) {
     if (confirm('Tem certeza?')) {
       this.funcionarioStore.deleteById(id);
-      this.onAtualiza();
+      // this.onAtualiza();
     }
   }
 }

@@ -15,7 +15,7 @@ import { MatIcon } from "@angular/material/icon";
       </div>
 
       <div class="flex-1 items-center gap-4">
-        <p class="font-bold text-shadow tracking-wider">
+        <p class="font-bold text-shadow tracking-wider ">
           {{ title() }}
         </p>
 
