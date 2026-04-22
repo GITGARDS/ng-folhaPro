@@ -29,7 +29,7 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
     MatSortModule,
     MatProgressSpinnerModule,
     CurrencyPipe,
-    DatePipe
+    DatePipe,
   ],
   template: `
     <div class="relative">
@@ -72,12 +72,12 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
                 <td mat-cell *matCellDef="let row">
                   <div class="flex gap-2">
-                    <!-- <span
+                    <span
                       class="w-8 h-8 rounded-full flex items-center justify-center text-lg  text-white bg-em"
                       [style.background-color]="onGetColor(row.id.charAt(0))"
                     >
                       {{ row.nome.charAt(0) }}
-                    </span> -->
+                    </span>
                     <span class="flex items-center">
                       {{ row.nome }}
                     </span>
@@ -175,8 +175,29 @@ export class FuncionarioList {
   readonly dialog = inject(MatDialog);
 
   onCreate() {
+    const ultimoFuncionario = this.funcionarioStore.funcionarios().length + 1;  
+    const novo: Partial<FuncionarioModel> = {
+      nome: `Funcionario ${ultimoFuncionario}`,
+      dataNascimento: new Date().toISOString().split('T')[0],
+      nacionalidade: 'BR',
+      naturalidade: 'BR',
+      genero: 'Masculino',
+      racaCor: 'Branco',
+      estadoCivil: 'Solteiro',
+      endereco: 'Endereco',
+      bairro: 'Bairro',
+      cidade: 'Cidade',
+      cep: '00000-000',
+      telefone: '(00) 0000-0000',
+      celular: '(00) 00000-0000',
+      email: 'a@b.com',
+      dataAdmissao: new Date().toISOString().split('T')[0],
+      salarioBase: ultimoFuncionario * 100,
+      ativo: true,
+    };
+
     const dialogRef = this.dialog.open(FuncionarioForm, {
-      data: { funcionario: {} as FuncionarioModel },
+      data: { funcionario: novo as FuncionarioModel },
       minWidth: '700px',
       maxWidth: '700px',
       height: '750px',
