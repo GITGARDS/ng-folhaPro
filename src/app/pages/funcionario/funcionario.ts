@@ -14,14 +14,14 @@ import { FuncionarioList } from "./funcionario-list/funcionario-list";
           <h1 class="text-3xl text-black dark:text-white">{{ title | titlecase }}</h1>
         </div>
         <div class="py-2">
-          <div class="flex flex-wrap items-center gap-4">
-            <app-funcionario-card title="Funcionarios Ativos" icon="people">
+          <div class="lg:w-3/4 w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <app-funcionario-card title="Ativos" icon="people">
               <ng-container valor>{{
                 this.funcionarioStore.totalfuncionariosAtivos().length
               }}</ng-container>
             </app-funcionario-card>
 
-            <app-funcionario-card title="Salario Base" icon="outlet">
+            <app-funcionario-card title="Salario" icon="outlet">
               <ng-container valor>{{
                 this.funcionarioStore.totalSalarioBase() | currency: 'BRL'
               }}</ng-container>

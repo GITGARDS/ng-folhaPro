@@ -41,22 +41,24 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
         </div>
       }
 
-      <section class="py-2">
-        <mat-form-field>
-          <mat-label>Filter</mat-label>
-          <mat-icon matPrefix>filter_alt</mat-icon>
-          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
-        </mat-form-field>
-
-        <button
-          matIconButton
-          (click)="onCreate()"
-          class="mx-4"
-          matTooltip="Adicionar um novo registro"
-        >
-          <mat-icon>add</mat-icon>
-        </button>
+      <section class="py-2 grid grid-cols-1 md:grid-cols-2">
+        <div class="w-full flex-1 items-center justify-between">
+          <mat-form-field>
+            <mat-label>Filter</mat-label>
+            <mat-icon matPrefix>filter_alt</mat-icon>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
+          </mat-form-field>
+          <button
+            matIconButton
+            (click)="onCreate()"
+            class="mx-4"
+            matTooltip="Adicionar um novo registro"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
       </section>
+
       <section>
         <mat-card appearance="raised" class="overflow-hidden">
           <div class="h-[500px] overflow-auto">
@@ -134,6 +136,7 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
       </section>
       <section class="py-2">
         <mat-paginator
+          class="py-2 rounded-2xl shadow-sm"
           [pageSize]="10"
           [pageSizeOptions]="[5, 10, 25, 100]"
           aria-label="Select page"
@@ -175,7 +178,7 @@ export class FuncionarioList {
   readonly dialog = inject(MatDialog);
 
   onCreate() {
-    const ultimoFuncionario = this.funcionarioStore.funcionarios().length + 1;  
+    const ultimoFuncionario = this.funcionarioStore.funcionarios().length + 1;
     const novo: Partial<FuncionarioModel> = {
       nome: `Funcionario ${ultimoFuncionario}`,
       dataNascimento: new Date().toISOString().split('T')[0],
