@@ -4,7 +4,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import { MatIcon } from "@angular/material/icon";
-import { MatError, MatFormField, MatInput, MatLabel } from "@angular/material/input";
+import { MatError, MatFormField, MatInputModule, MatLabel } from "@angular/material/input";
 import { MatOption, MatSelect } from "@angular/material/select";
 import { MatTabsModule } from "@angular/material/tabs";
 import { NgxMaskDirective } from "ngx-mask";
@@ -19,7 +19,7 @@ import { NgxMaskDirective } from "ngx-mask";
     MatDialogModule,
     ReactiveFormsModule,
     MatFormField,
-    MatInput,
+    MatInputModule,
     MatError,
     MatTabsModule,
     MatLabel,
@@ -32,14 +32,12 @@ import { NgxMaskDirective } from "ngx-mask";
   template: `
     <div class="flex items-center justify-center bg-emerald-600">
       <h2 mat-dialog-title>
-          <span
-            class="text-white uppercase text-shadow-2xs font-bold text-shadow-gray-600 gap-2"
-          >
-            <mat-icon>
-              {{ dataForm.value.id ? 'edit' : 'add' }}
-            </mat-icon>
-            {{ dataForm.value.id ? dataForm.value.nome : 'Novo Funcionario' }}
-          </span>
+        <span class="text-white uppercase text-shadow-2xs font-bold text-shadow-gray-600 gap-2">
+          <mat-icon>
+            {{ dataForm.value.id ? 'edit' : 'add' }}
+          </mat-icon>
+          {{ dataForm.value.id ? dataForm.value.nome : 'Novo Funcionario' }}
+        </span>
       </h2>
     </div>
 
@@ -47,11 +45,12 @@ import { NgxMaskDirective } from "ngx-mask";
       <form [formGroup]="dataForm">
         <mat-tab-group animationDuration="500ms" mat-stretch-tabs="false" mat-align-tabs="start">
           <mat-tab label="Dados Pessoais">
-            <div class="mt-2">
+            <div class="mt-10">
               <div class="grid grid-cols-6 gap-2">
                 <mat-form-field class="col-span-2" [appearance]="formAparence">
                   <mat-label>Id</mat-label>
-                  <input matInput formControlName="id" />
+                  <input readonly matInput formControlName="id" />
+                  <mat-icon matPrefix>badge</mat-icon>
                 </mat-form-field>
               </div>
 
@@ -59,6 +58,7 @@ import { NgxMaskDirective } from "ngx-mask";
                 <mat-form-field class="col-span-6" [appearance]="formAparence">
                   <mat-label>Nome</mat-label>
                   <input matInput formControlName="nome" />
+                  <mat-icon matPrefix>person</mat-icon>
                   @if (dataForm.controls['nome'].hasError('required')) {
                     <mat-error>Nome is <strong>required</strong></mat-error>
                   }
@@ -160,7 +160,7 @@ import { NgxMaskDirective } from "ngx-mask";
           </mat-tab>
 
           <mat-tab label="Documentação">
-            <div class="mt-2">
+            <div class="mt-10">
               <div class="grid grid-cols-6 gap-2">
                 <mat-form-field class="col-span-2" [appearance]="formAparence">
                   <mat-label>Rg</mat-label>
@@ -178,6 +178,7 @@ import { NgxMaskDirective } from "ngx-mask";
                 </mat-form-field>
                 <mat-form-field class="col-span-2" [appearance]="formAparence">
                   <mat-label>Pis/Pasep</mat-label>
+                  <mat-icon matPrefix>search</mat-icon>
                   <input matInput formControlName="pisPasep" />
                   @if (dataForm.controls['pisPasep'].hasError('required')) {
                     <mat-error>pisPasep is <strong>required</strong></mat-error>
@@ -188,6 +189,7 @@ import { NgxMaskDirective } from "ngx-mask";
               <div class="grid grid-cols-6 gap-2">
                 <mat-form-field class="col-span-2" [appearance]="formAparence">
                   <mat-label>Titulo Eleitor</mat-label>
+                  <mat-icon matPrefix>search</mat-icon>
                   <input matInput formControlName="tituloEleitor" />
                   @if (dataForm.controls['tituloEleitor'].hasError('required')) {
                     <mat-error>tituloEleitor is <strong>required</strong></mat-error>
@@ -205,14 +207,72 @@ import { NgxMaskDirective } from "ngx-mask";
             </div>
           </mat-tab>
 
-          <mat-tab label="Endereço e Contato">
-            <div class="mt-2">
+          <mat-tab label="Endereço">
+            <div class="mt-10">
               <div class="grid grid-cols-6 gap-2">
                 <mat-form-field class="col-span-6" [appearance]="formAparence">
-                  <mat-label>Endereço Residencial</mat-label>
-                  <input matInput formControlName="enderecoResidencial" />
-                  @if (dataForm.controls['enderecoResidencial'].hasError('required')) {
-                    <mat-error>enderecoResidencial is <strong>required</strong></mat-error>
+                  <mat-label>Endereço</mat-label>
+                  <mat-icon matPrefix>home</mat-icon>
+                  <input matInput formControlName="endereco" />
+                  @if (dataForm.controls['endereco'].hasError('required')) {
+                    <mat-error>endereco is <strong>required</strong></mat-error>
+                  }
+                </mat-form-field>
+              </div>
+              <div class="grid grid-cols-6 gap-2">
+                <mat-form-field class="col-span-6" [appearance]="formAparence">
+                  <mat-label>Bairro</mat-label>
+                  <input matInput formControlName="bairro" />
+                  @if (dataForm.controls['bairro'].hasError('required')) {
+                    <mat-error>bairrois <strong>required</strong></mat-error>
+                  }
+                </mat-form-field>
+              </div>
+
+              <div class="grid grid-cols-6 gap-2">
+                <mat-form-field class="col-span-6" [appearance]="formAparence">
+                  <mat-label>Cidade</mat-label>
+                  <mat-icon matPrefix>location_city</mat-icon>
+                  <input matInput formControlName="cidade" />
+                  @if (dataForm.controls['cidade'].hasError('required')) {
+                    <mat-error>cidade is <strong>required</strong></mat-error>
+                  }
+                </mat-form-field>
+              </div>
+
+              <div class="grid grid-cols-6 gap-2">
+                <mat-form-field class="col-span-2" [appearance]="formAparence">
+                  <mat-label>CEP</mat-label>
+                  <input matInput formControlName="cep" mask="00000-000" />
+                  @if (dataForm.controls['cep'].hasError('required')) {
+                    <mat-error>cep is <strong>required</strong></mat-error>
+                  }
+                </mat-form-field>
+                <mat-form-field class="col-span-2" [appearance]="formAparence">
+                  <mat-label>Telefone</mat-label>
+                  <mat-icon matPrefix>phone</mat-icon>
+                  <input matInput formControlName="telefone" mask="(00) 00000-0000" />
+
+                  @if (dataForm.controls['telefone'].hasError('required')) {
+                    <mat-error>telefone is <strong>required</strong></mat-error>
+                  }
+                </mat-form-field>
+                <mat-form-field class="col-span-2" [appearance]="formAparence">
+                  <mat-label>Celular</mat-label>
+                  <mat-icon matPrefix>phone</mat-icon>
+                  <input matInput formControlName="celular" mask="(00) 00000-0000" />
+                  @if (dataForm.controls['celular'].hasError('required')) {
+                    <mat-error>celular is <strong>required</strong></mat-error>
+                  }
+                </mat-form-field>
+              </div>
+              <div class="grid grid-cols-6 gap-2">
+                <mat-form-field class="col-span-6" [appearance]="formAparence">
+                  <mat-label>Email</mat-label>
+                  <mat-icon matPrefix>email</mat-icon>
+                  <input matInput formControlName="email" />
+                  @if (dataForm.controls['email'].hasError('required')) {
+                    <mat-error>email is <strong>required</strong></mat-error>
                   }
                 </mat-form-field>
               </div>
@@ -220,7 +280,7 @@ import { NgxMaskDirective } from "ngx-mask";
           </mat-tab>
 
           <mat-tab label="Dados Contratuais e Profissionais">
-            <div class="mt-2">
+            <div class="mt-10">
               <div class="grid grid-cols-6 gap-2">
                 <mat-form-field class="col-span-2" [appearance]="formAparence">
                   <mat-label>Data Admissão</mat-label>
@@ -292,10 +352,11 @@ import { NgxMaskDirective } from "ngx-mask";
           </mat-tab>
 
           <mat-tab label="Dados de Remuneração e Bancários">
-            <div class="mt-2">
+            <div class="mt-10">
               <div class="grid grid-cols-6 gap-2">
                 <mat-form-field class="col-span-2" [appearance]="formAparence">
                   <mat-label>Salário Base</mat-label>
+                  <mat-icon matPrefix>attach_money</mat-icon>
                   <input matInput type="number" formControlName="salarioBase" />
                   @if (dataForm.controls['salarioBase'].hasError('required')) {
                     <mat-error>salarioBase is <strong>required</strong></mat-error>
@@ -341,7 +402,7 @@ import { NgxMaskDirective } from "ngx-mask";
           </mat-tab>
 
           <mat-tab label="Informações de Benefícios e Saúde">
-            <div class="mt-2">
+            <div class="mt-10">
               <div class="grid grid-cols-6 gap-2">
                 <mat-form-field class="col-span-2" [appearance]="formAparence">
                   <mat-label>Plano de Saude</mat-label>
@@ -397,7 +458,7 @@ import { NgxMaskDirective } from "ngx-mask";
 export class FuncionarioForm {
   dialogRef = inject(MatDialogRef<FuncionarioForm>);
   data = inject<any>(MAT_DIALOG_DATA);
-  formAparence: any = 'outline';
+  formAparence: 'fill' | 'outline' = 'fill';
   formOpcao = signal<string>('');
 
   ngOnInit() {
@@ -411,7 +472,7 @@ export class FuncionarioForm {
   private fb = inject(FormBuilder);
 
   dataForm = this.fb.group({
-    id: [0],
+    id: [{ value: '', disabled: true }],
     nome: ['', Validators.required],
     cpf: [''],
     dataNascimento: ['', Validators.required],
@@ -427,7 +488,13 @@ export class FuncionarioForm {
     pisPasep: [''],
     tituloEleitor: [''],
     certificadoReservista: [''],
-    enderecoResidencial: [''],
+    endereco: [''],
+    bairro: [''],
+    cidade: [''],
+    cep: [''],
+    telefone: [''],
+    celular: [''],
+    email: [''],
     dataAdmissao: ['', Validators.required],
     cargoFuncaoDesempenhada: [''],
     categoriaTrabalhador: [''],

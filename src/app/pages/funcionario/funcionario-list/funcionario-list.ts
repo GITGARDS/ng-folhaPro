@@ -4,7 +4,7 @@ import { MatIconButton } from "@angular/material/button";
 import { MatCard } from "@angular/material/card";
 import { MatDialog } from "@angular/material/dialog";
 import { MatIcon } from "@angular/material/icon";
-import { MatFormField, MatInput, MatLabel } from "@angular/material/input";
+import { MatFormField, MatInputModule, MatLabel } from "@angular/material/input";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSort, MatSortModule } from "@angular/material/sort";
@@ -22,7 +22,7 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
     MatIcon,
     MatFormField,
     MatLabel,
-    MatInput,
+    MatInputModule,
     MatTooltip,
     MatPaginator,
     MatCard,
@@ -44,6 +44,7 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
       <section class="py-2">
         <mat-form-field>
           <mat-label>Filter</mat-label>
+          <mat-icon matPrefix>filter_alt</mat-icon>
           <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
         </mat-form-field>
 

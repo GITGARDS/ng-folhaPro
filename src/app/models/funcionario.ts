@@ -9,7 +9,13 @@ export type FuncionarioModel = {
   genero: string;
   racaCor: string;
   estadoCivil: string;
-  enderecoResidencial: string;
+  endereco: string;
+  bairro: string;
+  cidade: string;
+  cep: string;
+  telefone: string;
+  celular: string;
+  email: string;
   rg: string;
   ctpsDigital: string;
   pisPasep: string;
