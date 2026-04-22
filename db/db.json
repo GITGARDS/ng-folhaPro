@@ -1,0 +1,41 @@
+{
+  "funcionarios": [
+    {
+      "id": "NV88wugA4i8",
+      "nome": "Funcionario 4",
+      "ativo": true,
+      "salarioBase": 1000
+    },
+    {
+      "id": "olL9iaNv-oY",
+      "nome": "Funcionario 5",
+      "ativo": true,
+      "salarioBase": 1000
+    },
+    {
+      "id": "UF9ENuQY5dI",
+      "nome": "Funcionario 6",
+      "ativo": true,
+      "salarioBase": 1000
+    },
+    {
+      "id": "YB6BI0q78Bs",
+      "nome": "Funcionario 8",
+      "ativo": false,
+      "salarioBase": 1000
+    },
+    {
+      "id": "W1NzY7rAILQ",
+      "nome": "Funcionario 9",
+      "ativo": true,
+      "salarioBase": 1000
+    },
+    {
+      "id": "9NQdkkGKGgQ",
+      "nome": "Funcionario 7",
+      "ativo": true,
+      "salarioBase": 1000
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
