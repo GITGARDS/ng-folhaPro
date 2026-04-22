@@ -72,12 +72,12 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
                 <td mat-cell *matCellDef="let row">
                   <div class="flex gap-2">
-                    <span
+                    <!-- <span
                       class="w-8 h-8 rounded-full flex items-center justify-center text-lg  text-white bg-em"
                       [style.background-color]="onGetColor(row.id.charAt(0))"
                     >
                       {{ row.nome.charAt(0) }}
-                    </span>
+                    </span> -->
                     <span class="flex items-center">
                       {{ row.nome }}
                     </span>
