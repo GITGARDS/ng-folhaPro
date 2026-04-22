@@ -6,7 +6,7 @@ export const environment = {
     projectId: 'portifolio-2362e',
     storageBucket: 'portifolio-2362e.firebasestorage.app',
     messagingSenderId: '169087849079',
-    appId: '1:169087849079:web:9b52fa6054a73455122c72',
+    appId: '1:169087849079:web:9b52fa6054a73455122c72',    
     measurementId: 'G-ZGVQ74B8Y6',
   },
 };
