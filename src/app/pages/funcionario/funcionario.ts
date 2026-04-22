@@ -8,10 +8,10 @@ import { FuncionarioList } from "./funcionario-list/funcionario-list";
   selector: 'app-funcionario',
   imports: [TitleCasePipe, FuncionarioCard, FuncionarioList, CommonModule, CurrencyPipe],
   template: `
-    <div class="p-4 bg-cyan-100 border border-gray-300">
+    <div class="p-4 border rounded-2xl">
       <div class="max-w-[1000px] mx-auto">
         <div class="py-2">
-          <h1 class="text-3xl text-black dark:text-white">{{ title | titlecase }}</h1>
+          <h1 class="text-3xl">{{ title | titlecase }}</h1>
         </div>
         <div class="py-2">
           <div class="lg:w-3/4 w-full grid grid-cols-1 sm:grid-cols-2 gap-4">

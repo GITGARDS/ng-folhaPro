@@ -12,7 +12,7 @@ import { NavItens } from "./navigation";
     <mat-list-item
       [activated]="router.url === item().url ? true : false"
       [routerLink]="item().url"
-      routerLinkActive="!bg-[#d8d7db]"
+      routerLinkActive="!bg-gray-200"
       (click)="navigationservice.menuShow.set(false)"
     >
       <mat-icon matListItemIcon>{{ item().icon }}</mat-icon>

@@ -21,12 +21,12 @@ import { NavigationService } from "../../../services/navigation.service";
       </button>
       <div class="flex items-center gap-1">
         <span
-          class="font-bold bg-lime-500 text-lime-900 text-shadow-md text-shadow-lime-100 p-2 rounded-lg border-3 border-lime-800 shadow-lg shadow-mist-400"
+          class="p-2 rounded-full border"
           >FP</span
         >
         @if (isHandset$ | async) {
         } @else {
-          <span class="font-bold text-blue-800 text-shadow-md text-shadow-blue-100">FolhaPro</span>
+          <span>FolhaPro</span>
         }
       </div>
     </div>

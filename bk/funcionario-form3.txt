@@ -36,8 +36,8 @@ import { NgxMaskDirective } from "ngx-mask";
     MatStepperModule,
   ],
   template: `
-    <h1 mat-dialog-title align="center" class="border-b">
-      {{ formOpcao() === 'new' ? 'Novo' : ('Editar' | uppercase) }}
+    <h1 mat-dialog-title align="center">
+      {{ dataForm.value.id ? dataForm.value.nome : ('Novo Funcionario' | uppercase) }}
     </h1>
 
     <mat-dialog-content class="mat-typography">
@@ -46,9 +46,9 @@ import { NgxMaskDirective } from "ngx-mask";
           <mat-step>
             <ng-template matStepLabel>Dados Pessoais</ng-template>
             <ng-template matStepContent>
-              <div class="mt-2">
+              <div class="mt-10">
                 <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Id</mat-label>
                     <input readonly matInput formControlName="id" />
                     <mat-icon matPrefix>badge</mat-icon>
@@ -67,17 +67,14 @@ import { NgxMaskDirective } from "ngx-mask";
                 </div>
 
                 <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-3" [appearance]="formAparence">
                     <mat-label>CPF</mat-label>
                     <input matInput type="text" formControlName="cpf" mask="000.000.000-00" />
                     @if (dataForm.controls['cpf'].hasError('required')) {
                       <mat-error>Cpf is <strong>required</strong></mat-error>
                     }
                   </mat-form-field>
-                </div>
-
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-3" [appearance]="formAparence">
                     <mat-label>Data Nascimento</mat-label>
                     <input matInput type="date" formControlName="dataNascimento" />
                     @if (dataForm.controls['dataNascimento'].hasError('required')) {
@@ -97,27 +94,23 @@ import { NgxMaskDirective } from "ngx-mask";
                 </div>
 
                 <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Nacionalidade</mat-label>
                     <input matInput formControlName="nacionalidade" />
                     @if (dataForm.controls['nacionalidade'].hasError('required')) {
                       <mat-error>nacionalidade is <strong>required</strong></mat-error>
                     }
                   </mat-form-field>
-                </div>
 
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Naturalidade</mat-label>
                     <input matInput formControlName="naturalidade" />
                     @if (dataForm.controls['naturalidade'].hasError('required')) {
                       <mat-error>naturalidade is <strong>required</strong></mat-error>
                     }
                   </mat-form-field>
-                </div>
 
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Genero</mat-label>
 
                     <mat-select formControlName="genero">
@@ -132,7 +125,7 @@ import { NgxMaskDirective } from "ngx-mask";
                 </div>
 
                 <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Raca Cor</mat-label>
                     <mat-select formControlName="racaCor">
                       @for (item of racaCorSelect(); track $index) {
@@ -143,10 +136,8 @@ import { NgxMaskDirective } from "ngx-mask";
                       <mat-error>racaCor is <strong>required</strong></mat-error>
                     }
                   </mat-form-field>
-                </div>
 
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Estado Civil</mat-label>
                     <mat-select formControlName="estadoCivil">
                       @for (item of estadoCivilSelect(); track $index) {
@@ -158,12 +149,13 @@ import { NgxMaskDirective } from "ngx-mask";
                     }
                   </mat-form-field>
                 </div>
-
                 <div class="grid grid-cols-6 gap-2">
-                  <mat-checkbox formControlName="ativo">Ativo</mat-checkbox>
-                  @if (dataForm.controls['ativo'].hasError('required')) {
-                    <mat-error>ativo is <strong>required</strong></mat-error>
-                  }
+                  <div class="col-span-1">
+                    <mat-checkbox formControlName="ativo">Ativo</mat-checkbox>
+                    @if (dataForm.controls['ativo'].hasError('required')) {
+                      <mat-error>ativo is <strong>required</strong></mat-error>
+                    }
+                  </div>
                 </div>
               </div>
               <button matButton matStepperNext>Next</button>
@@ -173,28 +165,23 @@ import { NgxMaskDirective } from "ngx-mask";
           <mat-step>
             <ng-template matStepLabel>Documentação</ng-template>
             <ng-template matStepContent>
-              <div class="mt-2">
+              <div class="mt-10">
                 <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Rg</mat-label>
                     <input matInput formControlName="rg" />
                     @if (dataForm.controls['rg'].hasError('required')) {
                       <mat-error>Rg is <strong>required</strong></mat-error>
                     }
                   </mat-form-field>
-                </div>
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Ctps</mat-label>
                     <input matInput formControlName="ctpsDigital" />
                     @if (dataForm.controls['ctpsDigital'].hasError('required')) {
                       <mat-error>ctpsDigital is <strong>required</strong></mat-error>
                     }
                   </mat-form-field>
-                </div>
-
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Pis/Pasep</mat-label>
                     <mat-icon matPrefix>search</mat-icon>
                     <input matInput formControlName="pisPasep" />
@@ -205,7 +192,7 @@ import { NgxMaskDirective } from "ngx-mask";
                 </div>
 
                 <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Titulo Eleitor</mat-label>
                     <mat-icon matPrefix>search</mat-icon>
                     <input matInput formControlName="tituloEleitor" />
@@ -213,10 +200,8 @@ import { NgxMaskDirective } from "ngx-mask";
                       <mat-error>tituloEleitor is <strong>required</strong></mat-error>
                     }
                   </mat-form-field>
-                </div>
 
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Reservista</mat-label>
                     <input matInput formControlName="certificadoReservista" />
                     @if (dataForm.controls['certificadoReservista'].hasError('required')) {
@@ -233,7 +218,7 @@ import { NgxMaskDirective } from "ngx-mask";
           <mat-step>
             <ng-template matStepLabel>Endereço</ng-template>
             <ng-template matStepContent>
-              <div class="mt-2">
+              <div class="mt-10">
                 <div class="grid grid-cols-6 gap-2">
                   <mat-form-field class="col-span-6" [appearance]="formAparence">
                     <mat-label>Endereço</mat-label>
@@ -266,17 +251,14 @@ import { NgxMaskDirective } from "ngx-mask";
                 </div>
 
                 <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>CEP</mat-label>
                     <input matInput formControlName="cep" mask="00000-000" />
                     @if (dataForm.controls['cep'].hasError('required')) {
                       <mat-error>cep is <strong>required</strong></mat-error>
                     }
                   </mat-form-field>
-                </div>
-
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Telefone</mat-label>
                     <mat-icon matPrefix>phone</mat-icon>
                     <input matInput formControlName="telefone" mask="(00) 00000-0000" />
@@ -285,10 +267,7 @@ import { NgxMaskDirective } from "ngx-mask";
                       <mat-error>telefone is <strong>required</strong></mat-error>
                     }
                   </mat-form-field>
-                </div>
-
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Celular</mat-label>
                     <mat-icon matPrefix>phone</mat-icon>
                     <input matInput formControlName="celular" mask="(00) 00000-0000" />
@@ -316,9 +295,9 @@ import { NgxMaskDirective } from "ngx-mask";
           <mat-step>
             <ng-template matStepLabel>Dados Contratuais e Profissionais</ng-template>
             <ng-template matStepContent>
-              <div class="mt-2">
+              <div class="mt-10">
                 <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Data Admissão</mat-label>
                     <input matInput type="date" formControlName="dataAdmissao" />
                     @if (dataForm.controls['dataAdmissao'].hasError('required')) {
@@ -328,17 +307,15 @@ import { NgxMaskDirective } from "ngx-mask";
                 </div>
 
                 <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Cargo/Função Desempenhada</mat-label>
                     <input matInput formControlName="cargoFuncaoDesempenhada" />
                     @if (dataForm.controls['cargoFuncaoDesempenhada'].hasError('required')) {
                       <mat-error>cargoFuncaoDesempenhada is <strong>required</strong></mat-error>
                     }
                   </mat-form-field>
-                </div>
 
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Categoria Trabalhador</mat-label>
                     <mat-select formControlName="categoriaTrabalhador">
                       @for (item of categoriaTrabalhadorSelect(); track $index) {
@@ -349,10 +326,8 @@ import { NgxMaskDirective } from "ngx-mask";
                       <mat-error>categoriaTrabalhador is <strong>required</strong></mat-error>
                     }
                   </mat-form-field>
-                </div>
 
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Tipo Contrato</mat-label>
                     <mat-select formControlName="tipoContrato">
                       @for (item of tipoContratoSelect(); track $index) {
@@ -366,27 +341,21 @@ import { NgxMaskDirective } from "ngx-mask";
                 </div>
 
                 <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Jornada de Trabalho</mat-label>
                     <input matInput formControlName="jornadaTrabalho" />
                     @if (dataForm.controls['jornadaTrabalho'].hasError('required')) {
                       <mat-error>jornadaTrabalho is <strong>required</strong></mat-error>
                     }
                   </mat-form-field>
-                </div>
-
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Vinculo Sindicato</mat-label>
                     <input matInput formControlName="vinculoSindicato" />
                     @if (dataForm.controls['vinculoSindicato'].hasError('required')) {
                       <mat-error>vinculoSindicato is <strong>required</strong></mat-error>
                     }
                   </mat-form-field>
-                </div>
-
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Departamento/Centro de Custo</mat-label>
                     <input matInput formControlName="departamentoCentroCusto" />
                     @if (dataForm.controls['departamentoCentroCusto'].hasError('required')) {
@@ -403,9 +372,9 @@ import { NgxMaskDirective } from "ngx-mask";
           <mat-step>
             <ng-template matStepLabel>Dados de Remuneração e Bancários</ng-template>
             <ng-template matStepContent>
-              <div class="mt-2">
+              <div class="mt-10">
                 <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Salário Base</mat-label>
                     <mat-icon matPrefix>attach_money</mat-icon>
                     <input matInput type="number" formControlName="salarioBase" />
@@ -416,7 +385,7 @@ import { NgxMaskDirective } from "ngx-mask";
                 </div>
 
                 <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-1" [appearance]="formAparence">
                     <mat-label>Tipo Conta</mat-label>
                     <mat-select formControlName="tipoConta">
                       @for (item of tipoContaSelect(); track $index) {
@@ -427,30 +396,21 @@ import { NgxMaskDirective } from "ngx-mask";
                       <mat-error>tipoConta is <strong>required</strong></mat-error>
                     }
                   </mat-form-field>
-                </div>
-
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-1" [appearance]="formAparence">
                     <mat-label>Tipo Banco</mat-label>
                     <input matInput formControlName="banco" />
                     @if (dataForm.controls['banco'].hasError('required')) {
                       <mat-error>banco is <strong>required</strong></mat-error>
                     }
                   </mat-form-field>
-                </div>
-
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-1" [appearance]="formAparence">
                     <mat-label>Agência</mat-label>
                     <input matInput formControlName="agencia" />
                     @if (dataForm.controls['agencia'].hasError('required')) {
                       <mat-error>agencia is <strong>required</strong></mat-error>
                     }
                   </mat-form-field>
-                </div>
-
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-3" [appearance]="formAparence">
                     <mat-label>Conta</mat-label>
                     <input matInput formControlName="conta" />
                     @if (dataForm.controls['conta'].hasError('required')) {
@@ -467,29 +427,23 @@ import { NgxMaskDirective } from "ngx-mask";
           <mat-step>
             <ng-template matStepLabel>Informações de Benefícios e Saúde</ng-template>
             <ng-template matStepContent>
-              <div class="mt-2">
+              <div class="mt-10">
                 <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Plano de Saude</mat-label>
                     <input matInput formControlName="planoSaude" />
                     @if (dataForm.controls['planoSaude'].hasError('required')) {
                       <mat-error>planoSaude is <strong>required</strong></mat-error>
                     }
                   </mat-form-field>
-                </div>
-
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Plano Odontológico</mat-label>
                     <input matInput formControlName="planoOdontologico" />
                     @if (dataForm.controls['planoOdontologico'].hasError('required')) {
                       <mat-error>planoOdontologico is <strong>required</strong></mat-error>
                     }
                   </mat-form-field>
-                </div>
-
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Plano de Saude</mat-label>
                     <input matInput formControlName="valeTransporte" />
                     @if (dataForm.controls['valeTransporte'].hasError('required')) {
@@ -498,17 +452,14 @@ import { NgxMaskDirective } from "ngx-mask";
                   </mat-form-field>
                 </div>
                 <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Insalubridade</mat-label>
                     <input matInput formControlName="insalubridade" />
                     @if (dataForm.controls['insalubridade'].hasError('required')) {
                       <mat-error>insalubridade is <strong>required</strong></mat-error>
                     }
                   </mat-form-field>
-                </div>
-
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-2" [appearance]="formAparence">
                     <mat-label>Suporte Top Ponto</mat-label>
                     <input matInput formControlName="suporteTopPonto" />
                     @if (dataForm.controls['suporteTopPonto'].hasError('required')) {
@@ -524,14 +475,12 @@ import { NgxMaskDirective } from "ngx-mask";
       </form>
     </mat-dialog-content>
     <!-- 'text' | 'filled' | 'elevated' | 'outlined' | 'tonal' -->
-    <div class="border-t">
-      <mat-dialog-actions align="center">
-        <button matButton="tonal" mat-dialog-close>Cancel</button>
-        <button matButton="filled" [disabled]="dataForm.invalid" (click)="onSubmit()">
-          Confirma
-        </button>
-      </mat-dialog-actions>
-    </div>
+    <mat-dialog-actions align="center">
+      <button matButton="tonal" mat-dialog-close>Cancel</button>
+      <button matButton="filled" [disabled]="dataForm.invalid" (click)="onSubmit()">
+        Confirma
+      </button>
+    </mat-dialog-actions>
   `,
 
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -547,7 +496,7 @@ export class FuncionarioForm {
     this.dataForm.patchValue(funcionario);
     this.dataForm.markAllAsTouched();
     this.dataForm.markAsDirty();
-    this.formOpcao.set(this.data.opcao);
+    this.formOpcao.set(funcionario.id ? 'Editar' : 'Novo');
   }
 
   private fb = inject(FormBuilder);

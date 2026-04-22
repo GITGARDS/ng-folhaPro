@@ -1,6 +1,6 @@
 import { CurrencyPipe, DatePipe } from "@angular/common";
 import { Component, ViewChild, effect, inject } from "@angular/core";
-import { MatIconButton } from "@angular/material/button";
+import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatCard } from "@angular/material/card";
 import { MatDialog } from "@angular/material/dialog";
 import { MatIcon } from "@angular/material/icon";
@@ -30,121 +30,117 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
     MatProgressSpinnerModule,
     CurrencyPipe,
     DatePipe,
+    MatButton,
   ],
-  template: `
-    <div class="relative">
-      @if (funcionarioStore.isLoading()) {
-        <div
-          class="absolute w-full h-full top-0 left-0 bg-white/10 backdrop-blur-sm z-50 flex items-center justify-center"
-        >
-          <mat-spinner></mat-spinner>
-        </div>
-      }
+  template: ` <div class="relative">
+    @if (funcionarioStore.isLoading()) {
+      <div
+        class="absolute w-full h-full top-0 left-0 bg-white/10 backdrop-blur-sm z-50 flex items-center justify-center"
+      >
+        <mat-spinner></mat-spinner>
+      </div>
+    }
 
-      <section class="py-2 grid grid-cols-1 md:grid-cols-2">
-        <div class="w-full flex-1 items-center justify-between">
-          <mat-form-field>
-            <mat-label>Filter</mat-label>
-            <mat-icon matPrefix>filter_alt</mat-icon>
-            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
-          </mat-form-field>
-          <button
-            matIconButton
-            (click)="onCreate()"
-            class="mx-4"
-            matTooltip="Adicionar um novo registro"
-          >
-            <mat-icon>add</mat-icon>
-          </button>
-        </div>
-      </section>
+    <section class="py-2 grid grid-cols-6 gap-2">
+      <mat-form-field class="col-span-6 md:col-span-3">
+        <mat-label>Filtro</mat-label>
+        <mat-icon matPrefix>filter_alt</mat-icon>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
+      </mat-form-field>
+    </section>
 
-      <section>
-        <mat-card appearance="raised" class="overflow-hidden">
-          <div class="h-[500px] overflow-auto">
-            <table mat-table matSort [dataSource]="dataSource">
-              <!-- Id Column -->
-              <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-                <td mat-cell *matCellDef="let row">{{ row.id }}</td>
-              </ng-container>
+    <section class="py-2">
+      <button matButton="filled" (click)="onCreate()" matTooltip="Adicionar um novo registro">
+        <mat-icon>add</mat-icon>
+        <span class="ml-2">Novo</span>
+      </button>
+    </section>
 
-              <!-- Nome Column -->
-              <ng-container matColumnDef="nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
-                <td mat-cell *matCellDef="let row">
-                  <div class="flex gap-2">
-                    <span
-                      class="w-8 h-8 rounded-full flex items-center justify-center text-lg  text-white bg-em"
-                      [style.background-color]="onGetColor(row.id.charAt(0))"
-                    >
-                      {{ row.nome.charAt(0) }}
-                    </span>
-                    <span class="flex items-center">
-                      {{ row.nome }}
-                    </span>
-                  </div>
-                </td>
-              </ng-container>
-              <!-- Salario Base Column -->
-              <ng-container matColumnDef="salarioBase">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Salario</th>
-                <td mat-cell *matCellDef="let row">{{ row.salarioBase | currency: 'BRL' }}</td>
-              </ng-container>
-              <!-- Data Admissao Column -->
-              <ng-container matColumnDef="dataAdmissao">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Admissao</th>
-                <td mat-cell *matCellDef="let row">{{ row.dataAdmissao | date: 'dd/MM/yyyy' }}</td>
-              </ng-container>
-              <!-- Status Column -->
-              <ng-container matColumnDef="status">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-                <td mat-cell *matCellDef="let row">{{ row.ativo }}</td>
-              </ng-container>
-              <!-- Actions Column -->
-              <ng-container matColumnDef="actions" stickyEnd>
-                <th mat-header-cell *matHeaderCellDef>Actions</th>
-                <td mat-cell *matCellDef="let row" class="!bg-gray-200 !max-w-[150px] !text-center">
-                  <button
-                    mat-icon-button
-                    (click)="onFindById(row.id)"
-                    matTooltip="Visualizar registro"
+    <section>
+      <mat-card appearance="raised" class="overflow-hidden">
+        <div class="h-[500px] overflow-auto">
+          <table mat-table matSort [dataSource]="dataSource">
+            <!-- Id Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+              <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+            </ng-container>
+
+            <!-- Nome Column -->
+            <ng-container matColumnDef="nome">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
+              <td mat-cell *matCellDef="let row">
+                <div class="flex gap-2">
+                  <span
+                    class="w-8 h-8 rounded-full flex items-center justify-center text-lg  text-white bg-em"
+                    [style.background-color]="onGetColor(row.id.charAt(0))"
                   >
-                    <mat-icon>search</mat-icon>
-                  </button>
-                  <button mat-icon-button (click)="onUpdateById(row)" matTooltip="Editar registro">
-                    <mat-icon>edit</mat-icon>
-                  </button>
-                  <button
-                    mat-icon-button
-                    (click)="onDeleteById(row.id)"
-                    matTooltip="Excluir registro"
-                  >
-                    <mat-icon>delete</mat-icon>
-                  </button>
-                </td>
-              </ng-container>
-              <tr
-                class="!bg-gray-200 bg-gra"
-                mat-header-row
-                *matHeaderRowDef="displayedColumns; sticky: true"
-              ></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-            </table>
-          </div>
-        </mat-card>
-      </section>
-      <section class="py-2">
-        <mat-paginator
-          class="py-2 rounded-2xl shadow-sm"
-          [pageSize]="10"
-          [pageSizeOptions]="[5, 10, 25, 100]"
-          aria-label="Select page"
-        >
-        </mat-paginator>
-      </section>
-    </div>
-  `,
+                    {{ row.nome.charAt(0) }}
+                  </span>
+                  <span class="flex items-center">
+                    {{ row.nome }}
+                  </span>
+                </div>
+              </td>
+            </ng-container>
+            <!-- Salario Base Column -->
+            <ng-container matColumnDef="salarioBase">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Salario</th>
+              <td mat-cell *matCellDef="let row">{{ row.salarioBase | currency: 'BRL' }}</td>
+            </ng-container>
+            <!-- Data Admissao Column -->
+            <ng-container matColumnDef="dataAdmissao">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Admissao</th>
+              <td mat-cell *matCellDef="let row">{{ row.dataAdmissao | date: 'dd/MM/yyyy' }}</td>
+            </ng-container>
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+              <td mat-cell *matCellDef="let row">{{ row.ativo }}</td>
+            </ng-container>
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions" stickyEnd>
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let row" class="!bg-gray-200 !max-w-[150px] !text-center">
+                <button
+                  mat-icon-button
+                  (click)="onFindById(row.id)"
+                  matTooltip="Visualizar registro"
+                >
+                  <mat-icon>search</mat-icon>
+                </button>
+                <button mat-icon-button (click)="onUpdateById(row)" matTooltip="Editar registro">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  (click)="onDeleteById(row.id)"
+                  matTooltip="Excluir registro"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            <tr
+              class="!bg-gray-200 bg-gra"
+              mat-header-row
+              *matHeaderRowDef="displayedColumns; sticky: true"
+            ></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
+      </mat-card>
+    </section>
+    <section class="py-2">
+      <mat-paginator
+        class="py-2 rounded-2xl shadow-sm"
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Select page"
+      >
+      </mat-paginator>
+    </section>
+  </div>`,
 
   styles: `
     /* .mat-column-actions {
@@ -198,40 +194,36 @@ export class FuncionarioList {
       salarioBase: ultimoFuncionario * 100,
       ativo: true,
     };
-
-    const dialogRef = this.dialog.open(FuncionarioForm, {
-      data: { funcionario: novo as FuncionarioModel },
-      minWidth: '700px',
-      maxWidth: '700px',
-      height: '750px',
-      enterAnimationDuration: '300ms',
-      exitAnimationDuration: '300ms',
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (!result) {
-        return;
-      }
-      this.funcionarioStore.create(result as FuncionarioModel);
-    });
+    this.openDialog('new', novo as FuncionarioModel);
   }
 
   onUpdateById(funcionario: FuncionarioModel) {
+    this.openDialog('update', funcionario);
+  }
+
+  openDialog(opcao: string, data: FuncionarioModel) {
     const dialogRef = this.dialog.open(FuncionarioForm, {
-      data: { funcionario: funcionario as FuncionarioModel },
-      minWidth: '700px',
-      maxWidth: '700px',
+      width: 'auto',
       height: '750px',
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '300ms',
+      data: { opcao, funcionario: data },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) {
         return;
       }
-      this.funcionarioStore.updateById({
-        id: funcionario.id as string,
-        funcionario: result as FuncionarioModel,
-      });
+      switch (opcao) {
+        case 'new':
+          this.funcionarioStore.create(result as FuncionarioModel);
+          break;
+        case 'update':
+          this.funcionarioStore.updateById({
+            id: data.id as string,
+            funcionario: result as FuncionarioModel,
+          });
+          break;
+      }
     });
   }
 
