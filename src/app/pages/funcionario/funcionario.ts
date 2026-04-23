@@ -2,10 +2,10 @@ import { CommonModule, CurrencyPipe, TitleCasePipe } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { IsLoading } from "../../app/components/is-loading";
+import { IsLoading } from "../../app/components/is-loading";
 import { MiniCard } from "../../app/components/mini-card";
 import { FuncionarioStore } from "../../store/funcionario.store";
 import { FuncionarioList } from "./funcionario-list/funcionario-list";
-
 @Component({
   selector: 'app-funcionario',
   imports: [
@@ -21,7 +21,7 @@ import { FuncionarioList } from "./funcionario-list/funcionario-list";
     <div class="grid grid-cols-6 gap-2">
       <section class="hidden sm:flex sm:col-span-1 justify-center">
         <div class="flex items-start">
-          <img src="imagens/cadastros/funcionario.webp" alt="cadastros" class="object-contain" />
+          <img src="imagens/cadastros/funcionario.png" alt="cadastros" class="object-contain" />
         </div>
       </section>
       <section class="col-span-6 sm:col-span-4 flex justify-center">
