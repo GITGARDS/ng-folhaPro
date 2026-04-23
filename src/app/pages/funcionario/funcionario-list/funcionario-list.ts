@@ -1,4 +1,3 @@
-import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { CurrencyPipe, DatePipe } from "@angular/common";
 import { Component, ViewChild, effect, inject } from "@angular/core";
 import { MatButton, MatIconButton } from "@angular/material/button";
@@ -11,7 +10,6 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatTooltip } from "@angular/material/tooltip";
-import { Observable, map, shareReplay } from "rxjs";
 import { FuncionarioModel } from "../../../models/funcionario";
 import { FuncionarioStore } from "../../../store/funcionario.store";
 import { FuncionarioForm } from "../funcionario-form/funcionario-form";
@@ -173,16 +171,6 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
   `,
 })
 export class FuncionarioList {
-  private breakpointObserver = inject(BreakpointObserver);
-
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-    map((result) => {
-      console.log('matches', result);
-      return result.matches;
-    }),
-    shareReplay(),
-  );
-
   funcionarioStore = inject(FuncionarioStore);
   dataSource: MatTableDataSource<FuncionarioModel> = new MatTableDataSource<FuncionarioModel>(
     this.funcionarioStore.list(),
