@@ -1,0 +1,25 @@
+export type EmpresaModel = {
+  id: number | string;
+  tipoInscricao: string;
+  inscricao: string;
+  inscricaoMunicipal: string;
+  inscricaoEstadual: string;
+  nomeEmpresaRazaoSocial: string;
+  nomeFantasia: string;
+  dataAbertura: string;  
+  email: string;
+  logradouro: string;
+  bairro: string;
+  cep: string;
+  cidade: string;
+  uf: string;
+  telefone: string;
+  celular: string;
+  cnae: string;
+  aliquotaRat: string;
+  codigoDeCentralizacao: string;
+  simples: string;
+  fpas: string;
+  codigoDeOutrasEntidades: string;
+  codigoDePagamentoGps: string;
+};

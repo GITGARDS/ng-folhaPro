@@ -2,14 +2,12 @@ import { UpperCasePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, inject, signal } from "@angular/core";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import { MatIcon } from "@angular/material/icon";
 import { MatError, MatFormField, MatInputModule, MatLabel } from "@angular/material/input";
 import { MatOption, MatSelect } from "@angular/material/select";
 import { MatStepperModule } from "@angular/material/stepper";
-import { MatTabsModule } from "@angular/material/tabs";
 import { NgxMaskDirective } from "ngx-mask";
 
 /**
@@ -24,14 +22,12 @@ import { NgxMaskDirective } from "ngx-mask";
     MatFormField,
     MatInputModule,
     MatError,
-    MatTabsModule,
     MatLabel,
     MatCheckboxModule,
     MatSelect,
     MatOption,
     NgxMaskDirective,
     MatIcon,
-    MatCardModule,
     UpperCasePipe,
     MatStepperModule,
   ],
