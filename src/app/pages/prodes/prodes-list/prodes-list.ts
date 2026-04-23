@@ -1,5 +1,3 @@
-import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
-import { CurrencyPipe, DatePipe } from "@angular/common";
 import { Component, ViewChild, effect, inject } from "@angular/core";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatCard } from "@angular/material/card";
@@ -11,13 +9,12 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatTooltip } from "@angular/material/tooltip";
-import { Observable, map, shareReplay } from "rxjs";
-import { FuncionarioModel } from "../../../models/funcionario";
-import { FuncionarioStore } from "../../../store/funcionario.store";
-import { FuncionarioForm } from "../funcionario-form/funcionario-form";
+import { ProdesModel } from "../../../models/prodes";
+import { ProdesStore } from "../../../store/prodes.store";
+import { ProdesForm } from "../prodes-form/prodes-form";
 
 @Component({
-  selector: 'app-funcionario-list',
+  selector: 'app-prodes-list',
   imports: [
     MatTableModule,
     MatIconButton,
@@ -30,12 +27,10 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
     MatCard,
     MatSortModule,
     MatProgressSpinnerModule,
-    CurrencyPipe,
-    DatePipe,
     MatButton,
   ],
   template: ` <div class="relative">
-    @if (funcionarioStore.isLoading()) {
+    @if (prodesStore.isLoading()) {
       <div
         class="absolute w-full h-full top-0 left-0 bg-white/10 backdrop-blur-sm z-50 flex items-center justify-center"
       >
@@ -63,41 +58,56 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
         <div class="h-[500px] overflow-auto">
           <table mat-table matSort [dataSource]="dataSource">
             <!-- Id Column -->
-            <ng-container matColumnDef="id">
+            <!-- <ng-container matColumnDef="id" >
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
               <td mat-cell *matCellDef="let row">{{ row.id }}</td>
-              <!-- <td mat-footer-cell *matFooterCellDef>Total</td> -->
+            </ng-container> -->
+            <!-- Codigo Column -->
+            <ng-container matColumnDef="codigo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo</th>
+              <td mat-cell *matCellDef="let row">{{ row.codigo }}</td>
             </ng-container>
-
-            <!-- Nome Column -->
-            <ng-container matColumnDef="nome">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
+            <!-- Descricao Column -->
+            <ng-container matColumnDef="descricao">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Descricao</th>
               <td mat-cell *matCellDef="let row">
                 <div class="flex gap-2">
                   <span
                     class="w-8 h-8 rounded-full flex items-center justify-center text-lg  text-white bg-em"
                     [style.background-color]="onGetColor(row.id.charAt(0))"
                   >
-                    {{ row.nome.charAt(0) }}
+                    {{ row.descricao.charAt(0) }}
                   </span>
                   <span class="flex items-center">
-                    {{ row.nome }}
+                    {{ row.descricao }}
                   </span>
                 </div>
               </td>
             </ng-container>
-            <!-- Salario Base Column -->
-            <ng-container matColumnDef="salarioBase">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Salario</th>
-              <td mat-cell *matCellDef="let row">{{ row.salarioBase | currency: 'BRL' }}</td>
-              <td mat-footer-cell *matFooterCellDef>
-                {{ getTotalSalarioBase() | currency: 'BRL' }}
-              </td>
+            <!-- Tipo Column -->
+            <ng-container matColumnDef="tipo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</th>
+              <td mat-cell *matCellDef="let row">{{ row.tipo }}</td>
             </ng-container>
-            <!-- Data Admissao Column -->
-            <ng-container matColumnDef="dataAdmissao">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Admissao</th>
-              <td mat-cell *matCellDef="let row">{{ row.dataAdmissao | date: 'dd/MM/yyyy' }}</td>
+            <!-- Incidencias Column -->
+            <ng-container matColumnDef="incidencias">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Incidencias</th>
+              <td mat-cell *matCellDef="let row">{{ row.incidencias }}</td>
+            </ng-container>
+
+            <!-- Automatico Column -->
+            <ng-container matColumnDef="automatico">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Automatico</th>
+              <td mat-cell *matCellDef="let row">
+                <div
+                  [style.color]="row.automatico == false ? 'red' : 'black'"
+                  class="h-8 w-8 flex items-center justify-center"
+                >
+                  <mat-icon class="!font-bold !text-md ">{{
+                    row.automatico ? 'check' : 'close'
+                  }}</mat-icon>
+                </div>
+              </td>
             </ng-container>
             <!-- Status Column -->
             <ng-container matColumnDef="ativo">
@@ -107,11 +117,10 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
                   [style.color]="row.ativo == false ? 'red' : 'black'"
                   class="h-8 w-8 flex items-center justify-center"
                 >
-                  <mat-icon class="!font-bold !text-md ">{{ row.ativo ? 'check' : 'close' }}</mat-icon>
+                  <mat-icon class="!font-bold !text-md ">{{
+                    row.ativo ? 'check' : 'close'
+                  }}</mat-icon>
                 </div>
-              </td>
-              <td mat-footer-cel *matFooterCellDef>
-                {{ getTotalfuncionariosAtivos() }}
               </td>
             </ng-container>
             <!-- Actions Column -->
@@ -150,7 +159,6 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
             >
               >
             </tr>
-            <!-- <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr> -->
           </table>
         </div>
       </mat-card>
@@ -166,44 +174,31 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
     </section>
   </div>`,
 
-  styles: `
-    /* .mat-column-actions {
-      background-color: gray !important;
-    } */
-  `,
+  styles: ``,
 })
-export class FuncionarioList {
-  private breakpointObserver = inject(BreakpointObserver);
-
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-    map((result) => {
-      console.log('matches', result);
-      return result.matches;
-    }),
-    shareReplay(),
+export class ProdesList {
+  prodesStore = inject(ProdesStore);
+  dataSource: MatTableDataSource<ProdesModel> = new MatTableDataSource<ProdesModel>(
+    this.prodesStore.listProdes(),
   );
-
-  funcionarioStore = inject(FuncionarioStore);
-  dataSource: MatTableDataSource<FuncionarioModel> = new MatTableDataSource<FuncionarioModel>(
-    this.funcionarioStore.funcionarios(),
-  );
-  displayedColumns: string[] = ['id', 'nome', 'salarioBase', 'dataAdmissao', 'ativo', 'actions'];
+  displayedColumns: string[] = [
+    // 'id',
+    'codigo',
+    'descricao',
+    'tipo',
+    'incidencias',
+    'automatico',
+    'ativo',
+    'actions',
+  ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  getTotalSalarioBase() {
-    return this.funcionarioStore.totalSalarioBase();
-  }
-
-  getTotalfuncionariosAtivos() {
-    return this.funcionarioStore.totalfuncionariosAtivos().length;
-  }
-
   constructor() {
-    this.funcionarioStore.carregaLista();
+    this.prodesStore.carregaLista();
     effect(() => {
-      this.dataSource = new MatTableDataSource(this.funcionarioStore.funcionarios());
+      this.dataSource = new MatTableDataSource(this.prodesStore.listProdes());
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -216,40 +211,28 @@ export class FuncionarioList {
   readonly dialog = inject(MatDialog);
 
   onCreate() {
-    const ultimoFuncionario = this.funcionarioStore.funcionarios().length + 1;
-    const novo: Partial<FuncionarioModel> = {
-      nome: `Funcionario ${ultimoFuncionario}`,
-      dataNascimento: new Date().toISOString().split('T')[0],
-      nacionalidade: 'BR',
-      naturalidade: 'BR',
-      genero: 'Masculino',
-      racaCor: 'Branco',
-      estadoCivil: 'Solteiro',
-      endereco: 'Endereco',
-      bairro: 'Bairro',
-      cidade: 'Cidade',
-      cep: '00000-000',
-      telefone: '(00) 0000-0000',
-      celular: '(00) 00000-0000',
-      email: 'a@b.com',
-      dataAdmissao: new Date().toISOString().split('T')[0],
-      salarioBase: ultimoFuncionario * 100,
+    const ultimoProdes = this.prodesStore.listProdes().length + 1;
+
+    const novo: Partial<ProdesModel> = {
+      codigo: `P${ultimoProdes}`,
+      descricao: `Descricao ${ultimoProdes}`,
+      tipo: 'provento',
+      incidencias: ['INSS', 'FGTS', 'IRRF'],
+      automatico: true,
       ativo: true,
     };
-    this.openDialog('new', novo as FuncionarioModel);
+    this.openDialog('new', novo as ProdesModel);
   }
 
-  onUpdateById(params: FuncionarioModel) {
+  onUpdateById(params: ProdesModel) {
     this.openDialog('update', params);
   }
 
-  openDialog(opcao: string, data: FuncionarioModel) {
-    const dialogRef = this.dialog.open(FuncionarioForm, {
-      width: 'auto',
-      height: '750px',
+  openDialog(opcao: string, data: ProdesModel) {
+    const dialogRef = this.dialog.open(ProdesForm, {
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '300ms',
-      data: { opcao, funcionario: data },
+      data: { opcao, prodes: data },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) {
@@ -257,12 +240,12 @@ export class FuncionarioList {
       }
       switch (opcao) {
         case 'new':
-          this.funcionarioStore.create(result as FuncionarioModel);
+          this.prodesStore.create(result as ProdesModel);
           break;
         case 'update':
-          this.funcionarioStore.updateById({
+          this.prodesStore.updateById({
             id: data.id as string,
-            funcionario: result as FuncionarioModel,
+            prodes: result as ProdesModel,
           });
           break;
       }
@@ -271,7 +254,7 @@ export class FuncionarioList {
 
   onDeleteById(id: number) {
     if (confirm('Tem certeza?')) {
-      this.funcionarioStore.deleteById(id);
+      this.prodesStore.deleteById(id);
     }
   }
 

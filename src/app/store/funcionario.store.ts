@@ -45,12 +45,12 @@ export const FuncionarioStore = signalStore(
       });
     },
 
-    create: signalMethod(async (funcionario: FuncionarioModel) => {
+    create: signalMethod(async (param: FuncionarioModel) => {
       patchState(store, { isLoading: true });
-      const id = await funcionarioService.create(funcionario);
+      const id = await funcionarioService.create(param);
       patchState(store, (state) => ({
         ...state,
-        funcionarios: [...state.funcionarios, { ...funcionario, id }],
+        funcionarios: [...state.funcionarios, { ...param, id }],
         isLoading: false,
       }));
     }),

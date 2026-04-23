@@ -48,11 +48,18 @@ import { NgxMaskDirective } from "ngx-mask";
             <ng-template matStepContent>
               <div class="mt-2">
                 <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-4" [appearance]="formAparence">
                     <mat-label>Id</mat-label>
                     <input readonly matInput formControlName="id" />
                     <mat-icon matPrefix>badge</mat-icon>
                   </mat-form-field>
+
+                  <div class="col-span-2">
+                    <mat-checkbox formControlName="ativo">Ativo</mat-checkbox>
+                    @if (dataForm.controls['ativo'].hasError('required')) {
+                      <mat-error>ativo is <strong>required</strong></mat-error>
+                    }
+                  </div>
                 </div>
 
                 <div class="grid grid-cols-6 gap-2">
@@ -158,15 +165,8 @@ import { NgxMaskDirective } from "ngx-mask";
                     }
                   </mat-form-field>
                 </div>
-
-                <div class="grid grid-cols-6 gap-2">
-                  <mat-checkbox formControlName="ativo">Ativo</mat-checkbox>
-                  @if (dataForm.controls['ativo'].hasError('required')) {
-                    <mat-error>ativo is <strong>required</strong></mat-error>
-                  }
-                </div>
               </div>
-              <button matButton matStepperNext>Next</button>
+              <button matButton="filled" matStepperNext>Next</button>
             </ng-template>
           </mat-step>
 
@@ -225,8 +225,8 @@ import { NgxMaskDirective } from "ngx-mask";
                   </mat-form-field>
                 </div>
               </div>
-              <button matButton matStepperPrevious>Back</button>
-              <button matButton matStepperNext>Next</button>
+              <button matButton="tonal" matStepperPrevious>Back</button>
+              <button matButton="filled" class="ml-2" matStepperNext>Next</button>
             </ng-template>
           </mat-step>
 
@@ -308,8 +308,8 @@ import { NgxMaskDirective } from "ngx-mask";
                   </mat-form-field>
                 </div>
               </div>
-              <button matButton matStepperPrevious>Back</button>
-              <button matButton matStepperNext>Next</button>
+              <button matButton="tonal" matStepperPrevious>Back</button>
+              <button matButton="filled" class="ml-2" matStepperNext>Next</button>
             </ng-template>
           </mat-step>
 
@@ -395,8 +395,8 @@ import { NgxMaskDirective } from "ngx-mask";
                   </mat-form-field>
                 </div>
               </div>
-              <button matButton matStepperPrevious>Back</button>
-              <button matButton matStepperNext>Next</button>
+              <button matButton="tonal" matStepperPrevious>Back</button>
+              <button matButton="filled" class="ml-2" matStepperNext>Next</button>
             </ng-template>
           </mat-step>
 
@@ -459,8 +459,8 @@ import { NgxMaskDirective } from "ngx-mask";
                   </mat-form-field>
                 </div>
               </div>
-              <button matButton matStepperPrevious>Back</button>
-              <button matButton matStepperNext>Next</button>
+              <button matButton="tonal" matStepperPrevious>Back</button>
+              <button matButton="filled" class="ml-2" matStepperNext>Next</button>
             </ng-template>
           </mat-step>
 
@@ -517,7 +517,7 @@ import { NgxMaskDirective } from "ngx-mask";
                   </mat-form-field>
                 </div>
               </div>
-              <button matButton matStepperPrevious>Back</button>
+              <button matButton="tonal" matStepperPrevious>Back</button>
             </ng-template>
           </mat-step>
         </mat-stepper>

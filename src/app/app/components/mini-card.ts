@@ -2,7 +2,7 @@ import { Component, input } from "@angular/core";
 import { MatIcon } from "@angular/material/icon";
 
 @Component({
-  selector: 'app-funcionario-card',
+  selector: 'app-mini-card',
   imports: [MatIcon],
   template: `
     <div
@@ -27,7 +27,7 @@ import { MatIcon } from "@angular/material/icon";
   `,
   styles: ``,
 })
-export class FuncionarioCard {
+export class MiniCard {
   title = input.required<string>();
   icon = input.required<string>();
 }

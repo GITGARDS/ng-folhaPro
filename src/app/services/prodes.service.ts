@@ -2,22 +2,22 @@ import { Injectable } from "@angular/core";
 import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc } from "firebase/firestore";
 import { Observable, delay } from "rxjs";
 import { db } from "../../firebase";
-import { FuncionarioModel } from "../models/funcionario";
+import { ProdesModel } from "../models/prodes";
 
 @Injectable({
   providedIn: 'root',
 })
-export class FuncionarioService {
-  colectionLabel = 'funcionario';
+export class ProdesService {
+  colectionLabel = 'prodes';
   collectionName = collection(db, this.colectionLabel);
 
   private isDelay = 500;
 
   findAll() {
-    const q = query(this.collectionName, orderBy('nome'));
-    return new Observable<FuncionarioModel[]>((observer) => {
+    const q = query(this.collectionName, orderBy('descricao'));
+    return new Observable<ProdesModel[]>((observer) => {
       onSnapshot(q, (snapshot) => {
-        const items: FuncionarioModel[] = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }) as FuncionarioModel);
+        const items: ProdesModel[] = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }) as ProdesModel);
         observer.next(items);
       });
     }).pipe(delay(this.isDelay));
@@ -26,13 +26,13 @@ export class FuncionarioService {
 
   async findById(id: number) {}
 
-  async create(param: FuncionarioModel) {
+  async create(param: ProdesModel) {
     await new Promise((resolve) => setTimeout(resolve, this.isDelay));
     const docRef = await addDoc(this.collectionName, { ...param });
     return docRef.id;
   }
 
-  async updateById(id: string, param: FuncionarioModel) {
+  async updateById(id: string, param: ProdesModel) {
     const docRef = doc(db, this.colectionLabel, id);
     await updateDoc(docRef, { ...param });
   }

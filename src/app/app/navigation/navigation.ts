@@ -97,5 +97,10 @@ export class Navigation {
       url: 'funcionarios',
       icon: 'people',
     },
+    {
+      label: 'Proventos/Descontos',
+      url: 'prodes',
+      icon: 'compare_arrows',
+    },
   ]);
 }
