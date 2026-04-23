@@ -1,11 +1,10 @@
 import { CommonModule, CurrencyPipe, TitleCasePipe } from "@angular/common";
 import { Component, inject } from "@angular/core";
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { IsLoading } from "../../app/components/is-loading";
 import { IsLoading } from "../../app/components/is-loading";
 import { MiniCard } from "../../app/components/mini-card";
 import { FuncionarioStore } from "../../store/funcionario.store";
 import { FuncionarioList } from "./funcionario-list/funcionario-list";
+
 @Component({
   selector: 'app-funcionario',
   imports: [
@@ -14,7 +13,6 @@ import { FuncionarioList } from "./funcionario-list/funcionario-list";
     CommonModule,
     CurrencyPipe,
     MiniCard,
-    MatProgressSpinnerModule,
     IsLoading,
   ],
   template: `
