@@ -20,7 +20,7 @@ import { EmpresaList } from "./empresa-list/empresa-list";
     <div class="grid grid-cols-6 gap-2">
       <section class="hidden sm:flex sm:col-span-1 justify-center">
         <div class="flex items-start">
-          <img src="imagens/cadastros/empresa.jpg" alt="cadastros" class="object-contain" />
+          <img src="imagens/cadastros/empresa.png" alt="cadastros" class="object-contain" />
         </div>
       </section>
       <section class="col-span-6 sm:col-span-4 flex justify-center">
