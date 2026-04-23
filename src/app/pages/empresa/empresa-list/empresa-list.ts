@@ -6,7 +6,6 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatIcon } from "@angular/material/icon";
 import { MatFormField, MatInputModule, MatLabel } from "@angular/material/input";
 import { MatPaginator } from "@angular/material/paginator";
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatTooltip } from "@angular/material/tooltip";
@@ -27,19 +26,10 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
     MatPaginator,
     MatCard,
     MatSortModule,
-    MatProgressSpinnerModule,
     DatePipe,
     MatButton,
   ],
-  template: ` <div class="relative">
-    @if (empresaStore.isLoading()) {
-      <div
-        class="absolute w-full h-full top-0 left-0 bg-white/10 backdrop-blur-sm z-50 flex items-center justify-center"
-      >
-        <mat-spinner></mat-spinner>
-      </div>
-    }
-
+  template: `
     <section class="py-2 grid grid-cols-6 gap-2">
       <mat-form-field class="col-span-6 md:col-span-3">
         <mat-label>Filtro</mat-label>
@@ -73,10 +63,12 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
             <ng-container matColumnDef="inscricao">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Inscricao</th>
               <td mat-cell *matCellDef="let row">{{ row.inscricao }}</td>
-            </ng-container>  
+            </ng-container>
             <!-- nomeEmpresaRazaoSocial Column -->
             <ng-container matColumnDef="nomeEmpresaRazaoSocial">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome da Empresa/Razao Social</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Nome da Empresa/Razao Social
+              </th>
               <td mat-cell *matCellDef="let row">
                 <div class="flex gap-2">
                   <span
@@ -146,22 +138,25 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
       >
       </mat-paginator>
     </section>
-  </div>`,
-
-  styles: `
-
   `,
+
+  styles: ``,
 })
 export class EmpresaList {
   empresaStore = inject(EmpresaStore);
   dataSource: MatTableDataSource<EmpresaModel> = new MatTableDataSource<EmpresaModel>(
     this.empresaStore.list(),
   );
-  displayedColumns: string[] = ['tipoInscricao', 'inscricao', 'nomeEmpresaRazaoSocial',  'dataAbertura', 'actions'];
+  displayedColumns: string[] = [
+    'tipoInscricao',
+    'inscricao',
+    'nomeEmpresaRazaoSocial',
+    'dataAbertura',
+    'actions',
+  ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
 
   constructor() {
     this.empresaStore.carregaLista();
