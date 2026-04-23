@@ -39,4 +39,12 @@ export type FuncionarioModel = {
   planoSaude: string;
   planoOdontologico: string;
   ativo: boolean;
+  // ----------------------
+  matricula: string;
+  ctps: string;
+  serieCtps: string;
+  dataOpcao: string;
+  cbo: string;
+  classeDeContribuicao: string;
+  ocorrencia: string;
 };

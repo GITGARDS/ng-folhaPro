@@ -93,6 +93,11 @@ export class Navigation {
       icon: 'dashboard',
     },
     {
+      label: 'Empresa',
+      url: 'empresa',
+      icon: 'business',
+    },
+    {
       label: 'Funcionários',
       url: 'funcionarios',
       icon: 'people',

@@ -36,7 +36,10 @@ import { NgxMaskDirective } from "ngx-mask";
     MatStepperModule,
   ],
   template: `
-    <section class="w-full border-b bg-emerald-400 text-shadow-sm p-2">
+    <!-- <section class="w-full border-b bg-emerald-400 text-shadow-sm p-2"> -->
+    <!-- <section class="w-full border-b bg-indigo-900 text-shadow-sm p-2"> -->
+    <!-- <section class="w-full border-b bg-cyan-950 text-shadow-sm p-2"> -->
+    <section class="w-full border-b bg-violet-800 text-shadow-sm p-2">
       <div class="flex flex-col justify-center items-center">
         <h1 class="text-3xl font-bold text-white">
           {{ formOpcao() === 'new' ? 'Novo' : ('Editar' | uppercase) }}
@@ -345,7 +348,7 @@ import { NgxMaskDirective } from "ngx-mask";
                 </div>
 
                 <div class="grid grid-cols-6 gap-2">
-                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                  <mat-form-field class="col-span-6" [appearance]="formAparence">
                     <mat-label>Categoria Trabalhador</mat-label>
                     <mat-select formControlName="categoriaTrabalhador">
                       @for (item of categoriaTrabalhadorSelect(); track $index) {
@@ -525,6 +528,86 @@ import { NgxMaskDirective } from "ngx-mask";
                 </div>
               </div>
               <button matButton="tonal" matStepperPrevious>Back</button>
+              <button matButton="filled" class="ml-2" matStepperNext>Next</button>
+            </ng-template>
+          </mat-step>
+
+          <mat-step>
+            <ng-template matStepLabel>Layout Folha sefip 84</ng-template>
+            <ng-template matStepContent>
+              <div class="mt-2">
+                <div class="grid grid-cols-6 gap-2">
+                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                    <mat-label>Matricula</mat-label>
+                    <input matInput type="text" formControlName="matricula" />
+                    @if (dataForm.controls['matricula'].hasError('required')) {
+                      <mat-error>Matricula is <strong>required</strong></mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+
+                <div class="grid grid-cols-6 gap-2">
+                  <mat-form-field class="col-span-3 md:col-span-3" [appearance]="formAparence">
+                    <mat-label>Ctps</mat-label>
+                    <input matInput formControlName="ctps" />
+                    @if (dataForm.controls['ctps'].hasError('required')) {
+                      <mat-error>ctps is <strong>required</strong></mat-error>
+                    }
+                  </mat-form-field>
+                  <mat-form-field class="col-span-3 md:col-span-3" [appearance]="formAparence">
+                    <mat-label>Serie Ctps</mat-label>
+                    <input matInput formControlName="serieCtps" />
+                    @if (dataForm.controls['serieCtps'].hasError('required')) {
+                      <mat-error>Serie Ctps is <strong>required</strong></mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+
+                <div class="grid grid-cols-6 gap-2">
+                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                    <mat-label>Data Opcao</mat-label>
+                    <input matInput type="text" formControlName="dataOpcao" mask="00/00/0000" />
+                    @if (dataForm.controls['dataOpcao'].hasError('required')) {
+                      <mat-error>Data Opcao is <strong>required</strong></mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+
+                <div class="grid grid-cols-6 gap-2">
+                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                    <mat-label>CBO</mat-label>
+                    <input matInput formControlName="cbo" type="text" mask="0-0000" />
+                    @if (dataForm.controls['cbo'].hasError('required')) {
+                      <mat-error>CBO is <strong>required</strong></mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+
+                <div class="grid grid-cols-6 gap-2">
+                  <mat-form-field class="col-span-6 md:col-span-3" [appearance]="formAparence">
+                    <mat-label>Classe de contribuicao</mat-label>
+                    <input matInput formControlName="classeDeContribuicao" />
+                    @if (dataForm.controls['classeDeContribuicao'].hasError('required')) {
+                      <mat-error>classeDeContribuicao is <strong>required</strong></mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+
+                <div class="grid grid-cols-6 gap-2">
+                  <mat-form-field class="col-span-6" [appearance]="formAparence">
+                    <mat-label>Ocorrencia</mat-label>
+                    <mat-select formControlName="ocorrencia">
+                      @for (item of ocorrenciaSelect(); track $index) {
+                        <mat-option [value]="item.valor">{{ item.label }}</mat-option>
+                      }
+                    </mat-select>
+                    @if (dataForm.controls['ocorrencia'].hasError('required')) {
+                      <mat-error>Ocorrencia is <strong>required</strong></mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+              </div>
+              <button matButton="tonal" matStepperPrevious>Back</button>
             </ng-template>
           </mat-step>
         </mat-stepper>
@@ -600,6 +683,14 @@ export class FuncionarioForm {
     valeTransporte: [''],
     insalubridade: [''],
     suporteTopPonto: [''],
+
+    matricula: [''],
+    ctps: [''],
+    serieCtps: [''],
+    dataOpcao: [''],
+    cbo: [''],
+    classeDeContribuicao: [''],
+    ocorrencia: [''],
   });
 
   onSubmit() {
@@ -623,13 +714,92 @@ export class FuncionarioForm {
     { label: 'Uniao Estavel', valor: 'uniao_estavel' },
   ]);
   categoriaTrabalhadorSelect = signal([
-    { label: 'Outro', valor: 'outro' },
-    { label: 'Geral', valor: 'geral' },
-    { label: 'Domestico', valor: 'domestico' },
-    { label: 'Indeterminante', valor: 'indeterminante' },
-    { label: 'Aprendiz', valor: 'aprendiz' },
-    { label: 'Avulso', valor: 'avulso' },
-    { label: 'Publico', valor: 'publico' },
+    { valor: '01', label: '01 - Empregado' },
+    { valor: '02', label: '02 - Trabalhador avulso' },
+    { valor: '03', label: '03 - Trabalhador nao vinculado ao RGPS, mas com direito ao FGTS' },
+    {
+      valor: '04',
+      label:
+        '04 - Empregado sob contrato de trabalho por prazo determinado - Lei n° 9.601/98, com as alterações da Medida Provisória n° 2.164-41, de 24/08/2001',
+    },
+    {
+      valor: '05',
+      label:
+        '05 - Contribuinte individual - Diretor nao empregado com FGTS – Lei nº 8.036/90, art. 16',
+    },
+    { valor: '06', label: '06 - Empregado Doméstico' },
+    { valor: '07', label: '07 - Menor aprendiz - Lei n°10.097/2000' },
+    {
+      valor: '11',
+      label: '11 - Contribuinte Individual - Diretor nao empregado e demais empresários sem FGTS',
+    },
+    { valor: '12', label: '12 - Demais Agentes Públicos' },
+    {
+      valor: '13',
+      label:
+        '13 - Contribuinte individual – Trabalhador autônomo ou a este equiparado, inclusive o operador de máquina, com contribuição sobre remuneração; trabalhador associado àcooperativa de produção.',
+    },
+    {
+      valor: '14',
+      label:
+        '14 Contribuinte individual – Trabalhador autônomo ou a este equiparado, inclusive o operador de máquina, com contribuição sobre salário-base.',
+    },
+    {
+      valor: '15',
+      label:
+        '15 Contribuinte individual – Transportador autônomo, com contribuição sobre remuneração.',
+    },
+    {
+      valor: '16',
+      label:
+        '16 Contribuinte individual – Transportador autônomo, com contribuição sobre salário-base.',
+    },
+    {
+      valor: '17',
+      label:
+        '17 Contribuinte individual – Cooperado que presta serviços a empresas contratantes da cooperativa de trabalho.',
+    },
+    {
+      valor: '18',
+      label:
+        '18 Contribuinte Individual – Transportador cooperado que presta serviços a empresas contratantes da cooperativa de trabalho.',
+    },
+    { valor: '19', label: '19 Agente Político.' },
+    {
+      valor: '20',
+      label:
+        '20 Servidor Público ocupante, exclusivamente, de cargo em comissão e, Servidor Público ocupante de cargo temporário.',
+    },
+    {
+      valor: '21',
+      label:
+        '21 Servidor Público titular de cargo efetivo, magistrado, membro do Ministério Público e do Tribunal e Conselho de Contas.',
+    },
+    {
+      valor: '22',
+      label:
+        '22 Contribuinte individual – contratado por outro contribuinte individual equiparado a empresa ou por produtor rural pessoa física ou por missão diplomática e repartição consular de carreira estrangeiras.',
+    },
+    {
+      valor: '23',
+      label:
+        '23 Contribuinte individual – transportador autônomo contratado por outro contribuinte individual equiparado à empresa ou por produtor rural pessoa física ou por missão diplomática e repartição consular de carreira estrangeiras.',
+    },
+    {
+      valor: '24',
+      label:
+        '24 Contribuinte individual – Cooperado que presta serviços a entidade beneficente de assistência social isenta da cota patronal ou a pessoa física, por intermédio da cooperativa de trabalho.',
+    },
+    {
+      valor: '25',
+      label:
+        '25 Contribuinte individual – Transportador cooperado que presta serviços a entidade beneficente de assistência social isenta da cota patronal ou a pessoa física, por intermédio da cooperativa de trabalho.',
+    },
+    {
+      valor: '26',
+      label:
+        '26 Dirigente sindical, em relação ao adic. pago pelo sindicato; magistrado classista temporário da Justiça do Trabalho; magistrado dos Tribunais Eleitorais, quando, nas 3 situações, for mantida a qualidade de seg empregado (sem FGTS)',
+    },
   ]);
   tipoContratoSelect = signal([
     { label: 'Outro', valor: 'outro' },
@@ -649,5 +819,41 @@ export class FuncionarioForm {
     { label: 'Corrente', valor: 'corrente' },
     { label: 'Poupanca', valor: 'poupanca' },
     { label: 'Salario', valor: 'salario' },
+  ]);
+
+  ocorrenciaSelect = signal([
+    { valor: '01', label: '01 - Não exposição a agente nocivo' },
+    {
+      valor: '02',
+      label: '02 - Exposição a agente nocivo (aposentadoria especial aos 15 anos de trabalho)',
+    },
+    {
+      valor: '03',
+      label: '03 - Exposição a agente nocivo (aposentadoria especial 20 anos de trabalho)',
+    },
+    {
+      valor: '04',
+      label: '04 - Exposição a agente nocivo (aposentadoria especial 25 anos de trabalho)',
+    },
+    {
+      valor: '05',
+      label:
+        '05 - Mais de um vínculo empregatício (ou fonte pagadora) - Não exposição a agente nocivo',
+    },
+    {
+      valor: '06',
+      label:
+        '06 - Mais de um vínculo empregatício (ou fonte pagadora) - Exposição a agente nocivo (aposentadoria especial aos 15 anos de trabalho)',
+    },
+    {
+      valor: '07',
+      label:
+        '07 - Mais de um vínculo empregatício (ou fonte pagadora) - Exposição a agente nocivo (aposentadoria especial aos 20 anos de trabalho)',
+    },
+    {
+      valor: '08',
+      label:
+        '08 - Mais de um vínculo empregatício (ou fonte pagadora) - Exposição a agente nocivo (aposentadoria especial aos 25 anos de trabalho)',
+    },
   ]);
 }
