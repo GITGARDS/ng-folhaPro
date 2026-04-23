@@ -4,12 +4,12 @@ import { FuncionarioModel } from "../models/funcionario";
 import { FuncionarioService } from "../services/funcionario.service";
 
 type FuncionarioState = {
-  funcionarios: FuncionarioModel[];
+  list: FuncionarioModel[];
   isLoading: boolean;
 };
 
 const initialState: FuncionarioState = {
-  funcionarios: [],
+  list: [],
   isLoading: false,
 };
 
@@ -18,10 +18,10 @@ export const FuncionarioStore = signalStore(
     providedIn: 'root',
   },
   withState(initialState),
-  withComputed(({ funcionarios }) => ({
-    totalfuncionariosAtivos: computed(() => funcionarios().filter((f) => f.ativo)),
+  withComputed(({ list }) => ({
+    totalfuncionariosAtivos: computed(() => list().filter((f) => f.ativo)),
     totalSalarioBase: computed(() =>
-      funcionarios().reduce(
+      list().reduce(
         (acc, f) => (f.salarioBase && f.ativo ? acc + Number(f.salarioBase) : acc + 0),
         0,
       ),
@@ -30,15 +30,15 @@ export const FuncionarioStore = signalStore(
 
   withMethods((store, funcionarioService = inject(FuncionarioService)) => ({
     async carregaLista() {
-      if (store.funcionarios.length > 0 ) return;
+      if (store.list.length > 0 ) return;
       await new Promise((resolve) => setTimeout(resolve, 200));
       patchState(store, { isLoading: true });
       funcionarioService.findAll().subscribe({
-        next: (funcionarios) => {
-          console.log('findall', funcionarios);
+        next: (list) => {
+          console.log('findall', list);
           patchState(store, (state) => ({
             ...state,
-            funcionarios,
+            list,
             isLoading: false,
           }));
         },
@@ -50,18 +50,18 @@ export const FuncionarioStore = signalStore(
       const id = await funcionarioService.create(param);
       patchState(store, (state) => ({
         ...state,
-        funcionarios: [...state.funcionarios, { ...param, id }],
+        list: [...state.list, { ...param, id }],
         isLoading: false,
       }));
     }),
 
-    updateById: signalMethod(async (params: { id: string; funcionario: FuncionarioModel }) => {
+    updateById: signalMethod(async (params: { id: string; data: FuncionarioModel }) => {
       patchState(store, { isLoading: true });
-      await funcionarioService.updateById(params.id, params.funcionario);
+      await funcionarioService.updateById(params.id, params.data);
       patchState(store, (state) => ({
         ...state,
-        funcionarios: state.funcionarios.map((f) =>
-          f.id === params.id ? { ...f, ...params.funcionario } : f,
+        list: state.list.map((f) =>
+          f.id === params.id ? { ...f, ...params.data } : f,
         ),
         isLoading: false,
       }));
@@ -72,7 +72,7 @@ export const FuncionarioStore = signalStore(
       await funcionarioService.deleteById(id.toString());
       patchState(store, (state) => ({
         ...state,
-        funcionarios: state.funcionarios.filter((f) => f.id !== id),
+        list: state.list.filter((f) => f.id !== id),
         isLoading: false,
       }));
     }),

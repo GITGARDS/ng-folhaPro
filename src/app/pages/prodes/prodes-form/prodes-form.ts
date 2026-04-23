@@ -36,12 +36,16 @@ import { MatTabsModule } from "@angular/material/tabs";
     MatRadioModule,
   ],
   template: `
-    <div mat-dialog-title align="center" class="!flex flex-col border-b">
-        {{ formOpcao() === 'new' ? 'Novo' : ('Editar' | uppercase) }}
-        <span class="text-[12px] text-blue-800">
+    <section class="w-full border-b bg-emerald-400 text-shadow-sm p-2">
+      <div class="flex flex-col justify-center items-center">
+        <h1 class="text-3xl font-bold text-white">
+          {{ formOpcao() === 'new' ? 'Novo' : ('Editar' | uppercase) }}
+        </h1>
+        <span class="text-[12px] text-white text-inset">
           {{ dataForm.value.codigo }}-{{ dataForm.value.descricao }}
         </span>
-    </div>
+      </div>
+    </section>
 
     <mat-dialog-content class="mat-typography">
       <form [formGroup]="dataForm">
@@ -139,8 +143,8 @@ export class ProdesForm {
   formOpcao = signal<string>('');
 
   ngOnInit() {
-    const { prodes } = this.data;
-    this.dataForm.patchValue(prodes);
+    const { data } = this.data;
+    this.dataForm.patchValue(data);
     this.dataForm.markAllAsTouched();
     this.dataForm.markAsDirty();
     this.formOpcao.set(this.data.opcao);

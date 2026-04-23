@@ -185,7 +185,7 @@ export class FuncionarioList {
 
   funcionarioStore = inject(FuncionarioStore);
   dataSource: MatTableDataSource<FuncionarioModel> = new MatTableDataSource<FuncionarioModel>(
-    this.funcionarioStore.funcionarios(),
+    this.funcionarioStore.list(),
   );
   displayedColumns: string[] = ['id', 'nome', 'salarioBase', 'dataAdmissao', 'ativo', 'actions'];
 
@@ -203,7 +203,7 @@ export class FuncionarioList {
   constructor() {
     this.funcionarioStore.carregaLista();
     effect(() => {
-      this.dataSource = new MatTableDataSource(this.funcionarioStore.funcionarios());
+      this.dataSource = new MatTableDataSource(this.funcionarioStore.list());
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -216,7 +216,7 @@ export class FuncionarioList {
   readonly dialog = inject(MatDialog);
 
   onCreate() {
-    const ultimoFuncionario = this.funcionarioStore.funcionarios().length + 1;
+    const ultimoFuncionario = this.funcionarioStore.list().length + 1;
     const novo: Partial<FuncionarioModel> = {
       nome: `Funcionario ${ultimoFuncionario}`,
       dataNascimento: new Date().toISOString().split('T')[0],
@@ -249,7 +249,7 @@ export class FuncionarioList {
       height: '750px',
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '300ms',
-      data: { opcao, funcionario: data },
+      data: { opcao, data },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) {
@@ -262,7 +262,7 @@ export class FuncionarioList {
         case 'update':
           this.funcionarioStore.updateById({
             id: data.id as string,
-            funcionario: result as FuncionarioModel,
+            data: result as FuncionarioModel,
           });
           break;
       }

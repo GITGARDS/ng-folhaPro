@@ -36,9 +36,16 @@ import { NgxMaskDirective } from "ngx-mask";
     MatStepperModule,
   ],
   template: `
-    <h1 mat-dialog-title align="center" class="border-b">
-      {{ formOpcao() === 'new' ? 'Novo' : ('Editar' | uppercase) }}
-    </h1>
+    <section class="w-full border-b bg-emerald-400 text-shadow-sm p-2">
+      <div class="flex flex-col justify-center items-center">
+        <h1 class="text-3xl font-bold text-white">
+          {{ formOpcao() === 'new' ? 'Novo' : ('Editar' | uppercase) }}
+        </h1>
+        <span class="text-[12px] text-white text-inset">
+          {{ dataForm.value.nome }}
+        </span>
+      </div>
+    </section>
 
     <mat-dialog-content class="mat-typography">
       <form [formGroup]="dataForm">
@@ -543,8 +550,8 @@ export class FuncionarioForm {
   formOpcao = signal<string>('');
 
   ngOnInit() {
-    const { funcionario } = this.data;
-    this.dataForm.patchValue(funcionario);
+    const { data } = this.data;
+    this.dataForm.patchValue(data);
     this.dataForm.markAllAsTouched();
     this.dataForm.markAsDirty();
     this.formOpcao.set(this.data.opcao);

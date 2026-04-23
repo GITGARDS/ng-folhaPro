@@ -4,12 +4,12 @@ import { ProdesModel } from "../models/prodes";
 import { ProdesService } from "../services/prodes.service";
 
 type ProdesState = {
-  listProdes: ProdesModel[];
+  list: ProdesModel[];
   isLoading: boolean;
 };
 
 const initialState: ProdesState = {
-  listProdes: [],
+  list: [],
   isLoading: false,
 };
 
@@ -18,21 +18,21 @@ export const ProdesStore = signalStore(
     providedIn: 'root',
   },
   withState(initialState),
-  withComputed(({ listProdes }) => ({
-    totalProdesAtivos: computed(() => listProdes().filter((f) => f.ativo)),
+  withComputed(({ list }) => ({
+    totalProdesAtivos: computed(() => list().filter((f) => f.ativo)),
   })),
 
   withMethods((store, prodesService = inject(ProdesService)) => ({
     async carregaLista() {
-      if (store.listProdes.length > 0 ) return;
+      if (store.list.length > 0 ) return;
       await new Promise((resolve) => setTimeout(resolve, 200));
       patchState(store, { isLoading: true });
       prodesService.findAll().subscribe({
-        next: (listProdes) => {
-          console.log('findall', listProdes);
+        next: (list) => {
+          console.log('findall', list);
           patchState(store, (state) => ({
             ...state,
-            listProdes,
+            list,
             isLoading: false,
           }));
         },
@@ -44,18 +44,18 @@ export const ProdesStore = signalStore(
       const id = await prodesService.create(param);
       patchState(store, (state) => ({
         ...state,
-        prodess: [...state.listProdes, { ...param, id }],
+        list: [...state.list, { ...param, id }],
         isLoading: false,
       }));
     }),
 
-    updateById: signalMethod(async (params: { id: string; prodes: ProdesModel }) => {
+    updateById: signalMethod(async (params: { id: string; data: ProdesModel }) => {
       patchState(store, { isLoading: true });
-      await prodesService.updateById(params.id, params.prodes);
+      await prodesService.updateById(params.id, params.data);
       patchState(store, (state) => ({
         ...state,
-        prodess: state.listProdes.map((f) =>
-          f.id === params.id ? { ...f, ...params.prodes } : f,
+        list: state.list.map((f) =>
+          f.id === params.id ? { ...f, ...params.data } : f,
         ),
         isLoading: false,
       }));
@@ -66,7 +66,7 @@ export const ProdesStore = signalStore(
       await prodesService.deleteById(id.toString());
       patchState(store, (state) => ({
         ...state,
-        prodess: state.listProdes.filter((f) => f.id !== id),
+        list: state.list.filter((f) => f.id !== id),
         isLoading: false,
       }));
     }),

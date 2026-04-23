@@ -179,7 +179,7 @@ import { ProdesForm } from "../prodes-form/prodes-form";
 export class ProdesList {
   prodesStore = inject(ProdesStore);
   dataSource: MatTableDataSource<ProdesModel> = new MatTableDataSource<ProdesModel>(
-    this.prodesStore.listProdes(),
+    this.prodesStore.list(),
   );
   displayedColumns: string[] = [
     // 'id',
@@ -198,7 +198,7 @@ export class ProdesList {
   constructor() {
     this.prodesStore.carregaLista();
     effect(() => {
-      this.dataSource = new MatTableDataSource(this.prodesStore.listProdes());
+      this.dataSource = new MatTableDataSource(this.prodesStore.list());
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -211,7 +211,7 @@ export class ProdesList {
   readonly dialog = inject(MatDialog);
 
   onCreate() {
-    const ultimoProdes = this.prodesStore.listProdes().length + 1;
+    const ultimoProdes = this.prodesStore.list().length + 1;
 
     const novo: Partial<ProdesModel> = {
       codigo: `P${ultimoProdes}`,
@@ -232,7 +232,7 @@ export class ProdesList {
     const dialogRef = this.dialog.open(ProdesForm, {
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '300ms',
-      data: { opcao, prodes: data },
+      data: { opcao, data },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) {
@@ -245,7 +245,7 @@ export class ProdesList {
         case 'update':
           this.prodesStore.updateById({
             id: data.id as string,
-            prodes: result as ProdesModel,
+            data: result as ProdesModel,
           });
           break;
       }
