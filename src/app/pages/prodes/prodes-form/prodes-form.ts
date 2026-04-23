@@ -51,14 +51,14 @@ import { MatTabsModule } from "@angular/material/tabs";
       <form [formGroup]="dataForm">
         <div class="mt-2">
           <div class="grid grid-cols-6 gap-2">
-            <mat-form-field class="col-span-2" [appearance]="formAparence">
+            <mat-form-field class="col-span-4" [appearance]="formAparence">
               <mat-label>Id</mat-label>
               <input matInput formControlName="id" />
             </mat-form-field>
           </div>
 
           <div class="grid grid-cols-6 gap-2">
-            <mat-form-field class="col-span-2" [appearance]="formAparence">
+            <mat-form-field class="col-span-4" [appearance]="formAparence">
               <mat-label>Codigo</mat-label>
               <input matInput [readonly]="formOpcao() === 'update'" formControlName="codigo" />
               <mat-icon matPrefix>123</mat-icon>
