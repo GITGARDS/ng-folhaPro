@@ -1,19 +1,14 @@
-import { CurrencyPipe, TitleCasePipe } from "@angular/common";
+import { CurrencyPipe } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { IsLoading } from "../../app/components/is-loading";
 import { MiniCard } from "../../app/components/mini-card";
+import { Title } from "../../app/components/title";
 import { FuncionarioStore } from "../../store/funcionario.store";
 import { FuncionarioList } from "./funcionario-list/funcionario-list";
 
 @Component({
   selector: 'app-funcionario',
-  imports: [
-    TitleCasePipe,
-    FuncionarioList,
-    IsLoading,
-    MiniCard,
-    CurrencyPipe
-  ],
+  imports: [FuncionarioList, IsLoading, MiniCard, CurrencyPipe, Title],
   template: `
     <div class="grid grid-cols-6 gap-2">
       <section class="hidden lg:flex lg:col-span-1 justify-center">
@@ -27,7 +22,7 @@ import { FuncionarioList } from "./funcionario-list/funcionario-list";
           <app-is-loading [isLoading]="funcionarioStore.isLoading()" />
 
           <div class="flex flex-col gap-2">
-            <h1 class="text-3xl">{{ title | titlecase }}</h1>
+            <app-title [icone]="'people'" [title]="title" />
 
             <div class="flex flex-wrap gap-2 py-2">
               <app-mini-card [icone]="'person_add'" [title]="'ativos'" [appearance]="'filled'">
@@ -46,7 +41,7 @@ import { FuncionarioList } from "./funcionario-list/funcionario-list";
                 </ng-container>
               </app-mini-card>
             </div>
-            
+
             <app-funcionario-list />
           </div>
         </div>

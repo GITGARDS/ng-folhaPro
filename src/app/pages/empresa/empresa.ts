@@ -1,20 +1,15 @@
-import { CommonModule, TitleCasePipe } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { IsLoading } from "../../app/components/is-loading";
 import { MiniCard } from "../../app/components/mini-card";
+import { Title } from "../../app/components/title";
 import { EmpresaStore } from "../../store/empresa.store";
 import { FuncionarioStore } from "../../store/funcionario.store";
 import { EmpresaList } from "./empresa-list/empresa-list";
 
 @Component({
   selector: 'app-empresa',
-  imports: [
-    TitleCasePipe,
-    EmpresaList,
-    CommonModule,
-    IsLoading,
-    MiniCard
-  ],
+  imports: [EmpresaList, CommonModule, IsLoading, MiniCard, Title],
   template: `
     <div class="grid grid-cols-6 gap-2">
       <section class="hidden lg:flex lg:col-span-1 justify-center">
@@ -27,10 +22,14 @@ import { EmpresaList } from "./empresa-list/empresa-list";
         <div class="relative p-2">
           <app-is-loading [isLoading]="empresaStore.isLoading()" />
           <div class="flex flex-col gap-2">
-            <h1 class="text-3xl">{{ title | titlecase }}</h1>
+            <app-title [icone]="'business'" [title]="title" />
 
             <div class="flex flex-wrap gap-2 py-2">
-              <app-mini-card [icone]="'person_add'" [title]="'funcionarios ativos'" [appearance]="'filled'">
+              <app-mini-card
+                [icone]="'person_add'"
+                [title]="'funcionarios ativos'"
+                [appearance]="'filled'"
+              >
                 <ng-container>
                   <span>
                     {{ this.funcionarioStore.totalfuncionariosAtivos().length }}
