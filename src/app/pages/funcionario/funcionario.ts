@@ -1,14 +1,19 @@
-import { CommonModule, CurrencyPipe, TitleCasePipe } from "@angular/common";
+import { CurrencyPipe, TitleCasePipe } from "@angular/common";
 import { Component, inject } from "@angular/core";
-import { MatChipsModule } from "@angular/material/chips";
-import { MatIcon } from "@angular/material/icon";
 import { IsLoading } from "../../app/components/is-loading";
+import { MiniCard } from "../../app/components/mini-card";
 import { FuncionarioStore } from "../../store/funcionario.store";
 import { FuncionarioList } from "./funcionario-list/funcionario-list";
 
 @Component({
   selector: 'app-funcionario',
-  imports: [TitleCasePipe, FuncionarioList, CommonModule, CurrencyPipe, IsLoading, MatChipsModule, MatIcon],
+  imports: [
+    TitleCasePipe,
+    FuncionarioList,
+    IsLoading,
+    MiniCard,
+    CurrencyPipe
+  ],
   template: `
     <div class="grid grid-cols-6 gap-2">
       <section class="hidden lg:flex lg:col-span-1 justify-center">
@@ -18,30 +23,30 @@ import { FuncionarioList } from "./funcionario-list/funcionario-list";
       </section>
 
       <section class="col-span-6 lg:col-span-4">
-        <div class="p-2 border-2 border-gray-300 rounded-2xl relative">
+        <div class="relative p-2">
           <app-is-loading [isLoading]="funcionarioStore.isLoading()" />
 
           <div class="flex flex-col gap-2">
-            <h1 class="text-2xl">{{ title | titlecase }}</h1>
+            <h1 class="text-3xl">{{ title | titlecase }}</h1>
 
-            <mat-chip-set>
-              <mat-chip class="!bg-[var(--mat-sys-primary)]">
-                <div class="flex items-center gap-2">
-                  <mat-icon class="!text-[var(--mat-sys-primary-container)]">people</mat-icon>
-                  <span class="!text-[var(--mat-sys-primary-container)]">
-                    {{ this.funcionarioStore.totalfuncionariosAtivos().length }} Ativos
+            <div class="flex flex-wrap gap-2 py-2">
+              <app-mini-card [icone]="'person_add'" [title]="'ativos'" [appearance]="'filled'">
+                <ng-container>
+                  <span>
+                    {{ this.funcionarioStore.totalfuncionariosAtivos().length }}
                   </span>
-                </div>
-              </mat-chip>
-              <mat-chip class="!bg-[var(--mat-sys-primary)]">
-                <div class="flex items-center gap-2">
-                  <mat-icon class="!text-[var(--mat-sys-primary-container)]">outlet</mat-icon>
-                  <span class="!text-[var(--mat-sys-primary-container)]">
-                    Salario {{ this.funcionarioStore.totalSalarioBase() | currency: 'BRL' }} 
+                </ng-container>
+              </app-mini-card>
+
+              <app-mini-card [icone]="'attach_money'" [title]="'salarios'" [appearance]="'filled'">
+                <ng-container>
+                  <span>
+                    {{ this.funcionarioStore.totalSalarioBase() | currency: 'BRL' }}
                   </span>
-                </div>
-              </mat-chip>
-            </mat-chip-set>
+                </ng-container>
+              </app-mini-card>
+            </div>
+            
             <app-funcionario-list />
           </div>
         </div>

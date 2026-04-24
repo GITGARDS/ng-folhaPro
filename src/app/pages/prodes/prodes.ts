@@ -1,14 +1,13 @@
 import { CommonModule, TitleCasePipe } from "@angular/common";
 import { Component, inject } from "@angular/core";
-import { MatChipsModule } from "@angular/material/chips";
-import { MatIcon } from "@angular/material/icon";
 import { IsLoading } from "../../app/components/is-loading";
+import { MiniCard } from "../../app/components/mini-card";
 import { ProdesStore } from "../../store/prodes.store";
 import { ProdesList } from "./prodes-list/prodes-list";
 
 @Component({
   selector: 'app-prodes',
-  imports: [TitleCasePipe, ProdesList, CommonModule, IsLoading, MatChipsModule, MatIcon],
+  imports: [ProdesList, CommonModule, IsLoading, MiniCard, TitleCasePipe],
   template: `
     <div class="grid grid-cols-6 gap-2">
       <section class="hidden lg:flex lg:col-span-1 justify-center">
@@ -18,29 +17,28 @@ import { ProdesList } from "./prodes-list/prodes-list";
       </section>
 
       <section class="col-span-6 lg:col-span-4">
-        <div class="p-2 border-2 border-gray-300 rounded-2xl relative">
+        <div class="relative p-2">
           <app-is-loading [isLoading]="prodesStore.isLoading()" />
 
           <div class="flex flex-col gap-2">
             <h1 class="text-2xl">{{ title | titlecase }}</h1>
 
-            <mat-chip-set>
-              <mat-chip class="!bg-[var(--mat-sys-primary)]">
-                <div class="flex items-center gap-2">
-                  <mat-icon class="!text-[var(--mat-sys-primary-container)]">people</mat-icon>
-                  <span class="!text-[var(--mat-sys-primary-container)]">
-                    {{ this.prodesStore.totalProdesAtivos().length }} Ativos
+            <div class="flex flex-wrap gap-2 py-2">
+              <app-mini-card [icone]="'person_add'" [title]="'ativos'" [appearance]="'filled'">
+                <ng-container>
+                  <span>
+                    {{ this.prodesStore.totalProdesAtivos().length }}
                   </span>
-                </div>
-              </mat-chip>
-            </mat-chip-set>
+                </ng-container>
+              </app-mini-card>
+            </div>
+
             <app-prodes-list />
           </div>
         </div>
       </section>
       <section class="hidden lg:flex lg:col-span-1 justify-center"></section>
     </div>
-
   `,
   styles: ``,
 })
