@@ -3,12 +3,12 @@ import { Component, ViewChild, effect, inject } from "@angular/core";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatCard } from "@angular/material/card";
 import { MatDialog } from "@angular/material/dialog";
-import { MatIcon } from "@angular/material/icon";
-import { MatFormField, MatInputModule, MatLabel } from "@angular/material/input";
-import { MatPaginator } from "@angular/material/paginator";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { MatTooltip } from "@angular/material/tooltip";
 import { FuncionarioModel } from "../../../models/funcionario";
 import { FuncionarioStore } from "../../../store/funcionario.store";
 import { FuncionarioForm } from "../funcionario-form/funcionario-form";
@@ -17,77 +17,83 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
   selector: 'app-funcionario-list',
   imports: [
     MatTableModule,
-    MatIconButton,
-    MatIcon,
-    MatFormField,
-    MatLabel,
-    MatInputModule,
-    MatTooltip,
-    MatPaginator,
-    MatCard,
+    MatPaginatorModule,
     MatSortModule,
+    MatIconModule,
+    MatIconButton,
+    MatMenuModule,
     CurrencyPipe,
     DatePipe,
     MatButton,
+    MatInputModule,
+    MatInputModule,
+    MatCard,
   ],
+
   template: `
     <div class="flex flex-col gap-2">
-      <section class="grid grid-cols-6 gap-2">
-        <mat-form-field class="col-span-6 md:col-span-3">
-          <mat-label>Filtro</mat-label>
-          <mat-icon matPrefix>filter_alt</mat-icon>
-          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
-        </mat-form-field>
-      </section>
-
       <section>
-        <button matButton="filled" (click)="onCreate()" matTooltip="Adicionar um novo registro">
-          <mat-icon>add</mat-icon>
-          <span>Novo</span>
-        </button>
+        <div class="flex flex-wrap items-center gap-2">
+          <button matButton="tonal" (click)="onCreate()" matTooltip="Adicionar um novo registro">
+            <mat-icon>add</mat-icon>
+            <span>Novo</span>
+          </button>
+          <div
+            class="w-full sm:w-auto flex gap-2 p-2 border-2 border-blue-100 rounded-full bg-[var(--mat-sys-primary-container)]"
+          >
+            <div class="flex items-center">
+              <mat-icon class="!text-[var(--mat-sys-primary)]">filter_alt</mat-icon>
+            </div>
+            <div>
+              <input class="p-2 border-none outline-0 text-lg" (keyup)="applyFilter($event)" />
+            </div>
+          </div>
+        </div>
       </section>
 
       <section>
         <mat-card appearance="raised" class="overflow-hidden">
           <div class="h-[500px] overflow-auto">
-            <table mat-table matSort [dataSource]="dataSource">
+            <table mat-table [dataSource]="dataSource" matSort aria-label="Elements">
               <!-- Id Column -->
               <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
                 <td mat-cell *matCellDef="let row">{{ row.id }}</td>
-                <!-- <td mat-footer-cell *matFooterCellDef>Total</td> -->
               </ng-container>
 
               <!-- Nome Column -->
               <ng-container matColumnDef="nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
                 <td mat-cell *matCellDef="let row">
-                  <div class="flex gap-2">
-                    <span
-                      class="w-8 h-8 rounded-full flex items-center justify-center text-lg  text-white bg-em"
+                  <div class="flex items-center gap-2">
+                    <div
+                      class="w-8 h-8 rounded-full flex items-center justify-center text-lg text-white"
                       [style.background-color]="onGetColor(row.id.charAt(0))"
                     >
-                      {{ row.nome.charAt(0) }}
-                    </span>
+                      <p class="font-bold p-4">
+                        {{ row.nome.charAt(0) }}
+                      </p>
+                    </div>
+
                     <span class="flex items-center">
                       {{ row.nome }}
                     </span>
                   </div>
                 </td>
               </ng-container>
+
               <!-- Salario Base Column -->
               <ng-container matColumnDef="salarioBase">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Salario</th>
                 <td mat-cell *matCellDef="let row">{{ row.salarioBase | currency: 'BRL' }}</td>
-                <td mat-footer-cell *matFooterCellDef>
-                  {{ getTotalSalarioBase() | currency: 'BRL' }}
-                </td>
               </ng-container>
+
               <!-- Data Admissao Column -->
               <ng-container matColumnDef="dataAdmissao">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Admissao</th>
                 <td mat-cell *matCellDef="let row">{{ row.dataAdmissao | date: 'dd/MM/yyyy' }}</td>
               </ng-container>
+
               <!-- Status Column -->
               <ng-container matColumnDef="ativo">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Ativo</th>
@@ -101,86 +107,80 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
                     }}</mat-icon>
                   </div>
                 </td>
-                <td mat-footer-cel *matFooterCellDef>
-                  {{ getTotalfuncionariosAtivos() }}
-                </td>
               </ng-container>
+
               <!-- Actions Column -->
               <ng-container matColumnDef="actions" stickyEnd>
-                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-icon>menu</mat-icon>
+                </th>
                 <td mat-cell *matCellDef="let row">
                   <button
-                    mat-icon-button
-                    (click)="onFindById(row.id)"
-                    matTooltip="Visualizar registro"
+                    matIconButton
+                    [matMenuTriggerFor]="menu"
+                    aria-label="Example icon-button with a menu"
                   >
-                    <mat-icon>search</mat-icon>
+                    <mat-icon>more_vert</mat-icon>
                   </button>
-                  <button mat-icon-button (click)="onUpdateById(row)" matTooltip="Editar registro">
-                    <mat-icon>edit</mat-icon>
-                  </button>
-                  <button
-                    mat-icon-button
-                    (click)="onDeleteById(row.id)"
-                    matTooltip="Excluir registro"
-                  >
-                    <mat-icon>delete</mat-icon>
-                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button
+                      mat-menu-item
+                      (click)="onFindById(row.id)"
+                      matTooltip="Visualizar registro"
+                    >
+                      <mat-icon>search</mat-icon>
+                      <span>Visualizar</span>
+                    </button>
+                    <button mat-menu-item (click)="onUpdateById(row)" matTooltip="Editar registro">
+                      <mat-icon>edit</mat-icon>
+                      <span>Editar</span>
+                    </button>
+                    <button
+                      mat-menu-item
+                      (click)="onDeleteById(row.id)"
+                      matTooltip="Excluir registro"
+                    >
+                      <mat-icon>delete</mat-icon>
+                      <span>Excluir</span>
+                    </button>
+                  </mat-menu>
                 </td>
               </ng-container>
 
-              <tr
-                class="!bg-gray-200 flex flex-col !h-auto md:table-row md:!h-10"
-                mat-header-row
-                *matHeaderRowDef="displayedColumns; sticky: true"
-              ></tr>
-              <tr
-                mat-row
-                *matRowDef="let row; columns: displayedColumns"
-                class="hover:!bg-gray-100 flex flex-col !h-auto md:table-row"
-              >
-                >
-              </tr>
-              <!-- <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr> -->
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             </table>
           </div>
         </mat-card>
       </section>
       <section>
         <mat-paginator
-          class="rounded-2xl shadow-sm"
-          [pageSize]="10"
-          [pageSizeOptions]="[5, 10, 25, 100]"
+          #paginator
+          [pageSize]="5"
+          [pageSizeOptions]="[5, 10, 20]"
           aria-label="Select page"
         >
         </mat-paginator>
       </section>
     </div>
   `,
-
   styles: `
-    /* .mat-column-actions {
-      background-color: gray !important;
-    } */
+    .full-width-table {
+      width: 100%;
+    }
   `,
 })
 export class FuncionarioList {
   funcionarioStore = inject(FuncionarioStore);
-  dataSource: MatTableDataSource<FuncionarioModel> = new MatTableDataSource<FuncionarioModel>(
-    this.funcionarioStore.list(),
-  );
-  displayedColumns: string[] = ['id', 'nome', 'salarioBase', 'dataAdmissao', 'ativo', 'actions'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  dataSource: MatTableDataSource<FuncionarioModel> = new MatTableDataSource<FuncionarioModel>(
+    this.funcionarioStore.list(),
+  );
 
-  getTotalSalarioBase() {
-    return this.funcionarioStore.totalSalarioBase();
-  }
-
-  getTotalfuncionariosAtivos() {
-    return this.funcionarioStore.totalfuncionariosAtivos().length;
-  }
+  /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
+  displayedColumns: string[] = ['id', 'nome', 'salarioBase', 'dataAdmissao', 'ativo', 'actions'];
 
   constructor() {
     this.funcionarioStore.carregaLista();
