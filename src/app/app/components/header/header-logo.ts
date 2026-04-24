@@ -17,18 +17,18 @@ import { NavigationService } from "../../../services/navigation.service";
         matIconButton
         (click)="navigationService.menuShow.set(!navigationService.menuShow())"
       >
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        <mat-icon aria-label="Side nav toggle icon" class="!text-[var(--mat-sys-primary)]">menu</mat-icon>
       </button>
-      <div class="flex items-center gap-1">
-        <span
-          class="p-2 rounded-full border"
-          >FP</span
-        >
+
+      <div class="flex items-center gap-2">
+        <div class="h-8 w-8 flex items-center justify-center rounded-full bg-[var(--mat-sys-primary)]">
+          <p class="font-bold text-lg text-[var(--mat-sys-primary-container)]">FP</p>
+        </div>
         @if (isHandset$ | async) {
         } @else {
-          <span>FolhaPro</span>
+          <span class="font-bold text-[var(--mat-sys-primary)] text-sm">FolhaPro</span>
         }
-      </div>
+      </div>        
     </div>
   `,
   styles: ``,

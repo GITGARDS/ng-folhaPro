@@ -7,7 +7,7 @@ import { HeaderLogo } from "./header-logo";
   selector: 'app-header',
   imports: [MatToolbar, HeaderLogo, HeaderAuth],
   template: `
-    <mat-toolbar class="flex justify-between">
+    <mat-toolbar class="flex justify-between !bg-[#d7e3ff]">
       <app-header-logo />
       <app-header-auth />
     </mat-toolbar>

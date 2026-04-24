@@ -31,129 +31,131 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
     MatButton,
   ],
   template: `
-    <section class="py-2 grid grid-cols-6 gap-2">
-      <mat-form-field class="col-span-6 md:col-span-3">
-        <mat-label>Filtro</mat-label>
-        <mat-icon matPrefix>filter_alt</mat-icon>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
-      </mat-form-field>
-    </section>
+    <div class="flex flex-col gap-2">
+      <section class="grid grid-cols-6 gap-2">
+        <mat-form-field class="col-span-6 md:col-span-3">
+          <mat-label>Filtro</mat-label>
+          <mat-icon matPrefix>filter_alt</mat-icon>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
+        </mat-form-field>
+      </section>
 
-    <section class="py-2">
-      <button matButton="filled" (click)="onCreate()" matTooltip="Adicionar um novo registro">
-        <mat-icon>add</mat-icon>
-        <span class="ml-2">Novo</span>
-      </button>
-    </section>
+      <section>
+        <button matButton="filled" (click)="onCreate()" matTooltip="Adicionar um novo registro">
+          <mat-icon>add</mat-icon>
+          <span>Novo</span>
+        </button>
+      </section>
 
-    <section>
-      <mat-card appearance="raised" class="overflow-hidden">
-        <div class="h-[500px] overflow-auto">
-          <table mat-table matSort [dataSource]="dataSource">
-            <!-- Id Column -->
-            <ng-container matColumnDef="id">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-              <td mat-cell *matCellDef="let row">{{ row.id }}</td>
-              <!-- <td mat-footer-cell *matFooterCellDef>Total</td> -->
-            </ng-container>
+      <section>
+        <mat-card appearance="raised" class="overflow-hidden">
+          <div class="h-[500px] overflow-auto">
+            <table mat-table matSort [dataSource]="dataSource">
+              <!-- Id Column -->
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+                <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+                <!-- <td mat-footer-cell *matFooterCellDef>Total</td> -->
+              </ng-container>
 
-            <!-- Nome Column -->
-            <ng-container matColumnDef="nome">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
-              <td mat-cell *matCellDef="let row">
-                <div class="flex gap-2">
-                  <span
-                    class="w-8 h-8 rounded-full flex items-center justify-center text-lg  text-white bg-em"
-                    [style.background-color]="onGetColor(row.id.charAt(0))"
+              <!-- Nome Column -->
+              <ng-container matColumnDef="nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
+                <td mat-cell *matCellDef="let row">
+                  <div class="flex gap-2">
+                    <span
+                      class="w-8 h-8 rounded-full flex items-center justify-center text-lg  text-white bg-em"
+                      [style.background-color]="onGetColor(row.id.charAt(0))"
+                    >
+                      {{ row.nome.charAt(0) }}
+                    </span>
+                    <span class="flex items-center">
+                      {{ row.nome }}
+                    </span>
+                  </div>
+                </td>
+              </ng-container>
+              <!-- Salario Base Column -->
+              <ng-container matColumnDef="salarioBase">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Salario</th>
+                <td mat-cell *matCellDef="let row">{{ row.salarioBase | currency: 'BRL' }}</td>
+                <td mat-footer-cell *matFooterCellDef>
+                  {{ getTotalSalarioBase() | currency: 'BRL' }}
+                </td>
+              </ng-container>
+              <!-- Data Admissao Column -->
+              <ng-container matColumnDef="dataAdmissao">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Admissao</th>
+                <td mat-cell *matCellDef="let row">{{ row.dataAdmissao | date: 'dd/MM/yyyy' }}</td>
+              </ng-container>
+              <!-- Status Column -->
+              <ng-container matColumnDef="ativo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Ativo</th>
+                <td mat-cell *matCellDef="let row">
+                  <div
+                    [style.color]="row.ativo == false ? 'red' : 'black'"
+                    class="h-8 w-8 flex items-center justify-center"
                   >
-                    {{ row.nome.charAt(0) }}
-                  </span>
-                  <span class="flex items-center">
-                    {{ row.nome }}
-                  </span>
-                </div>
-              </td>
-            </ng-container>
-            <!-- Salario Base Column -->
-            <ng-container matColumnDef="salarioBase">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Salario</th>
-              <td mat-cell *matCellDef="let row">{{ row.salarioBase | currency: 'BRL' }}</td>
-              <td mat-footer-cell *matFooterCellDef>
-                {{ getTotalSalarioBase() | currency: 'BRL' }}
-              </td>
-            </ng-container>
-            <!-- Data Admissao Column -->
-            <ng-container matColumnDef="dataAdmissao">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Admissao</th>
-              <td mat-cell *matCellDef="let row">{{ row.dataAdmissao | date: 'dd/MM/yyyy' }}</td>
-            </ng-container>
-            <!-- Status Column -->
-            <ng-container matColumnDef="ativo">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Ativo</th>
-              <td mat-cell *matCellDef="let row">
-                <div
-                  [style.color]="row.ativo == false ? 'red' : 'black'"
-                  class="h-8 w-8 flex items-center justify-center"
-                >
-                  <mat-icon class="!font-bold !text-md ">{{
-                    row.ativo ? 'check' : 'close'
-                  }}</mat-icon>
-                </div>
-              </td>
-              <td mat-footer-cel *matFooterCellDef>
-                {{ getTotalfuncionariosAtivos() }}
-              </td>
-            </ng-container>
-            <!-- Actions Column -->
-            <ng-container matColumnDef="actions" stickyEnd>
-              <th mat-header-cell *matHeaderCellDef>Actions</th>
-              <td mat-cell *matCellDef="let row">
-                <button
-                  mat-icon-button
-                  (click)="onFindById(row.id)"
-                  matTooltip="Visualizar registro"
-                >
-                  <mat-icon>search</mat-icon>
-                </button>
-                <button mat-icon-button (click)="onUpdateById(row)" matTooltip="Editar registro">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button
-                  mat-icon-button
-                  (click)="onDeleteById(row.id)"
-                  matTooltip="Excluir registro"
-                >
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </td>
-            </ng-container>
+                    <mat-icon class="!font-bold !text-md ">{{
+                      row.ativo ? 'check' : 'close'
+                    }}</mat-icon>
+                  </div>
+                </td>
+                <td mat-footer-cel *matFooterCellDef>
+                  {{ getTotalfuncionariosAtivos() }}
+                </td>
+              </ng-container>
+              <!-- Actions Column -->
+              <ng-container matColumnDef="actions" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let row">
+                  <button
+                    mat-icon-button
+                    (click)="onFindById(row.id)"
+                    matTooltip="Visualizar registro"
+                  >
+                    <mat-icon>search</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="onUpdateById(row)" matTooltip="Editar registro">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    (click)="onDeleteById(row.id)"
+                    matTooltip="Excluir registro"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
 
-            <tr
-              class="!bg-gray-200 flex flex-col !h-auto md:table-row md:!h-10"
-              mat-header-row
-              *matHeaderRowDef="displayedColumns; sticky: true"
-            ></tr>
-            <tr
-              mat-row
-              *matRowDef="let row; columns: displayedColumns"
-              class="hover:!bg-gray-100 flex flex-col !h-auto md:table-row"
-            >
+              <tr
+                class="!bg-gray-200 flex flex-col !h-auto md:table-row md:!h-10"
+                mat-header-row
+                *matHeaderRowDef="displayedColumns; sticky: true"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: displayedColumns"
+                class="hover:!bg-gray-100 flex flex-col !h-auto md:table-row"
               >
-            </tr>
-            <!-- <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr> -->
-          </table>
-        </div>
-      </mat-card>
-    </section>
-    <section class="py-2">
-      <mat-paginator
-        class="py-2 rounded-2xl shadow-sm"
-        [pageSize]="10"
-        [pageSizeOptions]="[5, 10, 25, 100]"
-        aria-label="Select page"
-      >
-      </mat-paginator>
-    </section>
+                >
+              </tr>
+              <!-- <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr> -->
+            </table>
+          </div>
+        </mat-card>
+      </section>
+      <section>
+        <mat-paginator
+          class="rounded-2xl shadow-sm"
+          [pageSize]="10"
+          [pageSizeOptions]="[5, 10, 25, 100]"
+          aria-label="Select page"
+        >
+        </mat-paginator>
+      </section>
+    </div>
   `,
 
   styles: `
