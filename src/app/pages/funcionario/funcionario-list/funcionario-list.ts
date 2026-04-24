@@ -33,21 +33,20 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
   template: `
     <div class="flex flex-col gap-2">
       <section>
-        <div class="flex flex-wrap items-center gap-2">
-          <button matButton="tonal" (click)="onCreate()" matTooltip="Adicionar um novo registro">
-            <mat-icon>add</mat-icon>
-            <span>Novo</span>
-          </button>
+        <div class="flex flex-wrap items-center justify-between gap-2">
           <div
-            class="w-full sm:w-auto flex gap-2 p-2 rounded-full bg-[var(--mat-sys-primary-container)]"
+            class="w-full sm:w-auto flex gap-2 px-2 rounded-full bg-[var(--mat-sys-primary-container)]"
           >
             <div class="flex items-center">
-              <mat-icon class="!text-[var(--mat-sys-primary)]">filter_alt</mat-icon>
+              <mat-icon class="!text-[var(--mat-sys-primary)]">search</mat-icon>
             </div>
             <div>
               <input class="p-2 border-none outline-0 text-lg" (keyup)="applyFilter($event)" />
             </div>
           </div>
+          <button matButton="filled" (click)="onCreate()" matTooltip="Adicionar um novo registro">
+            <span>Novo</span>
+          </button>
         </div>
       </section>
 

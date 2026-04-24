@@ -16,7 +16,7 @@ import { FuncionarioList } from "./funcionario-list/funcionario-list";
           <img src="imagens/cadastros/funcionario.png" alt="cadastros" class="object-contain" />
         </div>
       </section>
-
+      
       <section class="col-span-6 lg:col-span-4">
         <div class="relative p-2">
           <app-is-loading [isLoading]="funcionarioStore.isLoading()" />
