@@ -21,7 +21,7 @@ import { ProdesList } from "./prodes-list/prodes-list";
           <app-is-loading [isLoading]="prodesStore.isLoading()" />
 
           <div class="flex flex-col gap-2">
-            <h1 class="text-2xl">{{ title | titlecase }}</h1>
+            <h1 class="text-3xl">{{ title | titlecase }}</h1>
 
             <div class="flex flex-wrap gap-2 py-2">
               <app-mini-card [icone]="'person_add'" [title]="'ativos'" [appearance]="'filled'">

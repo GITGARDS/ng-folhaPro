@@ -27,7 +27,7 @@ import { EmpresaList } from "./empresa-list/empresa-list";
         <div class="relative p-2">
           <app-is-loading [isLoading]="empresaStore.isLoading()" />
           <div class="flex flex-col gap-2">
-            <h1 class="text-2xl">{{ title | titlecase }}</h1>
+            <h1 class="text-3xl">{{ title | titlecase }}</h1>
 
             <div class="flex flex-wrap gap-2 py-2">
               <app-mini-card [icone]="'person_add'" [title]="'funcionarios ativos'" [appearance]="'filled'">
