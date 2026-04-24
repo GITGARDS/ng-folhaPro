@@ -39,7 +39,7 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
             <span>Novo</span>
           </button>
           <div
-            class="w-full sm:w-auto flex gap-2 p-2 border-2 border-blue-100 rounded-full bg-[var(--mat-sys-primary-container)]"
+            class="w-full sm:w-auto flex gap-2 p-2 rounded-full bg-[var(--mat-sys-primary-container)]"
           >
             <div class="flex items-center">
               <mat-icon class="!text-[var(--mat-sys-primary)]">filter_alt</mat-icon>

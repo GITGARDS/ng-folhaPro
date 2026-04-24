@@ -7,7 +7,7 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
   template: `
     @if (isLoading()) {
       <div
-        class="absolute w-full h-full top-0 left-0 bg-white/30 backdrop-blur-lg rounded-2xl z-199 flex justify-center border-8 border-dashed border-gray-300"
+        class="absolute w-full h-full top-0 left-0 bg-white/30 backdrop-blur-lg rounded-2xl z-199 flex justify-center"
       >
         <mat-spinner class="mt-50"></mat-spinner>
       </div>
