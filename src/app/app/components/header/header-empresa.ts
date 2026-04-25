@@ -2,7 +2,6 @@ import { Component, inject } from "@angular/core";
 import { MatAnchor } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { MatTooltip } from "@angular/material/tooltip";
-import { Router } from "@angular/router";
 import { EmpresaStore } from "../../../store/empresa.store";
 
 @Component({
@@ -10,13 +9,11 @@ import { EmpresaStore } from "../../../store/empresa.store";
   imports: [MatIcon, MatAnchor, MatTooltip],
   template: `
     <div>
-      @if (empresaStore.empresaLogada()?.id) {
-        <button matButton="filled" (click)="deslogar()" matTooltip="Logout">
-          {{ empresaStore.empresaLogada()?.nomeEmpresaRazaoSocial }}
+      @if (empresaStore.empresaLogada().isLogada) {
+        <button matButton="filled" (click)="empresaStore.logout()" matTooltip="Logout">
+          {{ empresaStore.empresaLogada().empresa.nomeEmpresaRazaoSocial }}
           <mat-icon>logout</mat-icon>
         </button>
-      } @else {
-        <mat-icon matTooltip="Fazer Login">block</mat-icon>
       }
     </div>
   `,
@@ -24,13 +21,4 @@ import { EmpresaStore } from "../../../store/empresa.store";
 })
 export class HeaderEmpresa {
   empresaStore = inject(EmpresaStore);
-  router = inject(Router);
-  deslogar() {
-    this.empresaStore.deslogar();
-    if (this.router.url === '/funcionarios') {
-      this.router.navigate(['/empresa']);
-      return;
-    }
-    this.router.navigate(['/funcionarios']);
-  }
 }

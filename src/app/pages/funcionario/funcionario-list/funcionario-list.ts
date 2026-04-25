@@ -190,7 +190,7 @@ export class FuncionarioList {
 
   constructor() {
     this.funcionarioStore.carregaLista({
-      empresa: this.empresaStore.empresaLogada()?.id as string,
+      empresa: this.empresaStore.empresaLogada().empresa.id as string,
     });
 
     effect(() => {
@@ -248,7 +248,7 @@ export class FuncionarioList {
         return;
       }
       const empresaLogada = this.empresaStore.empresaLogada();
-      result.empresa = empresaLogada?.id as string;
+      result.empresa = empresaLogada.empresa.id as string;
       switch (opcao) {
         case 'new':
           this.funcionarioStore.create(result as FuncionarioModel);

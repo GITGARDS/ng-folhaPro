@@ -6,7 +6,7 @@ export type EmpresaModel = {
   inscricaoEstadual: string;
   nomeEmpresaRazaoSocial: string;
   nomeFantasia: string;
-  dataAbertura: string;  
+  dataAbertura: string;
   email: string;
   logradouro: string;
   bairro: string;
@@ -22,4 +22,9 @@ export type EmpresaModel = {
   fpas: string;
   codigoDeOutrasEntidades: string;
   codigoDePagamentoGps: string;
+};
+
+export type EmpresaLogadaModel = {
+  empresa: EmpresaModel;
+  isLogada: boolean;
 };

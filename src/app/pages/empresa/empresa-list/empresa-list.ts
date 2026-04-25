@@ -1,5 +1,5 @@
 import { DatePipe } from "@angular/common";
-import { Component, ViewChild, effect, inject } from "@angular/core";
+import { Component, effect, inject, viewChild } from "@angular/core";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatCard } from "@angular/material/card";
 import { MatDialog } from "@angular/material/dialog";
@@ -88,7 +88,7 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
 
                     <span class="flex items-center relative">
                       {{ row.nomeEmpresaRazaoSocial }}
-                      @if (row.id === empresaStore.empresaLogada()?.id) {
+                      @if (row.id === empresaStore.empresaLogada().empresa?.id) {
                         <span
                           class="size-3 left-[-20px] absolute animate-ping rounded-full bg-sky-400 opacity-75"
                         ></span>
@@ -129,21 +129,20 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
                       <mat-icon>delete</mat-icon>
                       <span>Excluir</span>
                     </button>
-                    @if (empresaStore.empresaLogada()?.id === row.id) {
-                      <mat-divider />
-                      <button mat-menu-item (click)="onDeslogarEmpresa(row)">
-                        <mat-icon>logout</mat-icon>
-                        <span>Deslogar Empresa</span>
-                      </button>
-                    } @else {
-                      @if (empresaStore.empresaLogada()?.id) {
-                      } @else {
+                    @if (empresaStore.empresaLogada().isLogada) {
+                      @if (empresaStore.empresaLogada().empresa?.id === row.id) {
                         <mat-divider />
-                        <button mat-menu-item (click)="onLogarEmpresa(row)">
-                          <mat-icon>login</mat-icon>
-                          <span>Logar Empresa</span>
+                        <button mat-menu-item (click)="empresaStore.logout()">
+                          <mat-icon>logout</mat-icon>
+                          <span>Logout</span>
                         </button>
                       }
+                    } @else {
+                      <mat-divider />
+                      <button mat-menu-item (click)="empresaStore.login({empresa: row})">
+                        <mat-icon>login</mat-icon>
+                        <span>Login</span>
+                      </button>
                     }
                   </mat-menu>
                 </td>
@@ -183,15 +182,15 @@ export class EmpresaList {
     'actions',
   ];
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  readonly paginator = viewChild.required(MatPaginator);
+  readonly sort = viewChild.required(MatSort);
 
   constructor() {
     this.empresaStore.carregaLista();
     effect(() => {
       this.dataSource = new MatTableDataSource(this.empresaStore.list());
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator();
+      this.dataSource.sort = this.sort();
     });
   }
 
@@ -254,16 +253,6 @@ export class EmpresaList {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-  }
-
-  onLogarEmpresa(empresa: EmpresaModel) {
-    this.empresaStore.logar({ empresa });
-    this.router.navigate(['funcionarios']);
-  }
-
-  onDeslogarEmpresa(_t95: any) {
-    this.empresaStore.deslogar();
-    window.location.reload();
   }
 
   onGetColor(arg0: any) {

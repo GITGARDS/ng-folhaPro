@@ -5,7 +5,7 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'funcionarios',
+    redirectTo: 'empresa',
   },
   {
     path: 'dashboard',
@@ -16,7 +16,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/empresa/empresa'),
   },
   {
-    path: 'funcionarios',
+    path: 'funcionario',
     canActivate: [empresaGuard],
     loadComponent: () => import('./pages/funcionario/funcionario'),
   },

@@ -98,8 +98,8 @@ export class Navigation {
       icon: 'business',
     },
     {
-      label: 'Funcionários',
-      url: 'funcionarios',
+      label: 'Funcionário',
+      url: 'funcionario',
       icon: 'people',
     },
     {
