@@ -4,7 +4,7 @@ import { Component, input } from "@angular/core";
   selector: 'app-is-loading',
   imports: [],
   template: `
-    @if (!isLoading()) {
+    @if (isLoading()) {
       <div class="absolute w-full inset-0 z-30">
         <div class="rounded-lg m-2 overflow-hidden">
           <div class="animate-pulse">
