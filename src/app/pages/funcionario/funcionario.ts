@@ -19,7 +19,7 @@ import { FuncionarioList } from "./funcionario-list/funcionario-list";
 
       <section class="col-span-6 lg:col-span-4">
         <div class="relative p-2">
-          <app-is-loading [isLoading]="funcionarioStore.isLoading()" />
+          <app-is-loading [isLoading]="funcionarioStore.isLoading()" [quantosCards]="[2]" />
 
           <div class="flex flex-col gap-2">
             <app-title [icone]="'people'" [title]="title" />
@@ -28,7 +28,7 @@ import { FuncionarioList } from "./funcionario-list/funcionario-list";
               <app-mini-card [icone]="'person_add'" [title]="'ativos'" [appearance]="'filled'">
                 <ng-container>
                   <span>
-                    {{ this.funcionarioStore.totalfuncionariosAtivos().length}}
+                    {{ this.funcionarioStore.totalfuncionariosAtivos().length }}
                   </span>
                 </ng-container>
               </app-mini-card>

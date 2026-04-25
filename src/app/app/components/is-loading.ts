@@ -4,7 +4,7 @@ import { Component, input } from "@angular/core";
   selector: 'app-is-loading',
   imports: [],
   template: `
-    @if (isLoading()) {
+    @if (!isLoading()) {
       <div class="absolute w-full inset-0 z-30">
         <div class="rounded-lg m-2 overflow-hidden">
           <div class="animate-pulse">
@@ -12,9 +12,12 @@ import { Component, input } from "@angular/core";
               <div class="flex flex-col gap-4">
                 <!-- titulo -->
                 <div class="w-full h-[52px] flex items-center gap-2 rounded-lg" [class]="bg"></div>
-                <div class="flex flex-wrap gap-2">                  <!-- card -->
-                  <div class="w-[230px] h-[100px] rounded-3xl" [class]="bg"></div>
-                  <div class="w-[230px] h-[100px] rounded-3xl" [class]="bg"></div>
+                <!-- cards -->
+                <div class="flex flex-wrap gap-2">
+                  @for (item of quantosCards(); track $index) {
+                    <div class="w-[230px] h-[100px] rounded-3xl" [class]="bg"></div>
+                  }
+                  
                 </div>
                 <!-- filter -->
                 <div class="w-full h-[47px] rounded-3xl overflow-hidden">
@@ -36,5 +39,6 @@ import { Component, input } from "@angular/core";
 })
 export class IsLoading {
   isLoading = input.required<boolean>();
+  quantosCards = input.required<number[]>();
   bg = 'bg-[var(--mat-sys-surface-variant)]';
 }

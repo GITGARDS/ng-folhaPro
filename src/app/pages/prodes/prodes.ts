@@ -22,7 +22,7 @@ import { ProdesList } from "./prodes-list/prodes-list";
 
       <section class="col-span-6 lg:col-span-4">
         <div class="relative p-2">
-          <app-is-loading [isLoading]="prodesStore.isLoading()" />
+          <app-is-loading [isLoading]="prodesStore.isLoading()" [quantosCards]="[1]" />
 
           <div class="flex flex-col gap-2">
             <app-title [icone]="'compare_arrows'" [title]="title"/>

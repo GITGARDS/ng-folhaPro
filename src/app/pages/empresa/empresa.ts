@@ -20,7 +20,7 @@ import { EmpresaList } from "./empresa-list/empresa-list";
 
       <section class="col-span-6 lg:col-span-4 relative">
         <div class="p-2">
-          <app-is-loading [isLoading]="empresaStore.isLoading()" />
+          <app-is-loading [isLoading]="empresaStore.isLoading()" [quantosCards]="[1]" />
           <div class="flex flex-col gap-2">
             <app-title [icone]="'business'" [title]="title" />
             <div class="flex flex-wrap gap-2 py-2">
