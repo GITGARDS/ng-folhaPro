@@ -107,5 +107,10 @@ export class Navigation {
       url: 'prodes',
       icon: 'compare_arrows',
     },
+    {
+      label: 'Colors',
+      url: 'colors',
+      icon: 'palette',
+    },
   ]);
 }

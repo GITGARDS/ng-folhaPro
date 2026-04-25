@@ -139,7 +139,7 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
                       }
                     } @else {
                       <mat-divider />
-                      <button mat-menu-item (click)="empresaStore.login({empresa: row})">
+                      <button mat-menu-item (click)="empresaStore.login({ empresa: row })">
                         <mat-icon>login</mat-icon>
                         <span>Login</span>
                       </button>
@@ -166,7 +166,8 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
     </div>
   `,
 
-  styles: ``,
+  styles: `
+  `,
 })
 export class EmpresaList {
   empresaStore = inject(EmpresaStore);

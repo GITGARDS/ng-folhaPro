@@ -176,7 +176,7 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
   `,
 })
 export class FuncionarioList {
-  funcionarioStore = inject(FuncionarioStore);  
+  funcionarioStore = inject(FuncionarioStore);
   empresaStore = inject(EmpresaStore);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -186,7 +186,15 @@ export class FuncionarioList {
   );
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns: string[] = ['id', 'empresa', 'nome', 'salarioBase', 'dataAdmissao', 'ativo', 'actions'];
+  displayedColumns: string[] = [
+    'id',
+    'empresa',
+    'nome',
+    'salarioBase',
+    'dataAdmissao',
+    'ativo',
+    'actions',
+  ];
 
   constructor() {
     this.funcionarioStore.carregaLista({

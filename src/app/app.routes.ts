@@ -24,4 +24,8 @@ export const routes: Routes = [
     path: 'prodes',
     loadComponent: () => import('./pages/prodes/prodes'),
   },
+  {
+    path: 'colors',
+    loadComponent: () => import('./pages/colors/colors'),
+  },
 ];
