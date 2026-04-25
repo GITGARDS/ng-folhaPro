@@ -10,6 +10,7 @@ import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { FuncionarioModel } from "../../../models/funcionario";
+import { EmpresaStore } from "../../../store/empresa.store";
 import { FuncionarioStore } from "../../../store/funcionario.store";
 import { FuncionarioForm } from "../funcionario-form/funcionario-form";
 
@@ -58,6 +59,11 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
               <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
                 <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+              </ng-container>
+              <!-- empresa Column -->
+              <ng-container matColumnDef="empresa">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Empresa</th>
+                <td mat-cell *matCellDef="let row">{{ row.empresa }}</td>
               </ng-container>
 
               <!-- Nome Column -->
@@ -170,7 +176,8 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
   `,
 })
 export class FuncionarioList {
-  funcionarioStore = inject(FuncionarioStore);
+  funcionarioStore = inject(FuncionarioStore);  
+  empresaStore = inject(EmpresaStore);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -179,10 +186,13 @@ export class FuncionarioList {
   );
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns: string[] = ['id', 'nome', 'salarioBase', 'dataAdmissao', 'ativo', 'actions'];
+  displayedColumns: string[] = ['id', 'empresa', 'nome', 'salarioBase', 'dataAdmissao', 'ativo', 'actions'];
 
   constructor() {
-    this.funcionarioStore.carregaLista();
+    this.funcionarioStore.carregaLista({
+      empresa: this.empresaStore.empresaLogada()?.id as string,
+    });
+
     effect(() => {
       this.dataSource = new MatTableDataSource(this.funcionarioStore.list());
       this.dataSource.paginator = this.paginator;
@@ -191,7 +201,8 @@ export class FuncionarioList {
   }
 
   onFindById(id: number) {
-    console.log('onFindById', id);
+    console.log('onFindById', this.funcionarioStore.findById()({ id }));
+    window.alert(JSON.stringify(this.funcionarioStore.findById()({ id })));
   }
 
   readonly dialog = inject(MatDialog);
@@ -236,6 +247,8 @@ export class FuncionarioList {
       if (!result) {
         return;
       }
+      const empresaLogada = this.empresaStore.empresaLogada();
+      result.empresa = empresaLogada?.id as string;
       switch (opcao) {
         case 'new':
           this.funcionarioStore.create(result as FuncionarioModel);

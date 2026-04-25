@@ -3,12 +3,14 @@ import { Component, ViewChild, effect, inject } from "@angular/core";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatCard } from "@angular/material/card";
 import { MatDialog } from "@angular/material/dialog";
+import { MatDivider } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { Router } from "@angular/router";
 import { EmpresaModel } from "../../../models/empresa";
 import { EmpresaStore } from "../../../store/empresa.store";
 import { EmpresaForm } from "../empresa-form/empresa-form";
@@ -27,6 +29,7 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
     MatInputModule,
     MatInputModule,
     MatCard,
+    MatDivider,
   ],
   template: `
     <div class="flex flex-col gap-2">
@@ -73,7 +76,7 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
                   Nome da Empresa/Razao Social
                 </th>
                 <td mat-cell *matCellDef="let row">
-                  <div class="flex items-center gap-2">
+                  <div class="flex items-center gap-7">
                     <div
                       class="w-8 h-8 rounded-full flex items-center justify-center text-lg text-white"
                       [style.background-color]="onGetColor(row.nomeEmpresaRazaoSocial.charAt(0))"
@@ -82,8 +85,14 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
                         {{ row.nomeEmpresaRazaoSocial.charAt(0) }}
                       </p>
                     </div>
-                    <span class="flex items-center">
+
+                    <span class="flex items-center relative">
                       {{ row.nomeEmpresaRazaoSocial }}
+                      @if (row.id === empresaStore.empresaLogada()?.id) {
+                        <span
+                          class="size-3 left-[-20px] absolute animate-ping rounded-full bg-sky-400 opacity-75"
+                        ></span>
+                      }
                     </span>
                   </div>
                 </td>
@@ -108,11 +117,7 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
                     <mat-icon>more_vert</mat-icon>
                   </button>
                   <mat-menu #menu="matMenu">
-                    <button
-                      mat-menu-item
-                      (click)="onFindById(row.id)"
-                      matTooltip="Visualizar registro"
-                    >
+                    <button mat-menu-item (click)="onFindById(row.id)">
                       <mat-icon>search</mat-icon>
                       <span>Visualizar</span>
                     </button>
@@ -120,14 +125,26 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
                       <mat-icon>edit</mat-icon>
                       <span>Editar</span>
                     </button>
-                    <button
-                      mat-menu-item
-                      (click)="onDeleteById(row.id)"
-                      matTooltip="Excluir registro"
-                    >
+                    <button mat-menu-item (click)="onDeleteById(row.id)">
                       <mat-icon>delete</mat-icon>
                       <span>Excluir</span>
                     </button>
+                    @if (empresaStore.empresaLogada()?.id === row.id) {
+                      <mat-divider />
+                      <button mat-menu-item (click)="onDeslogarEmpresa(row)">
+                        <mat-icon>logout</mat-icon>
+                        <span>Deslogar Empresa</span>
+                      </button>
+                    } @else {
+                      @if (empresaStore.empresaLogada()?.id) {
+                      } @else {
+                        <mat-divider />
+                        <button mat-menu-item (click)="onLogarEmpresa(row)">
+                          <mat-icon>login</mat-icon>
+                          <span>Logar Empresa</span>
+                        </button>
+                      }
+                    }
                   </mat-menu>
                 </td>
               </ng-container>
@@ -154,6 +171,7 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
 })
 export class EmpresaList {
   empresaStore = inject(EmpresaStore);
+  router = inject(Router);
   dataSource: MatTableDataSource<EmpresaModel> = new MatTableDataSource<EmpresaModel>(
     this.empresaStore.list(),
   );
@@ -237,6 +255,17 @@ export class EmpresaList {
       this.dataSource.paginator.firstPage();
     }
   }
+
+  onLogarEmpresa(empresa: EmpresaModel) {
+    this.empresaStore.logar({ empresa });
+    this.router.navigate(['funcionarios']);
+  }
+
+  onDeslogarEmpresa(_t95: any) {
+    this.empresaStore.deslogar();
+    window.location.reload();
+  }
+
   onGetColor(arg0: any) {
     switch (arg0) {
       case '1':

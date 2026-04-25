@@ -13,18 +13,24 @@ export class FuncionarioService {
 
   private isDelay = 500;
 
-  findAll() {
+  findAll(param: { empresa: string }) {
     const q = query(this.collectionName, orderBy('nome'));
     return new Observable<FuncionarioModel[]>((observer) => {
       onSnapshot(q, (snapshot) => {
-        const items: FuncionarioModel[] = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }) as FuncionarioModel);
+        const items: FuncionarioModel[] = snapshot.docs
+          .filter((f: any) => f.data().empresa === param.empresa)
+          .map(
+            (d) =>
+              ({
+                id: d.id,
+                ...d.data(),
+              }) as FuncionarioModel,
+          );
+        // const items: FuncionarioModel[] = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }) as FuncionarioModel);
         observer.next(items);
       });
     }).pipe(delay(this.isDelay));
-    
   }
-
-  async findById(id: number) {}
 
   async create(param: FuncionarioModel) {
     await new Promise((resolve) => setTimeout(resolve, this.isDelay));
@@ -32,13 +38,13 @@ export class FuncionarioService {
     return docRef.id;
   }
 
-  async updateById(id: string, param: FuncionarioModel) {
+  async updateById(id: string, data: FuncionarioModel) {
     const docRef = doc(db, this.colectionLabel, id);
-    await updateDoc(docRef, { ...param });
+    await updateDoc(docRef, { ...data });
   }
 
   async deleteById(id: string) {
-    const docRef = doc(db, this.colectionLabel, id);
+    const docRef = doc(db, this.colectionLabel, localStorage.getItem('empresa') || '0', id);
     await deleteDoc(docRef);
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc } from "firebase/firestore";
 import { Observable, delay } from "rxjs";
 import { db } from "../../firebase";
@@ -13,15 +13,18 @@ export class EmpresaService {
 
   private isDelay = 500;
 
+  empresaLogada = signal<EmpresaModel | null>(null);
+
   findAll() {
     const q = query(this.collectionName, orderBy('nomeEmpresaRazaoSocial'));
     return new Observable<EmpresaModel[]>((observer) => {
       onSnapshot(q, (snapshot) => {
-        const items: EmpresaModel[] = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }) as EmpresaModel);
+        const items: EmpresaModel[] = snapshot.docs.map(
+          (d) => ({ id: d.id, ...d.data() }) as EmpresaModel,
+        );
         observer.next(items);
       });
     }).pipe(delay(this.isDelay));
-    
   }
 
   async findById(id: number) {}
@@ -40,5 +43,13 @@ export class EmpresaService {
   async deleteById(id: string) {
     const docRef = doc(db, this.colectionLabel, id);
     await deleteDoc(docRef);
+  }
+
+  async logar(empresa: EmpresaModel) {
+    this.empresaLogada.set(empresa);
+  }
+
+  async deslogar() {
+    this.empresaLogada.set(null);
   }
 }

@@ -5,11 +5,13 @@ import { EmpresaService } from "../services/empresa.service";
 
 type EmpresaState = {
   list: EmpresaModel[];
+  empresaLogada: EmpresaModel | null;
   isLoading: boolean;
 };
 
 const initialState: EmpresaState = {
   list: [],
+  empresaLogada: {} as EmpresaModel,
   isLoading: false,
 };
 
@@ -18,12 +20,11 @@ export const EmpresaStore = signalStore(
     providedIn: 'root',
   },
   withState(initialState),
-  withComputed(({ list }) => ({
-  })),
+  withComputed(({ list }) => ({})),
 
   withMethods((store, empresaService = inject(EmpresaService)) => ({
     async carregaLista() {
-      if (store.list.length > 0 ) return;
+      if (store.list.length > 0) return;
       await new Promise((resolve) => setTimeout(resolve, 200));
       patchState(store, { isLoading: true });
       empresaService.findAll().subscribe({
@@ -48,14 +49,32 @@ export const EmpresaStore = signalStore(
       }));
     }),
 
+    logar: signalMethod(async (param: { empresa: EmpresaModel }) => {
+      patchState(store, { isLoading: true });
+      await empresaService.logar(param.empresa);
+      patchState(store, (state) => ({
+        ...state,
+        empresaLogada: param.empresa,
+        isLoading: false,
+      }));
+    }),
+
+    deslogar: async () => {
+      patchState(store, { isLoading: true });
+      await empresaService.deslogar();
+      patchState(store, (state) => ({
+        ...state,
+        empresaLogada: null,
+        isLoading: false,
+      }));
+    },
+
     updateById: signalMethod(async (params: { id: string; data: EmpresaModel }) => {
       patchState(store, { isLoading: true });
       await empresaService.updateById(params.id, params.data);
       patchState(store, (state) => ({
         ...state,
-        list: state.list.map((f) =>
-          f.id === params.id ? { ...f, ...params.data } : f,
-        ),
+        list: state.list.map((f) => (f.id === params.id ? { ...f, ...params.data } : f)),
         isLoading: false,
       }));
     }),
