@@ -65,7 +65,6 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Empresa</th>
                 <td mat-cell *matCellDef="let row">{{ row.empresa }}</td>
               </ng-container>
-
               <!-- Nome Column -->
               <ng-container matColumnDef="nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
@@ -187,8 +186,8 @@ export class FuncionarioList {
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns: string[] = [
-    'id',
-    'empresa',
+    // 'id',
+    // 'empresa',
     'nome',
     'salarioBase',
     'dataAdmissao',
