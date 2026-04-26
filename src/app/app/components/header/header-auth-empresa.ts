@@ -7,7 +7,7 @@ import { MatTooltip } from "@angular/material/tooltip";
 import { EmpresaStore } from "../../../store/empresa.store";
 
 @Component({
-  selector: 'app-header-empresa',
+  selector: 'app-header-auth-empresa',
   imports: [MatIcon, MatAnchor, MatTooltip, MatMenuModule, MatDivider, MatIconButton],
   template: `
     <div>
@@ -40,6 +40,6 @@ import { EmpresaStore } from "../../../store/empresa.store";
   `,
   styles: ``,
 })
-export class HeaderEmpresa {
+export class HeaderAuthEmpresa {
   empresaStore = inject(EmpresaStore);
 }
