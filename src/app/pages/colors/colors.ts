@@ -4,26 +4,26 @@ import { Component, signal } from "@angular/core";
   selector: 'app-colors',
   template: `
     <div class="flex flex-col gap-4">
-      <div class="flex flex-col flex-wrap gap-2 border border-gray-300 p-4 rounded-2xl ">
+      <div class="flex flex-col flex-wrap gap-2 border border-gray-300 p-4 rounded-lg ">
         <span>Paleta</span>
         @for (item of paleta(); track $index) {
           <p style="background-color: var({{ item }});" class="p-2">{{ item }}</p>
         }
       </div>
 
-      <div class="flex flex-col flex-wrap gap-2 border border-gray-300 p-4 rounded-2xl ">
+      <div class="flex flex-col flex-wrap gap-2 border border-gray-300 p-4 rounded-lg ">
         <span>Cores (Fundo/Superfície)</span>
         @for (item of fundosSuperficies(); track $index) {
           <p style="background-color: var({{ item }});" class="p-2">{{ item }}</p>
         }
       </div>
-      <div class="flex flex-col flex-wrap gap-2 border border-gray-300 p-4 rounded-2xl ">
+      <div class="flex flex-col flex-wrap gap-2 border border-gray-300 p-4 rounded-lg ">
         <span>Cores (Destaque)</span>
         @for (item of coresDestaque(); track $index) {
           <p style="background-color: var({{ item }});" class="p-2">{{ item }}</p>
         }
       </div>
-      <div class="flex flex-col flex-wrap gap-2 border border-gray-300 p-4 rounded-2xl ">
+      <div class="flex flex-col flex-wrap gap-2 border border-gray-300 p-4 rounded-lg ">
         <span>Tipografia</span>
         @for (item of tipografia(); track $index) {
           <p style="font: var({{ item }});" class="p-2">{{ item }}</p>

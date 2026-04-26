@@ -25,8 +25,8 @@ import { ProdesList } from "./prodes-list/prodes-list";
           <app-is-loading [isLoading]="prodesStore.isLoading()" [quantosCards]="[1]" />
 
           <div class="flex flex-col gap-2">
-            <app-title [icone]="'compare_arrows'" [title]="title"/>
-            <div class="flex flex-wrap gap-2 py-2">
+            <app-title [icone]="'compare_arrows'" [title]="title" />
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
               <app-mini-card [icone]="'person_add'" [title]="'ativos'" [appearance]="'filled'">
                 <ng-container>
                   <span>

@@ -36,7 +36,7 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
       <section>
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div
-            class="w-full sm:w-auto flex gap-2 px-2 rounded-full bg-[var(--mat-sys-primary-container)]"
+            class="w-full sm:w-auto flex gap-2 px-2 rounded-lg bg-[var(--mat-sys-primary-container)]"
           >
             <div class="flex items-center">
               <mat-icon class="!text-[var(--mat-sys-primary)]">search</mat-icon>
@@ -52,7 +52,7 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
       </section>
 
       <section>
-        <mat-card appearance="raised" class="overflow-hidden">
+        <mat-card appearance="raised" class="overflow-hidden" class="!rounded-lg !overflow-hidden">
           <div class="h-[500px] overflow-auto">
             <table mat-table [dataSource]="dataSource" matSort aria-label="Elements">
               <!-- Id Column -->

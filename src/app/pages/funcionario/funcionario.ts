@@ -23,12 +23,11 @@ import { FuncionarioList } from "./funcionario-list/funcionario-list";
 
           <div class="flex flex-col gap-2">
             <app-title [icone]="'people'" [title]="title" />
-
-            <div class="flex flex-wrap gap-2 py-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
               <app-mini-card [icone]="'person_add'" [title]="'ativos'" [appearance]="'filled'">
                 <ng-container>
                   <span>
-                    {{ this.funcionarioStore.totalfuncionariosAtivos().length }}
+                    {{ funcionarioStore.totalfuncionariosAtivos().length }}
                   </span>
                 </ng-container>
               </app-mini-card>
@@ -36,12 +35,11 @@ import { FuncionarioList } from "./funcionario-list/funcionario-list";
               <app-mini-card [icone]="'attach_money'" [title]="'salarios'" [appearance]="'filled'">
                 <ng-container>
                   <span>
-                    {{ this.funcionarioStore.totalSalarioBase() | currency: 'BRL' }}
+                    {{ funcionarioStore.totalSalarioBase() | currency }}
                   </span>
                 </ng-container>
               </app-mini-card>
             </div>
-
             <app-funcionario-list />
           </div>
         </div>

@@ -7,24 +7,29 @@ import { MatIcon } from "@angular/material/icon";
   template: `
     <!-- 'outlined' | 'raised' | 'filled'; -->
     <div
-      class="max-w-[300px] min-w-[200px] flex items-center justify-between p-6 gap-4 rounded-3xl bg-[var(--mat-sys-surface-variant)] bg-gray-200/60 group hover:bg-gray-200"
+      class="max-w-[300px] min-w-[200px] flex items-center justify-between p-6 gap-4 rounded-3xl bg-[var(--mat-sys-primary-container)]/70 group hover:bg-[var(--mat-sys-primary-container)]
+      shadow-lg"
     >
       <div class="flex flex-col">
         <div class="flex items-center gap-2">
-          <span class="text-md font-semibold capitalize">{{ this.title() }}</span>
+          <span
+            class="text-md font-semibold capitalize text-[var(--mat-sys-on-primary-container)]"
+            >{{ this.title() }}</span
+          >
         </div>
-        <div>
+        <div class="text-[var(--mat-sys-primary)] text-2xl font-bold text-shadow-lg">
           <ng-content #content />
         </div>
       </div>
 
       <div class="flex items-center justify-center">
         <div
-          class="h-10 w-10 flex items-center justify-center p-2 rounded-lg bg-[var(--mat-sys-primary-container)] group-hover:bg-[var(--mat-sys-primary)]"
+          class="h-10 w-10 flex items-center justify-center p-2 rounded-lg bg-[var(--mat-sys-primary)]/80 group-hover:bg-[var(--mat-sys-primary)]"
         >
-          <mat-icon class="group-hover:!text-[var(--mat-sys-primary-container)]">{{
-            this.icone()
-          }}</mat-icon>
+          <mat-icon
+            class="!text-[var(--mat-sys-on-primary)]/80  group-hover:!text-[var(--mat-sys-on-primary)]"
+            >{{ this.icone() }}</mat-icon
+          >
         </div>
       </div>
     </div>

@@ -23,7 +23,7 @@ import { EmpresaList } from "./empresa-list/empresa-list";
           <app-is-loading [isLoading]="empresaStore.isLoading()" [quantosCards]="[1]" />
           <div class="flex flex-col gap-2">
             <app-title [icone]="'business'" [title]="title" />
-            <div class="flex flex-wrap gap-2 py-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
               <app-mini-card
                 [icone]="'person_add'"
                 [title]="'funcionarios ativos'"

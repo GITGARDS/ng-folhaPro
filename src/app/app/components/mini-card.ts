@@ -7,7 +7,7 @@ import { MatIcon } from "@angular/material/icon";
   template: `
     <!-- 'outlined' | 'raised' | 'filled'; -->
     <div
-      class="max-w-[300px] min-w-[200px] flex items-center justify-between p-6 gap-4 rounded-3xl bg-[var(--mat-sys-primary-container)]/70 group hover:bg-[var(--mat-sys-primary-container)]
+      class="w-full h-20 flex items-center justify-between p-6 gap-4 rounded-lg bg-[var(--mat-sys-primary-container)]/70 group hover:bg-[var(--mat-sys-primary-container)]
       shadow-lg"
     >
       <div class="flex flex-col">

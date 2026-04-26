@@ -36,7 +36,7 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
       <section>
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div
-            class="w-full sm:w-auto flex gap-2 px-2 rounded-full bg-[var(--mat-sys-primary-container)]"
+            class="w-full sm:w-auto flex gap-2 px-2 rounded-lg bg-[var(--mat-sys-primary-container)]"
           >
             <div class="flex items-center">
               <mat-icon class="!text-[var(--mat-sys-primary)]">search</mat-icon>
@@ -52,7 +52,7 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
       </section>
 
       <section>
-        <mat-card appearance="raised" class="overflow-hidden">
+        <mat-card appearance="raised" class="overflow-hidden" class="!rounded-lg !overflow-hidden">
           <div class="h-[500px] overflow-auto">
             <table mat-table [dataSource]="dataSource" matSort aria-label="Elements">
               <!-- Id Column -->
@@ -63,7 +63,18 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
               <!-- tipoInscricao Column -->
               <ng-container matColumnDef="tipoInscricao">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</th>
-                <td mat-cell *matCellDef="let row">{{ row.tipoInscricao }}</td>
+                <td mat-cell *matCellDef="let row">
+                  <div class="flex gap-2">
+                    <span>
+                      {{ row.tipoInscricao }}
+                    </span>
+                    <span class="flex items-center justify-center">
+                      @if (row.id === empresaStore.empresaLogada().empresa?.id) {                        
+                        <span class="size-3 animate-ping rounded-lg bg-sky-400 opacity-75"></span>
+                      }
+                    </span>
+                  </div>
+                </td>
               </ng-container>
               <!-- Inscricao Column -->
               <ng-container matColumnDef="inscricao">
@@ -88,11 +99,6 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
 
                     <span class="flex items-center relative">
                       {{ row.nomeEmpresaRazaoSocial }}
-                      @if (row.id === empresaStore.empresaLogada().empresa?.id) {
-                        <span
-                          class="size-3 left-[-20px] absolute animate-ping rounded-full bg-sky-400 opacity-75"
-                        ></span>
-                      }
                     </span>
                   </div>
                 </td>
@@ -166,8 +172,7 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
     </div>
   `,
 
-  styles: `
-  `,
+  styles: ``,
 })
 export class EmpresaList {
   empresaStore = inject(EmpresaStore);
