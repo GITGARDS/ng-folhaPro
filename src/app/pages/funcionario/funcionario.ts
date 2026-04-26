@@ -10,7 +10,7 @@ import { FuncionarioList } from "./funcionario-list/funcionario-list";
   selector: 'app-funcionario',
   imports: [FuncionarioList, IsLoading, MiniCard, CurrencyPipe, Title],
   template: `
-    <div class="grid grid-cols-6 gap-2">
+    <div class="grid grid-cols-6 gap-2 mt-4">
       <section class="hidden lg:flex lg:col-span-1 justify-center">
         <div class="flex items-start">
           <img src="imagens/cadastros/funcionario.png" alt="cadastros" class="object-contain" />

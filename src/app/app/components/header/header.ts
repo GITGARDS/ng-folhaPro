@@ -9,7 +9,7 @@ import { HeaderTheme } from "./header-theme";
   selector: 'app-header',
   imports: [MatToolbar, HeaderLogo, HeaderAuth, HeaderTheme, HeaderAuthEmpresa],
   template: `
-    <mat-toolbar class="flex justify-between !bg-[var(--mat-sys-primary-container)]">
+    <mat-toolbar class="flex justify-between !bg-[var(--var-fundo)]">
       <app-header-logo />
       <div class="flex items-center gap-2">
         <app-header-auth-empresa />

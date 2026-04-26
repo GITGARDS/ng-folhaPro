@@ -11,7 +11,7 @@ import { EmpresaList } from "./empresa-list/empresa-list";
   selector: 'app-empresa',
   imports: [EmpresaList, CommonModule, MiniCard, Title, IsLoading],
   template: `
-    <div class="grid grid-cols-6 gap-2">
+    <div class="grid grid-cols-6 gap-2 mt-4">
       <section class="hidden lg:flex lg:col-span-1 justify-center">
         <div class="flex items-start">
           <img src="imagens/cadastros/empresa.png" alt="cadastros" class="object-contain" />

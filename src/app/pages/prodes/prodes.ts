@@ -10,7 +10,7 @@ import { ProdesList } from "./prodes-list/prodes-list";
   selector: 'app-prodes',
   imports: [ProdesList, CommonModule, IsLoading, MiniCard, Title],
   template: `
-    <div class="grid grid-cols-6 gap-2">
+    <div class="grid grid-cols-6 gap-2 mt-4">
       <section class="hidden lg:flex lg:col-span-1 justify-center">
         <div class="flex items-start">
           <img src="imagens/cadastros/prodes.png" alt="cadastros" class="object-contain" />

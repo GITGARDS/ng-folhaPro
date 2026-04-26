@@ -35,12 +35,12 @@ import { NgxMaskDirective } from "ngx-mask";
     <!-- <section class="w-full border-b bg-emerald-400 text-shadow-sm p-2"> -->
     <!-- <section class="w-full border-b bg-indigo-900 text-shadow-sm p-2"> -->
     <!-- <section class="w-full border-b bg-cyan-950 text-shadow-sm p-2"> -->
-    <section class="w-full border-b bg-violet-800 text-shadow-sm p-2">
+   <section class="w-full border-b bg-[var(--var-fundo)] text-shadow-sm p-2">
       <div class="flex flex-col justify-center items-center">
-        <h1 class="text-3xl font-bold text-white">
+        <h1 class="text-3xl font-bold text-[var(--var-texto)]">
           {{ formOpcao() === 'new' ? 'Novo' : ('Editar' | uppercase) }}
         </h1>
-        <span class="text-[12px] text-white text-inset">
+        <span class="text-[12px] text-[var(--var-texto)] text-inset">
           {{ dataForm.value.nome }}
         </span>
       </div>

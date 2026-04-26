@@ -19,8 +19,8 @@ import { NavigationService } from "../../../services/navigation.service";
         [hidden]="login()"
         (click)="login.set(true)"
       >
-        <span class="!text-[var(--mat-sys-primary)]">Login</span>
-        <mat-icon class="!text-[var(--mat-sys-primary)]">login</mat-icon>
+        <span class="!text-[var(--var-texto)]">Login</span>
+        <mat-icon class="!text-[var(--var-texto)]">login</mat-icon>
       </button>
 
       <div [hidden]="!login()">
@@ -29,7 +29,7 @@ import { NavigationService } from "../../../services/navigation.service";
           [matMenuTriggerFor]="menu"
           aria-label="Example icon-button with a menu"
         >
-          <mat-icon class="!text-[var(--mat-sys-primary)]">account_circle</mat-icon>
+          <mat-icon class="!text-[var(--var-texto)]">account_circle</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
           <div class="py-4">
