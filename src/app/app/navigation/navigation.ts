@@ -56,7 +56,7 @@ export type NavItens = {
       </mat-sidenav>
       <mat-sidenav-content>
         <app-header />
-        <div class="p-10">
+        <div class="px-10">
           <router-outlet />
         </div>
       </mat-sidenav-content>

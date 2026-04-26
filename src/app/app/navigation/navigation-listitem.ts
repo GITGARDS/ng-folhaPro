@@ -12,19 +12,22 @@ import { NavItens } from "./navigation";
     <mat-list-item
       [activated]="router.url === item().url ? true : false"
       [routerLink]="item().url"
-      routerLinkActive="!bg-gray-200"
+      routerLinkActive="!bg-[var(--mat-sys-primary-container)]"
       (click)="navigationservice.menuShow.set(false)"
     >
-      <mat-icon matListItemIcon>{{ item().icon }}</mat-icon>
-      <span matListItemTitle>
+      <mat-icon matListItemIcon class="!text-[var(--mat-sys-on-primary-container)]" >{{ item().icon }}</mat-icon>
+      <span matListItemTitle class="!text-[var(--mat-sys-on-primary-container)]">
         {{ item().label }}
       </span>
     </mat-list-item>
   `,
-  styles: ``,
+  styles: `
+  `,
 })
 export class NavigationListItem {
   navigationservice = inject(NavigationService);
   item = input.required<NavItens>();
   router = inject(Router);
+
+
 }

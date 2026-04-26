@@ -7,7 +7,7 @@ import { MatIcon } from "@angular/material/icon";
   template: `
     <!-- 'outlined' | 'raised' | 'filled'; -->
     <div
-      class="sm:max-w-[260px] w-full h-20 flex items-center justify-between p-2 gap-4 rounded-lg bg-[var(--mat-sys-primary-container)]/70 group hover:bg-[var(--mat-sys-primary-container)]
+      class="sm:max-w-[260px] w-full h-20 flex items-center justify-between p-2 gap-4 rounded-lg bg-[var(--mat-sys-primary-container)] group hover:bg-[var(--mat-sys-primary-container)]/80
       "
     >
       <div class="flex flex-col">
@@ -24,10 +24,10 @@ import { MatIcon } from "@angular/material/icon";
 
       <div class="flex items-center justify-center">
         <div
-          class="h-10 w-10 flex items-center justify-center p-2 rounded-lg bg-[var(--mat-sys-primary)]/80 group-hover:bg-[var(--mat-sys-primary)]"
+          class="h-10 w-10 flex items-center justify-center p-2 rounded-lg bg-[var(--mat-sys-primary)] group-hover:bg-[var(--mat-sys-primary)]/80"
         >
           <mat-icon
-            class="!text-[var(--mat-sys-on-primary)]/80  group-hover:!text-[var(--mat-sys-on-primary)]"
+            class="!text-[var(--mat-sys-on-primary)]  group-hover:!text-[var(--mat-sys-on-primary)]/80"
             >{{ this.icone() }}</mat-icon
           >
         </div>
