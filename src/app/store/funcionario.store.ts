@@ -51,12 +51,10 @@ export const FuncionarioStore = signalStore(
         });
     }),
     carregaListaVazia: signalMethod( async () => {
-      patchState(store, { isLoading: true });
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 100));
       patchState(store, (state) => ({
         ...state,
         list: [],
-        isLoading: false,
       }));
     }),
 
