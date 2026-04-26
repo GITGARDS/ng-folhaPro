@@ -1,44 +1,43 @@
-import { Component, input } from "@angular/core";
+import { Component } from "@angular/core";
 
 @Component({
   selector: 'app-is-loading',
   imports: [],
   template: `
-    @if (isLoading()) {
-      <div class="absolute w-full inset-0 z-30">
-        <div class="rounded-lg m-2 overflow-hidden">
-          <div class="animate-pulse">
-            <div class="bg-gray-50">
+    @let bgEl = 'bg-indigo-200';
+    @let animate = 'animate-pulse';
+
+    <div class="absolute w-full h-full rounded-lg inset-0 z-10 p-2 bg-white">
+      <div [class]="animate">
+        <div class="flex flex-col gap-8">
+          @for (item of [1, 2]; track $index) {
+            <div>
+              <div class="h-10 w-1/2 rounded-lg mb-2" [class]="bgEl"></div>
+              <div class="h-25 rounded-lg mb-8" [class]="bgEl"></div>
+
               <div class="flex flex-col gap-2">
-                <!-- titulo -->
-                <div class="w-full h-[52px] flex items-center gap-2 rounded-lg" [class]="bg"></div>
-                <!-- cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
-                  @for (item of quantosCards(); track $index) {
-                    <div class="w-full h-20 rounded-lg" [class]="bg"></div>
-                  }
-                </div>
-                <!-- filter -->
-                <div class="flex flex-wrap items-center justify-between gap-2">
-                  <div class="w-full h-[43px] sm:w-[260px] rounded-lg" [class]="bg"></div>
-                  <div class="w-20 h-[43px] rounded-full" [class]="bg"></div>
-                </div>
-                <!-- table -->
-                <div class="w-full h-[500px] rounded-lg" [class]="bg"></div>
-                <!-- paginator -->
-                <div class="w-full h-[80px] rounded-lg" [class]="bg"></div>
+                @for (item of [1, 2]; track $index) {
+                  <div class="flex space-x-2">
+                    <div class="size-8 rounded-full" [class]="bgEl"></div>
+                    <div class="flex-1 space-y-6 py-1">
+                      <div class="h-2 rounded" [class]="bgEl"></div>
+                      <div class="space-y-3">
+                        <div class="grid grid-cols-3 gap-4">
+                          <div class="col-span-2 h-2 rounded" [class]="bgEl"></div>
+                          <div class="col-span-1 h-2 rounded" [class]="bgEl"></div>
+                        </div>
+                        <div class="h-2 rounded" [class]="bgEl"></div>
+                      </div>
+                    </div>
+                  </div>
+                }
               </div>
             </div>
-          </div>
+          }
         </div>
       </div>
-    }
+    </div>
   `,
   styles: ``,
 })
-export class IsLoading {
-  isLoading = input.required<boolean>();
-  quantosCards = input.required<number[]>();
-  // bg = 'bg-[var(--mat-sys-surface-variant)]/50 border-2 border-dashed border-gray-300';
-  bg = 'bg-indigo-100 border-2 border-dashed border-gray-300';
-}
+export class IsLoading {}

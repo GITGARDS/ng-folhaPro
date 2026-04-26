@@ -36,7 +36,7 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
       <section>
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div
-            class="w-full sm:w-auto flex gap-2 px-2 rounded-lg bg-[var(--mat-sys-primary-container)]"
+            class="sm:max-w-[260px] w-full flex gap-2 px-2 rounded-lg bg-[var(--mat-sys-primary-container)]"
           >
             <div class="flex items-center">
               <mat-icon class="!text-[var(--mat-sys-primary)]">search</mat-icon>
@@ -192,7 +192,7 @@ export class EmpresaList {
   readonly sort = viewChild.required(MatSort);
 
   constructor() {
-    this.empresaStore.carregaLista();
+    this.empresaStore.carregaLista(null);
     effect(() => {
       this.dataSource = new MatTableDataSource(this.empresaStore.list());
       this.dataSource.paginator = this.paginator();

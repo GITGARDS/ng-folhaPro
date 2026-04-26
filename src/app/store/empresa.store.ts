@@ -1,6 +1,7 @@
 import { inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { patchState, signalMethod, signalStore, withComputed, withMethods, withState } from "@ngrx/signals";
+import { delay } from "rxjs";
 import { EmpresaLogadaModel, EmpresaModel } from "../models/empresa";
 import { EmpresaService } from "../services/empresa.service";
 
@@ -24,24 +25,27 @@ export const EmpresaStore = signalStore(
   withComputed(({ list }) => ({})),
 
   withMethods((store, empresaService = inject(EmpresaService), router = inject(Router)) => ({
-    async carregaLista() {
+    carregaLista: signalMethod(() => {
       if (store.list.length > 0) return;
-      await new Promise((resolve) => setTimeout(resolve, 200));
       patchState(store, { isLoading: true });
-      empresaService.findAll().subscribe({
-        next: (list) => {
-          console.log('findall', list);
-          patchState(store, (state) => ({
-            ...state,
-            list,
-            isLoading: false,
-          }));
-        },
-      });
-    },
+      empresaService
+        .findAll()
+        .pipe(delay(200))
+        .subscribe({
+          next: (list) => {
+            console.log('findall', list);
+            patchState(store, (state) => ({
+              ...state,
+              list,
+              isLoading: false,
+            }));
+          },
+        });
+    }),
 
     create: signalMethod(async (param: EmpresaModel) => {
       patchState(store, { isLoading: true });
+      await new Promise((resolve) => setTimeout(resolve, 200));
       const id = await empresaService.create(param);
       patchState(store, (state) => ({
         ...state,
@@ -83,6 +87,7 @@ export const EmpresaStore = signalStore(
 
     updateById: signalMethod(async (params: { id: string; data: EmpresaModel }) => {
       patchState(store, { isLoading: true });
+      await new Promise((resolve) => setTimeout(resolve, 200));
       await empresaService.updateById(params.id, params.data);
       patchState(store, (state) => ({
         ...state,
@@ -93,6 +98,7 @@ export const EmpresaStore = signalStore(
 
     deleteById: signalMethod(async (id: number) => {
       patchState(store, { isLoading: true });
+      await new Promise((resolve) => setTimeout(resolve, 200));
       await empresaService.deleteById(id.toString());
       patchState(store, (state) => ({
         ...state,

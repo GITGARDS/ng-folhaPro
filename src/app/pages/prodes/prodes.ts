@@ -22,8 +22,9 @@ import { ProdesList } from "./prodes-list/prodes-list";
 
       <section class="col-span-6 lg:col-span-4">
         <div class="relative p-2">
-          <app-is-loading [isLoading]="prodesStore.isLoading()" [quantosCards]="[1]" />
-
+          @if (prodesStore.isLoading()) {
+            <app-is-loading />
+          }
           <div class="flex flex-col gap-2">
             <app-title [icone]="'compare_arrows'" [title]="title" />
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">

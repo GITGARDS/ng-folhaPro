@@ -19,7 +19,9 @@ import { FuncionarioList } from "./funcionario-list/funcionario-list";
 
       <section class="col-span-6 lg:col-span-4">
         <div class="relative p-2">
-          <app-is-loading [isLoading]="funcionarioStore.isLoading()" [quantosCards]="[2]" />
+          @if (funcionarioStore.isLoading()) {
+            <app-is-loading />
+          }
 
           <div class="flex flex-col gap-2">
             <app-title [icone]="'people'" [title]="title" />

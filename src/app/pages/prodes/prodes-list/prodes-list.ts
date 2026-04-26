@@ -133,7 +133,6 @@ import { ProdesForm } from "../prodes-form/prodes-form";
                     <button
                       mat-menu-item
                       (click)="onFindById(row.id)"
-                      matTooltip="Visualizar registro"
                     >
                       <mat-icon>search</mat-icon>
                       <span>Visualizar</span>
@@ -145,7 +144,6 @@ import { ProdesForm } from "../prodes-form/prodes-form";
                     <button
                       mat-menu-item
                       (click)="onDeleteById(row.id)"
-                      matTooltip="Excluir registro"
                     >
                       <mat-icon>delete</mat-icon>
                       <span>Excluir</span>
@@ -194,7 +192,7 @@ export class ProdesList {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor() {
-    this.prodesStore.carregaLista();
+    this.prodesStore.carregaLista(null);
     effect(() => {
       this.dataSource = new MatTableDataSource(this.prodesStore.list());
       this.dataSource.paginator = this.paginator;

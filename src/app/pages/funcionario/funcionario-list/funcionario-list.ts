@@ -130,7 +130,6 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
                     <button
                       mat-menu-item
                       (click)="onFindById(row.id)"
-                      matTooltip="Visualizar registro"
                     >
                       <mat-icon>search</mat-icon>
                       <span>Visualizar</span>
@@ -142,7 +141,6 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
                     <button
                       mat-menu-item
                       (click)="onDeleteById(row.id)"
-                      matTooltip="Excluir registro"
                     >
                       <mat-icon>delete</mat-icon>
                       <span>Excluir</span>

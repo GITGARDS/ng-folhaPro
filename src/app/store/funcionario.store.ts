@@ -1,5 +1,6 @@
 import { computed, inject } from "@angular/core";
 import { patchState, signalMethod, signalStore, withComputed, withMethods, withState } from "@ngrx/signals";
+import { delay } from "rxjs";
 import { FuncionarioModel } from "../models/funcionario";
 import { FuncionarioService } from "../services/funcionario.service";
 
@@ -32,25 +33,27 @@ export const FuncionarioStore = signalStore(
   })),
 
   withMethods((store, funcionarioService = inject(FuncionarioService)) => ({
-
-    async carregaLista(params: { empresa: string }) {
+    carregaLista: signalMethod((params: { empresa: string }) => {
       if (store.list.length > 0) return;
-      await new Promise((resolve) => setTimeout(resolve, 200));
       patchState(store, { isLoading: true });
-      funcionarioService.findAll({ empresa: params.empresa }).subscribe({
-        next: (list) => {
-          console.log('findall', list);
-          patchState(store, (state) => ({
-            ...state,
-            list,
-            isLoading: false,
-          }));
-        },
-      });
-    },
+      funcionarioService
+        .findAll({ empresa: params.empresa })
+        .pipe(delay(200))
+        .subscribe({
+          next: (list) => {
+            console.log('findall', list);
+            patchState(store, (state) => ({
+              ...state,
+              list,
+              isLoading: false,
+            }));
+          },
+        });
+    }),
 
     create: signalMethod(async (param: FuncionarioModel) => {
       patchState(store, { isLoading: true });
+      await new Promise((resolve) => setTimeout(resolve, 200));
       const id = await funcionarioService.create(param);
       patchState(store, (state) => ({
         ...state,
@@ -61,6 +64,7 @@ export const FuncionarioStore = signalStore(
 
     updateById: signalMethod(async (params: { id: string; data: FuncionarioModel }) => {
       patchState(store, { isLoading: true });
+      await new Promise((resolve) => setTimeout(resolve, 200));
       await funcionarioService.updateById(params.id, params.data);
       patchState(store, (state) => ({
         ...state,
@@ -71,6 +75,7 @@ export const FuncionarioStore = signalStore(
 
     deleteById: signalMethod(async (id: number) => {
       patchState(store, { isLoading: true });
+      await new Promise((resolve) => setTimeout(resolve, 200));
       await funcionarioService.deleteById(id.toString());
       patchState(store, (state) => ({
         ...state,
