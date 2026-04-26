@@ -9,7 +9,5 @@ import { Navigation } from "./app/navigation/navigation";
 })
 export class App {
   protected readonly title = signal('ng-folhaPro');
-  constructor() {
-    localStorage.removeItem('empresa');
-  }
+  constructor() {}
 }

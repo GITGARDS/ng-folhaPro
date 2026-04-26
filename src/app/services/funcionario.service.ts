@@ -44,7 +44,7 @@ export class FuncionarioService {
   }
 
   async deleteById(id: string) {
-    const docRef = doc(db, this.colectionLabel, localStorage.getItem('empresa') || '0', id);
+    const docRef = doc(db, this.colectionLabel, this.colectionLabel, id);
     await deleteDoc(docRef);
   }
 }

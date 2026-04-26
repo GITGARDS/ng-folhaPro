@@ -2,6 +2,7 @@ import { computed, inject } from "@angular/core";
 import { patchState, signalMethod, signalStore, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 import { delay } from "rxjs";
 import { FuncionarioModel } from "../../models/funcionario";
+import { EmpresaService } from "../../services/empresa.service";
 import { FuncionarioService } from "../../services/funcionario.service";
 
 type FuncionarioState = {
@@ -92,11 +93,9 @@ export const FuncionarioStore = signalStore(
       }));
     }),
   })),
-  withHooks((store) => ({
+  withHooks((store, empresaService = inject(EmpresaService)) => ({
     onInit: () => {
-      setTimeout(() => {
-        store.carregaLista({ empresa: window.localStorage.getItem('empresa') as string });
-      }, 10)
+      store.carregaLista({ empresa: empresaService.idEmpresaLogada() as string });
     },
   })),
 );

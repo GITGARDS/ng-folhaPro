@@ -22,7 +22,6 @@ const initialState: EmpresaState = {
 export const EmpresaStore = signalStore(
   {
     providedIn: 'root',
-    
   },
   withState(initialState),
 
@@ -69,15 +68,17 @@ export const EmpresaStore = signalStore(
       login: signalMethod(async (param: { empresa: EmpresaModel }) => {
         patchState(store, { isLoading: true });
         await new Promise((resolve) => setTimeout(resolve, 200));
-        patchState(store, (state) => ({
-          ...state,
-          empresaLogada: {
-            empresa: param.empresa,
-            isLogada: true,
-          },
-          isLoading: false,
-        }));
-        window.localStorage.setItem('empresa', param.empresa.id as string);
+        await empresaService.login(param.empresa.id as string).then(() => {
+          patchState(store, (state) => ({
+            ...state,
+            empresaLogada: {
+              empresa: param.empresa,
+              isLogada: true,
+            },
+            isLoading: false,
+          }));
+        });
+
         switch (router.url) {
           case '/empresa': {
             funcionarioStore.carregaLista({ empresa: param.empresa.id as string });
@@ -89,12 +90,13 @@ export const EmpresaStore = signalStore(
       logout: async () => {
         patchState(store, { isLoading: true });
         await new Promise((resolve) => setTimeout(resolve, 200));
-        patchState(store, (state) => ({
-          ...state,
-          empresaLogada: {} as EmpresaLogadaModel,
-          isLoading: false,
-        }));
-        window.localStorage.removeItem('empresa');
+        await empresaService.logout().then(() => {
+          patchState(store, (state) => ({
+            ...state,
+            empresaLogada: {} as EmpresaLogadaModel,
+            isLoading: false,
+          }));
+        });
         funcionarioStore.carregaListaVazia(null);
         switch (router.url) {
           case '/funcionario': {
@@ -127,8 +129,8 @@ export const EmpresaStore = signalStore(
       }),
     }),
   ),
-  withHooks((store ) => ({
-    onInit() {      
+  withHooks((store) => ({
+    onInit() {
       store.carregaLista(null);
     },
   })),

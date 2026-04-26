@@ -193,9 +193,11 @@ export class FuncionarioList {
     // });
 
     effect(() => {
-      this.dataSource = new MatTableDataSource(this.funcionarioStore.list());
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      setTimeout(() => {
+        this.dataSource = new MatTableDataSource(this.funcionarioStore.list());
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }, 10);
     });
   }
 
