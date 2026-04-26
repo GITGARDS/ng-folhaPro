@@ -1,10 +1,11 @@
 import { inject } from "@angular/core";
 import { Router } from "@angular/router";
-import { patchState, signalMethod, signalStore, withComputed, withMethods, withState } from "@ngrx/signals";
-import { delay } from "rxjs";
+import { patchState, signalMethod, signalStore, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
+import { rxMethod } from "@ngrx/signals/rxjs-interop";
+import { delay, pipe } from "rxjs";
 import { EmpresaLogadaModel, EmpresaModel } from "../models/empresa";
 import { EmpresaService } from "../services/empresa.service";
-import { FuncionarioStore } from "./funcionario.store";
+import { FuncionarioStore } from "./funcionario/funcionario.store";
 
 type EmpresaState = {
   list: EmpresaModel[];
@@ -21,9 +22,11 @@ const initialState: EmpresaState = {
 export const EmpresaStore = signalStore(
   {
     providedIn: 'root',
+    
   },
   withState(initialState),
-  withComputed(({ list }) => ({})),
+
+  withComputed((store) => ({})),
 
   withMethods(
     (
@@ -32,6 +35,8 @@ export const EmpresaStore = signalStore(
       router = inject(Router),
       funcionarioStore = inject(FuncionarioStore),
     ) => ({
+      teste: rxMethod<unknown>(pipe(delay(2000))),
+
       carregaLista: signalMethod(() => {
         if (store.list.length > 0) return;
         patchState(store, { isLoading: true });
@@ -72,6 +77,7 @@ export const EmpresaStore = signalStore(
           },
           isLoading: false,
         }));
+        window.localStorage.setItem('empresa', param.empresa.id as string);
         switch (router.url) {
           case '/empresa': {
             funcionarioStore.carregaLista({ empresa: param.empresa.id as string });
@@ -88,6 +94,7 @@ export const EmpresaStore = signalStore(
           empresaLogada: {} as EmpresaLogadaModel,
           isLoading: false,
         }));
+        window.localStorage.removeItem('empresa');
         funcionarioStore.carregaListaVazia(null);
         switch (router.url) {
           case '/funcionario': {
@@ -120,4 +127,9 @@ export const EmpresaStore = signalStore(
       }),
     }),
   ),
+  withHooks((store ) => ({
+    onInit() {      
+      store.carregaLista(null);
+    },
+  })),
 );

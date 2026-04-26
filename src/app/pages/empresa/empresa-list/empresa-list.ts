@@ -192,7 +192,6 @@ export class EmpresaList {
   readonly sort = viewChild.required(MatSort);
 
   constructor() {
-    this.empresaStore.carregaLista(null);
     effect(() => {
       this.dataSource = new MatTableDataSource(this.empresaStore.list());
       this.dataSource.paginator = this.paginator();

@@ -1,8 +1,8 @@
 import { computed, inject } from "@angular/core";
-import { patchState, signalMethod, signalStore, withComputed, withMethods, withState } from "@ngrx/signals";
+import { patchState, signalMethod, signalStore, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 import { delay } from "rxjs";
-import { FuncionarioModel } from "../models/funcionario";
-import { FuncionarioService } from "../services/funcionario.service";
+import { FuncionarioModel } from "../../models/funcionario";
+import { FuncionarioService } from "../../services/funcionario.service";
 
 type FuncionarioState = {
   list: FuncionarioModel[];
@@ -21,6 +21,7 @@ export const FuncionarioStore = signalStore(
     providedIn: 'root',
   },
   withState(initialState),
+
   withComputed(({ list }) => ({
     totalfuncionariosAtivos: computed(() => list().filter((f) => f.ativo === true)),
     totalSalarioBase: computed(() =>
@@ -50,7 +51,7 @@ export const FuncionarioStore = signalStore(
           },
         });
     }),
-    carregaListaVazia: signalMethod( async () => {
+    carregaListaVazia: signalMethod(async () => {
       await new Promise((resolve) => setTimeout(resolve, 100));
       patchState(store, (state) => ({
         ...state,
@@ -90,5 +91,12 @@ export const FuncionarioStore = signalStore(
         isLoading: false,
       }));
     }),
+  })),
+  withHooks((store) => ({
+    onInit: () => {
+      setTimeout(() => {
+        store.carregaLista({ empresa: window.localStorage.getItem('empresa') as string });
+      }, 10)
+    },
   })),
 );

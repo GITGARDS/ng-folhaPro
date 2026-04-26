@@ -11,7 +11,7 @@ import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { FuncionarioModel } from "../../../models/funcionario";
 import { EmpresaStore } from "../../../store/empresa.store";
-import { FuncionarioStore } from "../../../store/funcionario.store";
+import { FuncionarioStore } from "../../../store/funcionario/funcionario.store";
 import { FuncionarioForm } from "../funcionario-form/funcionario-form";
 
 @Component({
@@ -127,10 +127,7 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
                     <mat-icon>more_vert</mat-icon>
                   </button>
                   <mat-menu #menu="matMenu">
-                    <button
-                      mat-menu-item
-                      (click)="onFindById(row.id)"
-                    >
+                    <button mat-menu-item (click)="onFindById(row.id)">
                       <mat-icon>search</mat-icon>
                       <span>Visualizar</span>
                     </button>
@@ -138,10 +135,7 @@ import { FuncionarioForm } from "../funcionario-form/funcionario-form";
                       <mat-icon>edit</mat-icon>
                       <span>Editar</span>
                     </button>
-                    <button
-                      mat-menu-item
-                      (click)="onDeleteById(row.id)"
-                    >
+                    <button mat-menu-item (click)="onDeleteById(row.id)">
                       <mat-icon>delete</mat-icon>
                       <span>Excluir</span>
                     </button>
@@ -194,9 +188,9 @@ export class FuncionarioList {
   ];
 
   constructor() {
-    this.funcionarioStore.carregaLista({
-      empresa: this.empresaStore.empresaLogada().empresa.id as string,
-    });
+    // this.funcionarioStore.carregaLista({
+    //   empresa: this.empresaStore.empresaLogada().empresa.id as string,
+    // });
 
     effect(() => {
       this.dataSource = new MatTableDataSource(this.funcionarioStore.list());

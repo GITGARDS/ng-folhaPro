@@ -192,7 +192,6 @@ export class ProdesList {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor() {
-    this.prodesStore.carregaLista(null);
     effect(() => {
       this.dataSource = new MatTableDataSource(this.prodesStore.list());
       this.dataSource.paginator = this.paginator;

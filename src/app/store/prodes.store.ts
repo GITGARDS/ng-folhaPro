@@ -1,5 +1,5 @@
 import { computed, inject } from "@angular/core";
-import { patchState, signalMethod, signalStore, withComputed, withMethods, withState } from "@ngrx/signals";
+import { patchState, signalMethod, signalStore, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 import { delay } from "rxjs";
 import { ProdesModel } from "../models/prodes";
 import { ProdesService } from "../services/prodes.service";
@@ -74,5 +74,10 @@ export const ProdesStore = signalStore(
         isLoading: false,
       }));
     }),
+  })),
+  withHooks((store) => ({
+    onInit: () => {
+      store.carregaLista(null);
+    }
   })),
 );

@@ -4,7 +4,7 @@ import { IsLoading } from "../../app/components/is-loading";
 import { MiniCard } from "../../app/components/mini-card";
 import { Title } from "../../app/components/title";
 import { EmpresaStore } from "../../store/empresa.store";
-import { FuncionarioStore } from "../../store/funcionario.store";
+import { FuncionarioStore } from "../../store/funcionario/funcionario.store";
 import { EmpresaList } from "./empresa-list/empresa-list";
 
 @Component({
