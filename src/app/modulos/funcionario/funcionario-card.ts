@@ -24,7 +24,7 @@ import { FuncionarioStore } from "./shared/funcionario.store";
       </app-mini-card>
     </div>
   `,
-  styles: ` 
+  styles: `
     :host {
       display: block;
     }

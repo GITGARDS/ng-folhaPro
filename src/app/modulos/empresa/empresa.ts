@@ -5,6 +5,7 @@ import { Title } from "../core/components/title";
 import FuncionarioCard from "../funcionario/funcionario-card";
 import { FuncionarioStore } from "../funcionario/shared/funcionario.store";
 import { EmpresaList } from "./empresa-list";
+import { EmpresaService } from "./shared/empresa.service";
 import { EmpresaStore } from "./shared/empresa.store";
 
 @Component({
@@ -23,7 +24,9 @@ import { EmpresaStore } from "./shared/empresa.store";
           <app-is-loading [isLoading]="empresaStore.isLoading()" />
           <div class="flex flex-col gap-2">
             <app-title [icone]="'business'" [title]="title" />
-            <app-funcionario-card />
+            @if (empresaService.idEmpresaLogada()) {
+              <app-funcionario-card />
+            }
             <app-empresa-list />
           </div>
         </div>
@@ -37,5 +40,6 @@ import { EmpresaStore } from "./shared/empresa.store";
 export default class Empresa {
   title = 'empresa';
   empresaStore = inject(EmpresaStore);
+  empresaService = inject(EmpresaService);
   funcionarioStore = inject(FuncionarioStore);
 }
