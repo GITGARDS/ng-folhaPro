@@ -30,9 +30,9 @@ import { ProdesForm } from "../prodes-form/prodes-form";
     <div class="flex flex-col gap-2">
       <section>
         <div class="flex flex-wrap items-center justify-between gap-2">
-          <div class="w-full sm:w-auto flex gap-2 px-2 rounded-lg border">
+          <div class="w-full sm:w-auto flex gap-2 px-2 rounded-lg bg-[var(--var-fundo)]">
             <div class="flex items-center">
-              <mat-icon>search</mat-icon>
+              <mat-icon class="!text-[var(--var-texto)]">search</mat-icon>
             </div>
             <div>
               <input class="p-2 border-none outline-0 text-lg" (keyup)="applyFilter($event)" />
@@ -59,7 +59,7 @@ import { ProdesForm } from "../prodes-form/prodes-form";
                 <td mat-cell *matCellDef="let row">
                   <div class="flex items-center gap-2">
                     <div
-                      class="w-8 h-8 rounded-full flex items-center justify-center text-lg"
+                      class="w-8 h-8 rounded-full flex items-center justify-center text-lg text-[var(--var-texto)]"
                       [style.background-color]="onGetColor(row.id.charAt(0))"
                     >
                       <p class="font-bold p-4">
@@ -90,7 +90,7 @@ import { ProdesForm } from "../prodes-form/prodes-form";
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Automatico</th>
                 <td mat-cell *matCellDef="let row">
                   <div
-                    [class]="row.automatico == true ? 'text-blue-500' : 'text-red-500'"
+                    [class]="row.automatico == true ? 'text-(--var-texto)' : 'text-red-500'"
                     class="h-8 w-8 flex items-center justify-center"
                   >
                     <mat-icon class="!font-bold !text-md ">{{
@@ -104,7 +104,7 @@ import { ProdesForm } from "../prodes-form/prodes-form";
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Ativo</th>
                 <td mat-cell *matCellDef="let row">
                   <div
-                    [class]="row.ativo == true ? 'text-blue-500' : 'text-red-500'"
+                    [class]="row.ativo == true ? 'text-(--var-texto)' : 'text-red-500'"
                     class="h-8 w-8 flex items-center justify-center"
                   >
                     <mat-icon class="!font-bold !text-md ">{{

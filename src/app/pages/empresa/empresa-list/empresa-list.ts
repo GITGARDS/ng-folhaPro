@@ -36,10 +36,10 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
       <section>
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div
-            class="sm:max-w-[260px] w-full flex gap-2 px-2 rounded-lg border"
+            class="sm:max-w-[260px] w-full flex gap-2 px-2 rounded-lg bg-[var(--var-fundo)]"
           >
             <div class="flex items-center">
-              <mat-icon>search</mat-icon>
+              <mat-icon class="!text-[var(--var-texto)]">search</mat-icon>
             </div>
             <div>
               <input class="p-2 border-none outline-0 text-lg" (keyup)="applyFilter($event)" />
@@ -70,7 +70,7 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
                     </span>
                     <span class="flex items-center justify-center">
                       @if (row.id === empresaStore.empresaLogada().empresa?.id) {                        
-                        <span class="size-3 animate-ping rounded-lg bg-blue-500"></span>
+                        <span class="size-3 animate-ping rounded-lg bg-[var(--var-texto)]"></span>
                       }
                     </span>
                   </div>
@@ -89,7 +89,7 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
                 <td mat-cell *matCellDef="let row">
                   <div class="flex items-center gap-7">
                     <div
-                      class="w-8 h-8 rounded-full flex items-center justify-center text-lg"
+                      class="w-8 h-8 rounded-full flex items-center justify-center text-lg text-[var(--var-texto)]"
                       [style.background-color]="onGetColor(row.nomeEmpresaRazaoSocial.charAt(0))"
                     >
                       <p class="font-bold p-4">

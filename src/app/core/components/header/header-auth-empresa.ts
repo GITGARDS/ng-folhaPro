@@ -21,7 +21,7 @@ import { EmpresaStore } from "../../../store/empresa.store";
             [matTooltip]="empresaStore.empresaLogada().empresa.nomeEmpresaRazaoSocial"
             matTooltipPosition="above"
           >
-            <mat-icon>account_circle</mat-icon>
+            <mat-icon class="!text-[var(--var-texto)]">account_circle</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
             <div class="flex flex-col p-2 gap-2">

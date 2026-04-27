@@ -30,12 +30,12 @@ import { MatOption, MatSelect } from "@angular/material/select";
     MatRadioModule,
   ],
   template: `
-    <section class="w-full border-b text-shadow-sm p-2">
+    <section class="w-full border-b bg-[var(--var-fundo)] text-shadow-sm p-2">
       <div class="flex flex-col justify-center items-center">
-        <h1 class="text-3xl font-bold">
+        <h1 class="text-3xl font-bold text-[var(--var-texto)]">
           {{ formOpcao() === 'new' ? 'Novo' : ('Editar' | uppercase) }}
         </h1>
-        <span class="text-[12px] text-inset">
+        <span class="text-[12px] text-[var(--var-texto)] text-inset">
           {{ dataForm.value.descricao }}
         </span>
       </div>

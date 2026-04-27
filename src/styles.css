@@ -5,7 +5,24 @@
 .dark-mode {
   color-scheme: dark;
 }
-
 .light-mode {
   color-scheme: light;
 }
+
+:root {
+  --var-fundo: var(--mat-sys-primary);
+  --var-texto: var(--mat-sys-on-primary);
+
+  --body-fundo: var(--mat-sys-surface-variant);
+  --body-texto: var(--mat-sys-on-surface);
+}
+
+th {
+  background-color: var(--var-fundo) !important;
+  color: var(--var-texto) !important;
+}
+
+/* :root {
+  --var-fundo: var(--mat-sys-primary-container); 
+  --var-texto: var(--mat-sys-on-primary-container);
+} */
