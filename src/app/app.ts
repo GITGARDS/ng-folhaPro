@@ -1,5 +1,5 @@
 import { Component, signal } from "@angular/core";
-import { Navigation } from "./app/navigation/navigation";
+import { Navigation } from "./core/navigation/navigation";
 
 @Component({
   selector: 'app-root',

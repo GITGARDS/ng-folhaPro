@@ -1,8 +1,8 @@
 import { CurrencyPipe } from "@angular/common";
 import { Component, inject } from "@angular/core";
-import { IsLoading } from "../../app/components/is-loading";
-import { MiniCard } from "../../app/components/mini-card";
-import { Title } from "../../app/components/title";
+import { IsLoading } from "../../core/components/is-loading";
+import { MiniCard } from "../../core/components/mini-card";
+import { Title } from "../../core/components/title";
 import { FuncionarioStore } from "../../store/funcionario/funcionario.store";
 import { FuncionarioList } from "./funcionario-list/funcionario-list";
 

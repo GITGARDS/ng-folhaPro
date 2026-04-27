@@ -34,6 +34,7 @@ export type NavItens = {
     <!-- fixedInViewport -->
     <!-- [mode]="(isHandset$ | async) ? 'over' : 'side'" -->
     <!-- [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" -->
+    <!-- class="sidenav-container !bg-[var(--body-fundo)] !text-[var(--body-texto)]" -->
     <mat-sidenav-container
       class="sidenav-container !bg-[var(--body-fundo)] !text-[var(--body-texto)]"
     >

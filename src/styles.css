@@ -10,9 +10,6 @@
 }
 
 :root {
-  /* --var-fundo: var(--mat-sys-primary-container);
-  --var-texto: var(--mat-sys-on-primary-container); */
-
   --var-fundo: var(--mat-sys-primary);
   --var-texto: var(--mat-sys-on-primary);
 

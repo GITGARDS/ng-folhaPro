@@ -9,7 +9,7 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
-    loadComponent: () => import('./app/dashboard'),
+    loadComponent: () => import('./core/dashboard'),
   },
   {
     path: 'empresa',

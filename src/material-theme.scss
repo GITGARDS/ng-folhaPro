@@ -24,6 +24,35 @@ body {
   // `dark` to enable the dark color theme, or to `light dark` to defer to the
   // user's system settings.
   color-scheme: light;
+  
+  --mat-sys-primary: blue;
+  --mat-sys-on-primary: white;
+
+  --mat-sys-primary-container: rgb(0, 83, 255);
+  --mat-sys-on-primary-container: white;
+
+  --mat-sys-surface: white;
+  --mat-sys-on-surface: rgb(0, 83, 255);
+
+  --mat-sys-surface-variant: rgb(217, 217, 217);
+  --mat-sys-on-surface-variant: black;
+
+  --mat-sys-surface-tint: rgb(0, 83, 255);
+  --mat-sys-outline: rgb(0, 83, 255);
+
+  --mat-sys-error: rgb(255, 0, 0);
+  --mat-sys-error-container: rgb(255, 0, 0);
+
+  --mat-sys-on-error: white;
+  --mat-sys-on-error-container: white;
+
+  --mat-sys-outline: rgb(0, 83, 255);
+  --mat-sys-outline-variant: rgb(217, 217, 217);
+
+  --mat-sys-scrim: rgba(0, 0, 0, 0.5);
+
+  --mat-sys-on-background: rgb(0, 83, 255);
+  --mat-sys-on-surface-variant: black;
 
   // Set a default background, font and text colors for the application using
   // Angular Material's system-level CSS variables. Learn more about these
