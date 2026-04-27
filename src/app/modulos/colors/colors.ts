@@ -1,9 +1,24 @@
 import { Component, signal } from "@angular/core";
+import { MatCardModule } from "@angular/material/card";
 
 @Component({
   selector: 'app-colors',
+  imports: [MatCardModule],
   template: `
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-4 p-4">
+      <mat-card appearance="outlined">
+        <mat-card-header>
+          <div mat-card-avatar>avatar</div>
+          <mat-card-title>title</mat-card-title>
+          <mat-card-subtitle>sub-header</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content> content </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>actionOne</button>
+          <button mat-button>actionTwo</button>
+        </mat-card-actions>
+      </mat-card>
+
       <div class="flex flex-col flex-wrap gap-2 border border-gray-300 p-4 rounded-lg ">
         <span>Paleta</span>
         @for (item of paleta(); track $index) {

@@ -1,38 +1,39 @@
 import { Component, input } from "@angular/core";
+import { MatCardModule } from "@angular/material/card";
 import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: 'app-mini-card',
-  imports: [MatIcon],
+  imports: [MatIcon, MatCardModule],
   template: `
     <!-- 'outlined' | 'raised' | 'filled'; -->
-    <div
-      class="sm:max-w-[260px] w-full h-20 flex items-center justify-between p-2 gap-4 rounded-lg bg-[var(--var-fundo)] group hover:bg-[var(--var-fundo)]/80
-      "
+
+    <mat-card
+      class="sm:!max-w-[260px] !w-full !h-20 !bg-[var(--var-fundo)] group hover:!bg-[var(--var-fundo)]/80"
     >
-      <div class="flex flex-col">
-        <div class="flex items-center gap-2">
-          <span
-            class="text-md font-semibold capitalize text-[var(--var-texto)]"
-            >{{ this.title() }}</span
+      <mat-card-header>
+        <div mat-card-avatar>
+          <div
+            class="h-10 w-10 flex items-center justify-center p-2 rounded-lg bg-[var(--var-fundo)] group-hover:bg-[var(--var-fundo)]/80"
           >
+            <mat-icon class="!text-[var(--var-texto)]  group-hover:!text-[var(--var-texto)]/80">{{
+              this.icone()
+            }}</mat-icon>
+          </div>
         </div>
-        <div class="text-[var(--var-texto)] text-2xl font-bold text-shadow-lg">
+        <div mat-card-title>
+          <span class="capitalize text-[var(--var-texto)]">{{
+            this.title()
+          }}</span>
+        </div>
+        <div
+          mat-card-subtitle
+          class="!text-[var(--var-texto)]"
+        >
           <ng-content #content />
         </div>
-      </div>
-
-      <div class="flex items-center justify-center">
-        <div
-          class="h-10 w-10 flex items-center justify-center p-2 rounded-lg bg-[var(--var-fundo)] group-hover:bg-[var(--var-fundo)]/80"
-        >
-          <mat-icon
-            class="!text-[var(--var-texto)]  group-hover:!text-[var(--var-texto)]/80"
-            >{{ this.icone() }}</mat-icon
-          >
-        </div>
-      </div>
-    </div>
+      </mat-card-header>
+    </mat-card>
   `,
   styles: `
     :host {

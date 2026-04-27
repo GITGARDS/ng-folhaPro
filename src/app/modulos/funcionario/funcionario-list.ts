@@ -52,7 +52,7 @@ import { FuncionarioStore } from "./shared/funcionario.store";
       </section>
 
       <section>
-        <mat-card appearance="raised" class="overflow-hidden" class="!rounded-lg !overflow-hidden">
+        <mat-card appearance="raised" class="overflow-hidden" class="!overflow-hidden">
           <div class="h-[500px] overflow-auto">
             <table mat-table [dataSource]="dataSource" matSort aria-label="Elements">
               <!-- Id Column -->
