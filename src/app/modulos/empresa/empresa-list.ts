@@ -1,6 +1,6 @@
 import { DatePipe } from "@angular/common";
 import { Component, effect, inject, viewChild } from "@angular/core";
-import { MatButton, MatIconButton } from "@angular/material/button";
+import { MatIconButton } from "@angular/material/button";
 import { MatCard } from "@angular/material/card";
 import { MatDialog } from "@angular/material/dialog";
 import { MatDivider } from "@angular/material/divider";
@@ -11,6 +11,7 @@ import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { Router } from "@angular/router";
+import { Filter } from "../core/components/filter";
 import { EmpresaForm } from "./empresa-form";
 import { EmpresaModel } from "./shared/empresa-model";
 import { EmpresaService } from "./shared/empresa.service";
@@ -26,28 +27,16 @@ import { EmpresaStore } from "./shared/empresa.store";
     MatIconButton,
     MatMenuModule,
     DatePipe,
-    MatButton,
     MatInputModule,
     MatInputModule,
     MatCard,
     MatDivider,
+    Filter,
   ],
   template: `
     <div class="flex flex-col gap-2">
       <section>
-        <div class="flex flex-wrap items-center justify-between gap-2">
-          <div class="sm:max-w-[260px] w-full flex gap-2 px-2 rounded-lg bg-[var(--var-fundo)]">
-            <div class="flex items-center">
-              <mat-icon class="!text-[var(--var-texto)]">search</mat-icon>
-            </div>
-            <div>
-              <input class="p-2 border-none outline-0 text-lg" (keyup)="applyFilter($event)" />
-            </div>
-          </div>
-          <button matButton="filled" (click)="onCreate()" matTooltip="Adicionar um novo registro">
-            <span>Novo</span>
-          </button>
-        </div>
+        <app-filter (filtro)="applyFilter($event)" (onCreate)="onCreate()" />
       </section>
 
       <section>
@@ -254,9 +243,8 @@ export class EmpresaList {
     }
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyFilter(event: string) {
+    this.dataSource.filter = event;
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }

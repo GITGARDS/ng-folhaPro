@@ -1,37 +1,24 @@
 import { TitleCasePipe } from "@angular/common";
 import { Component, input } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
+import { MatDivider } from "@angular/material/divider";
 import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: 'app-title',
-  imports: [MatIcon, TitleCasePipe, MatCardModule],
+  imports: [MatIcon, TitleCasePipe, MatCardModule, MatDivider],
   template: `
-    <mat-card class="!bg-[var(--var-fundo)]">
-      <mat-card-header>
-        <div mat-card-avatar>
-          <mat-icon class="!text-3xl !text-[var(--var-texto)] !flex !h-auto !w-auto">{{
-            icone()
-          }}</mat-icon>
-        </div>
-        <div mat-card-title>
-          <span class="text-lg sm:text-2xl font-bold text-shadow-sm text-[var(--var-texto)]">
-            {{ title() | titlecase }}
-          </span>
-        </div>
-      </mat-card-header>
-    </mat-card>
-
-    <!-- <div class="flex items-center gap-2 rounded-lg bg-[var(--var-fundo)]">
-      <div class="flex items-center p-2">
-        <mat-icon class="!flex !h-auto !w-auto !text-3xl !text-[var(--var-texto)]">{{
+    <div class="flex items-center gap-2 mb-2">
+      <div>
+        <mat-icon class="!text-lg !text-[var(--var-fundo)] !flex !items-center !h-auto !w-auto">{{
           icone()
         }}</mat-icon>
       </div>
-      <h2 class="text-lg sm:text-2xl font-bold text-shadow-sm text-[var(--var-texto)]">
+      <span class="text-lg sm:text-5xl font-bold text-shadow-sm text-[var(--var-fundo)]">
         {{ title() | titlecase }}
-      </h2>
-    </div> -->
+      </span>
+    </div>
+    <mat-divider class="!mb-2" />
   `,
   styles: `
     :host {

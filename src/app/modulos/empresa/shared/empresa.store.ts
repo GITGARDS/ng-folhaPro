@@ -78,13 +78,6 @@ export const EmpresaStore = signalStore(
             isLoading: false,
           }));
         });
-
-        switch (router.url) {
-          case '/empresa': {
-            funcionarioStore.carregaLista({ empresa: param.empresa.id as string });
-            break;
-          }
-        }
       }),
 
       logout: async () => {

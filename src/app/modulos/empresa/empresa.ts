@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { Component, effect, inject } from "@angular/core";
 import { IsLoading } from "../core/components/is-loading";
 import { Title } from "../core/components/title";
 import FuncionarioCard from "../funcionario/funcionario-card";
@@ -22,8 +22,10 @@ import { EmpresaStore } from "./shared/empresa.store";
       <section class="col-span-6 lg:col-span-4 relative">
         <div class="p-2">
           <app-is-loading [isLoading]="empresaStore.isLoading()" />
+
           <div class="flex flex-col gap-2">
             <app-title [icone]="'business'" [title]="title" />
+
             @if (empresaService.idEmpresaLogada()) {
               <app-funcionario-card />
             }
@@ -42,4 +44,16 @@ export default class Empresa {
   empresaStore = inject(EmpresaStore);
   empresaService = inject(EmpresaService);
   funcionarioStore = inject(FuncionarioStore);
+
+  constructor() {
+    effect(() => {
+      if (this.empresaService.idEmpresaLogada() === null) {
+        this.funcionarioStore.carregaListaVazia(null);
+        return;
+      }
+      this.funcionarioStore.carregaLista({
+        empresa: this.empresaService.idEmpresaLogada() as string,
+      });
+    });
+  }
 }
