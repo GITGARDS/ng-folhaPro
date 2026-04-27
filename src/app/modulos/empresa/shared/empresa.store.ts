@@ -56,7 +56,7 @@ export const EmpresaStore = signalStore(
 
       create: signalMethod(async (param: EmpresaModel) => {
         patchState(store, { isLoading: true });
-        await new Promise((resolve) => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 100));
         const id = await empresaService.create(param);
         patchState(store, (state) => ({
           ...state,
@@ -67,7 +67,7 @@ export const EmpresaStore = signalStore(
 
       login: signalMethod(async (param: { empresa: EmpresaModel }) => {
         patchState(store, { isLoading: true });
-        await new Promise((resolve) => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 100));
         await empresaService.login(param.empresa.id as string).then(() => {
           patchState(store, (state) => ({
             ...state,
@@ -89,7 +89,7 @@ export const EmpresaStore = signalStore(
 
       logout: async () => {
         patchState(store, { isLoading: true });
-        await new Promise((resolve) => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 100));
         await empresaService.logout().then(() => {
           patchState(store, (state) => ({
             ...state,
@@ -108,7 +108,7 @@ export const EmpresaStore = signalStore(
 
       updateById: signalMethod(async (params: { id: string; data: EmpresaModel }) => {
         patchState(store, { isLoading: true });
-        await new Promise((resolve) => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 100));
         await empresaService.updateById(params.id, params.data);
         patchState(store, (state) => ({
           ...state,
@@ -119,7 +119,7 @@ export const EmpresaStore = signalStore(
 
       deleteById: signalMethod(async (id: number) => {
         patchState(store, { isLoading: true });
-        await new Promise((resolve) => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 100));
         await empresaService.deleteById(id.toString());
         patchState(store, (state) => ({
           ...state,

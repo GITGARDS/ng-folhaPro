@@ -27,7 +27,6 @@ export class ProdesService {
   async findById(id: number) {}
 
   async create(param: ProdesModel) {
-    await new Promise((resolve) => setTimeout(resolve, this.isDelay));
     const docRef = await addDoc(this.collectionName, { ...param });
     return docRef.id;
   }

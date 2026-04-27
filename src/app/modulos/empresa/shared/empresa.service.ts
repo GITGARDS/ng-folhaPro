@@ -28,7 +28,6 @@ export class EmpresaService {
   async findById(id: number) {}
 
   async create(param: EmpresaModel) {
-    await new Promise((resolve) => setTimeout(resolve, this.isDelay));
     const docRef = await addDoc(this.collectionName, { ...param });
     return docRef.id;
   }

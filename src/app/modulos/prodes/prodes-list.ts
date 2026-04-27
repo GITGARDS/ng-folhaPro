@@ -186,8 +186,10 @@ export class ProdesList {
   constructor() {
     effect(() => {
       this.dataSource = new MatTableDataSource(this.prodesStore.list());
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      setTimeout(() => {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }, 20);
     });
   }
 
@@ -202,7 +204,7 @@ export class ProdesList {
 
     const novo: Partial<ProdesModel> = {
       codigo: `P${ultimoProdes}`,
-      descricao: `Descricao ${ultimoProdes}`,
+      descricao: `prodes ultimo ${ultimoProdes}`,
       tipo: 'provento',
       incidencias: ['INSS', 'FGTS', 'IRRF'],
       automatico: true,

@@ -62,7 +62,7 @@ export const FuncionarioStore = signalStore(
 
     create: signalMethod(async (param: FuncionarioModel) => {
       patchState(store, { isLoading: true });
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 100));
       const id = await funcionarioService.create(param);
       patchState(store, (state) => ({
         ...state,
@@ -73,7 +73,7 @@ export const FuncionarioStore = signalStore(
 
     updateById: signalMethod(async (params: { id: string; data: FuncionarioModel }) => {
       patchState(store, { isLoading: true });
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 100));
       await funcionarioService.updateById(params.id, params.data);
       patchState(store, (state) => ({
         ...state,
@@ -84,7 +84,7 @@ export const FuncionarioStore = signalStore(
 
     deleteById: signalMethod(async (id: number) => {
       patchState(store, { isLoading: true });
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 100));
       await funcionarioService.deleteById(id.toString());
       patchState(store, (state) => ({
         ...state,
@@ -95,6 +95,7 @@ export const FuncionarioStore = signalStore(
   })),
   withHooks((store, empresaService = inject(EmpresaService)) => ({
     onInit: () => {
+      if (empresaService.idEmpresaLogada() === null) return;
       store.carregaLista({ empresa: empresaService.idEmpresaLogada() as string });
     },
   })),

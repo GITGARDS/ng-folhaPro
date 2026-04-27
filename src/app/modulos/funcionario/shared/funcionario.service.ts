@@ -33,7 +33,6 @@ export class FuncionarioService {
   }
 
   async create(param: FuncionarioModel) {
-    await new Promise((resolve) => setTimeout(resolve, this.isDelay));
     const docRef = await addDoc(this.collectionName, { ...param });
     return docRef.id;
   }

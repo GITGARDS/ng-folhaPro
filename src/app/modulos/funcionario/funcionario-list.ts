@@ -188,16 +188,13 @@ export class FuncionarioList {
   ];
 
   constructor() {
-    // this.funcionarioStore.carregaLista({
-    //   empresa: this.empresaStore.empresaLogada().empresa.id as string,
-    // });
 
     effect(() => {
+      this.dataSource = new MatTableDataSource(this.funcionarioStore.list());
       setTimeout(() => {
-        this.dataSource = new MatTableDataSource(this.funcionarioStore.list());
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-      }, 10);
+      }, 20);
     });
   }
 
@@ -211,7 +208,7 @@ export class FuncionarioList {
   onCreate() {
     const ultimoFuncionario = this.funcionarioStore.list().length + 1;
     const novo: Partial<FuncionarioModel> = {
-      nome: `Funcionario ${ultimoFuncionario}`,
+      nome: `Funcionario ultimo ${ultimoFuncionario}`,
       dataNascimento: new Date().toISOString().split('T')[0],
       nacionalidade: 'BR',
       naturalidade: 'BR',

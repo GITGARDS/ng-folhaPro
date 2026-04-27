@@ -44,7 +44,7 @@ export const ProdesStore = signalStore(
 
     create: signalMethod(async (param: ProdesModel) => {
       patchState(store, { isLoading: true });
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 100));
       const id = await prodesService.create(param);
       patchState(store, (state) => ({
         ...state,
@@ -55,7 +55,7 @@ export const ProdesStore = signalStore(
 
     updateById: signalMethod(async (params: { id: string; data: ProdesModel }) => {
       patchState(store, { isLoading: true });
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 100));
       await prodesService.updateById(params.id, params.data);
       patchState(store, (state) => ({
         ...state,
@@ -66,7 +66,7 @@ export const ProdesStore = signalStore(
 
     deleteById: signalMethod(async (id: number) => {
       patchState(store, { isLoading: true });
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 100));
       await prodesService.deleteById(id.toString());
       patchState(store, (state) => ({
         ...state,

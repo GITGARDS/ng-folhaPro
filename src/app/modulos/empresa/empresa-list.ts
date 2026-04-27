@@ -32,13 +32,11 @@ import { EmpresaStore } from "./shared/empresa.store";
     MatCard,
     MatDivider,
   ],
-  template: `  
+  template: `
     <div class="flex flex-col gap-2">
       <section>
         <div class="flex flex-wrap items-center justify-between gap-2">
-          <div
-            class="sm:max-w-[260px] w-full flex gap-2 px-2 rounded-lg bg-[var(--var-fundo)]"
-          >
+          <div class="sm:max-w-[260px] w-full flex gap-2 px-2 rounded-lg bg-[var(--var-fundo)]">
             <div class="flex items-center">
               <mat-icon class="!text-[var(--var-texto)]">search</mat-icon>
             </div>
@@ -70,7 +68,7 @@ import { EmpresaStore } from "./shared/empresa.store";
                       {{ row.tipoInscricao }}
                     </span>
                     <span class="flex items-center justify-center">
-                      @if (row.id === empresaService.idEmpresaLogada()) {                        
+                      @if (row.id === empresaService.idEmpresaLogada()) {
                         <span class="size-3 animate-ping rounded-lg bg-blue-500"></span>
                       }
                     </span>
@@ -193,12 +191,13 @@ export class EmpresaList {
   readonly paginator = viewChild.required(MatPaginator);
   readonly sort = viewChild.required(MatSort);
 
-
   constructor() {
     effect(() => {
       this.dataSource = new MatTableDataSource(this.empresaStore.list());
-      this.dataSource.paginator = this.paginator();
-      this.dataSource.sort = this.sort();
+      setTimeout(() => {
+        this.dataSource.paginator = this.paginator();
+        this.dataSource.sort = this.sort();
+      }, 20);
     });
   }
 
@@ -211,7 +210,7 @@ export class EmpresaList {
   onCreate() {
     const ultimoEmpresa = this.empresaStore.list().length + 1;
     const novo: Partial<EmpresaModel> = {
-      nomeEmpresaRazaoSocial: `Empresa ${ultimoEmpresa}`,
+      nomeEmpresaRazaoSocial: `Empresa ultima ${ultimoEmpresa}`,
       nomeFantasia: `Empresa ${ultimoEmpresa}`,
       email: 'a@b.com',
       dataAbertura: new Date().toISOString().split('T')[0],
