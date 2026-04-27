@@ -1,6 +1,6 @@
 import { Component, inject } from "@angular/core";
-import { IsLoading } from "../../core/components/is-loading";
-import { Title } from "../../core/components/title";
+import { IsLoading } from "../core/components/is-loading";
+import { Title } from "../core/components/title";
 import FuncionarioCard from "./funcionario-card";
 import { FuncionarioList } from "./funcionario-list";
 import { FuncionarioStore } from "./shared/funcionario.store";

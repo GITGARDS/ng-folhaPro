@@ -4,7 +4,7 @@ import { MatDivider } from "@angular/material/divider";
 import { MatIcon } from "@angular/material/icon";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatTooltip } from "@angular/material/tooltip";
-import { EmpresaStore } from "../../../pages/empresa/shared/empresa.store";
+import { EmpresaStore } from "../../../empresa/shared/empresa.store";
 
 @Component({
   selector: 'app-header-auth-empresa',

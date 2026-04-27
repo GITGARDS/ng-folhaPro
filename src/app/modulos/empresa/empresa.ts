@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
-import { IsLoading } from "../../core/components/is-loading";
-import { Title } from "../../core/components/title";
+import { IsLoading } from "../core/components/is-loading";
+import { Title } from "../core/components/title";
 import FuncionarioCard from "../funcionario/funcionario-card";
 import { FuncionarioStore } from "../funcionario/shared/funcionario.store";
 import { EmpresaList } from "./empresa-list";

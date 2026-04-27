@@ -1,5 +1,5 @@
 import { Routes } from "@angular/router";
-import { empresaGuard } from "./pages/empresa/shared/empresa-guard";
+import { empresaGuard } from "./modulos/empresa/shared/empresa-guard";
 
 export const routes: Routes = [
   {
@@ -9,23 +9,23 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
-    loadComponent: () => import('./core/dashboard'),
+    loadComponent: () => import('./modulos/core/dashboard'),
   },
   {
     path: 'empresa',
-    loadComponent: () => import('./pages/empresa/empresa'),
+    loadComponent: () => import('./modulos/empresa/empresa'),
   },
   {
     path: 'funcionario',
     canActivate: [empresaGuard],
-    loadComponent: () => import('./pages/funcionario/funcionario'),
+    loadComponent: () => import('./modulos/funcionario/funcionario'),
   },
   {
     path: 'prodes',
-    loadComponent: () => import('./pages/prodes/prodes'),
+    loadComponent: () => import('./modulos/prodes/prodes'),
   },
   {
     path: 'colors',
-    loadComponent: () => import('./pages/colors/colors'),
+    loadComponent: () => import('./modulos/colors/colors'),
   },
 ];

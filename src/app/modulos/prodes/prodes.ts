@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
-import { IsLoading } from "../../core/components/is-loading";
-import { Title } from "../../core/components/title";
+import { IsLoading } from "../core/components/is-loading";
+import { Title } from "../core/components/title";
 import ProdesCard from "./prodes-card";
 import { ProdesList } from "./prodes-list";
 import { ProdesStore } from "./shared/prodes.store";
