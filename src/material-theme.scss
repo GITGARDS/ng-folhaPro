@@ -24,35 +24,9 @@ body {
   // `dark` to enable the dark color theme, or to `light dark` to defer to the
   // user's system settings.
   color-scheme: light;
+
   
-  --mat-sys-primary: blue;
-  --mat-sys-on-primary: white;
-
-  --mat-sys-primary-container: rgb(0, 83, 255);
-  --mat-sys-on-primary-container: white;
-
-  --mat-sys-surface: white;
-  --mat-sys-on-surface: rgb(0, 83, 255);
-
-  --mat-sys-surface-variant: rgb(217, 217, 217);
-  --mat-sys-on-surface-variant: black;
-
-  --mat-sys-surface-tint: rgb(0, 83, 255);
-  --mat-sys-outline: rgb(0, 83, 255);
-
-  --mat-sys-error: rgb(255, 0, 0);
-  --mat-sys-error-container: rgb(255, 0, 0);
-
-  --mat-sys-on-error: white;
-  --mat-sys-on-error-container: white;
-
-  --mat-sys-outline: rgb(0, 83, 255);
-  --mat-sys-outline-variant: rgb(217, 217, 217);
-
-  --mat-sys-scrim: rgba(0, 0, 0, 0.5);
-
-  --mat-sys-on-background: rgb(0, 83, 255);
-  --mat-sys-on-surface-variant: black;
+  container-background-color: blue;
 
   // Set a default background, font and text colors for the application using
   // Angular Material's system-level CSS variables. Learn more about these
@@ -65,3 +39,68 @@ body {
   margin: 0;
   height: 100%;
 }
+
+:root {
+  @include mat.toolbar-overrides((
+    container-background-color: var(--mat-sys-primary),
+    container-text-color: var(--mat-sys-on-primary),
+  ));
+  @include mat.icon-overrides((
+    color: var(--mat-sys-on-primary),
+  ));
+
+  @include mat.card-overrides((
+    filled-container-color: var(--mat-sys-primary),
+  ));
+
+
+  @include mat.table-overrides((
+    row-item-outline-width: 1px,
+    background-color:	--mat-sys-surface,
+    header-headline-color:	--mat-sys-on-surface,
+    row-item-label-text-color:	--mat-sys-on-surface,
+    row-item-outline-color:	--mat-sys-outline,
+    header-headline-font:	--mat-sys-title-small-font,
+    header-headline-line-height:	--mat-sys-title-small-line-height,
+    header-headline-size:	--mat-sys-title-small-size,
+    header-headline-tracking:	--mat-sys-title-small-tracking,
+    header-headline-weight:	--mat-sys-title-small-weight,
+    row-item-label-text-font: --mat-sys-body-medium-font,
+    row-item-label-text-line-height:	--mat-sys-body-medium-line-height,
+    row-item-label-text-size: --mat-sys-body-medium-size,
+    row-item-label-text-tracking: --mat-sys-body-medium-tracking,
+    row-item-label-text-weight: 	--mat-sys-body-medium-weight,
+    footer-supporting-text-font: 	--mat-sys-body-medium-font,
+    footer-supporting-text-line-height: 	--mat-sys-body-medium-line-height,
+    footer-supporting-text-size: 	--mat-sys-body-medium-size,
+    footer-supporting-text-tracking: 	--mat-sys-body-medium-tracking,
+    footer-supporting-text-weight: 	--mat-sys-body-medium-weight,
+    header-container-height: 	52px,
+    footer-container-height: 	52px,
+    row-item-container-height: 	52px,
+  ));
+
+  @include mat.menu-overrides((
+divider-bottom-spacing:	8px,
+divider-top-spacing:	8px,
+item-icon-size:	24px,
+item-spacing:	12px,
+item-leading-spacing: 	12px,
+item-trailing-spacing: 	12px,
+item-with-icon-leading-spacing: 	12px,
+item-with-icon-trailing-spacing: 	12px,
+container-shape: 	--mat-sys-corner-extra-small,
+divider-color: 	--mat-sys-surface-variant,
+item-label-text-color: 	--mat-sys-on-surface,
+item-icon-color: 	--mat-sys-on-surface-variant,
+item-hover-state-layer-color: color-mix(in srgb, var(--mat-sys-on-surface) calc(var(--mat-sys-hover-state-layer-opacity) * 100%), transparent),
+item-focus-state-layer-color: color-mix(in srgb, var(--mat-sys-on-surface) calc(var(--mat-sys-focus-state-layer-opacity) * 100%), transparent),
+container-color: 	--mat-sys-surface-container,
+container-elevation-shadow: '0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)',
+item-label-text-font: 	--mat-sys-label-large-font,
+item-label-text-line-height: 	--mat-sys-label-large-line-height,
+item-label-text-size: 	--mat-sys-label-large-size,
+item-label-text-tracking: --mat-sys-label-large-tracking,
+item-label-text-weight: 	--mat-sys-label-large-weight,
+
+  ));}

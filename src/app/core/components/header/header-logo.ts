@@ -17,16 +17,16 @@ import { NavigationService } from "../../../services/navigation.service";
         matIconButton
         (click)="navigationService.menuShow.set(!navigationService.menuShow())"
       >
-        <mat-icon aria-label="Side nav toggle icon" class="!text-[var(--var-texto)]">menu</mat-icon>
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
 
       <div class="flex items-center gap-2">
-        <div class="h-8 w-8 flex items-center justify-center rounded-full bg-[var(--var-fundo)]">
-          <p class="font-bold text-lg text-[var(--var-texto)]">FP</p>
+        <div class="h-8 w-8 flex items-center justify-center rounded-full">
+          <p class="font-bold text-lg">FP</p>
         </div>
         @if (isHandset$ | async) {
         } @else {
-          <span class="font-bold text-[var(--var-texto)] text-sm">FolhaPro</span>
+          <span class="font-bold text-sm">FolhaPro</span>
         }
       </div>        
     </div>

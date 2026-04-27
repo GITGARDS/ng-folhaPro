@@ -9,7 +9,7 @@ import { MatMenuModule } from "@angular/material/menu";
   template: `
     <div class="h-full flex items-center justify-center lg:justify-start gap-4">
       <button mat-icon-button (click)="toggleTheme()">
-        <mat-icon class="!text-[var(--var-texto)]">{{ icone() }}</mat-icon>
+        <mat-icon>{{ icone() }}</mat-icon>
       </button>
     </div>
   `,

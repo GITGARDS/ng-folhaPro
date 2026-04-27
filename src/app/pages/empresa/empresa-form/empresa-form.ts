@@ -23,12 +23,12 @@ import { NgxMaskDirective } from "ngx-mask";
     UpperCasePipe,
   ],
   template: `
-    <section class="w-full border-b bg-[var(--var-fundo)] text-shadow-sm p-2">
+    <section class="w-full border-b text-shadow-sm p-2">
       <div class="flex flex-col justify-center items-center">
-        <h1 class="text-3xl font-bold text-[var(--var-texto)]">
+        <h1 class="text-3xl font-bold">
           {{ formOpcao() === 'new' ? 'Novo' : ('Editar' | uppercase) }}
         </h1>
-        <span class="text-[12px] text-[var(--var-texto)] text-inset">
+        <span class="text-[12px] text-inset">
           {{ dataForm.value.nomeEmpresaRazaoSocial }}
         </span>
       </div>

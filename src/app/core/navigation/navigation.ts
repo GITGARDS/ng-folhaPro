@@ -34,18 +34,14 @@ export type NavItens = {
     <!-- fixedInViewport -->
     <!-- [mode]="(isHandset$ | async) ? 'over' : 'side'" -->
     <!-- [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" -->
-    <!-- class="sidenav-container !bg-[var(--body-fundo)] !text-[var(--body-texto)]" -->
-    <mat-sidenav-container
-      class="sidenav-container !bg-[var(--body-fundo)] !text-[var(--body-texto)]"
-    >
+    <mat-sidenav-container class="sidenav-container">
       <mat-sidenav
         #drawer
-        class="sidenav !bg-[var(--var-fundo)] !text-[var(--var-texto)]"
+        class="sidenav"
         fixedTopGap
         mode="over"
         [opened]="navigationService.menuShow()"
         (openedChange)="navigationService.menuShow.set($event)"
-
       >
         <!-- <mat-toolbar>Menu</mat-toolbar> -->
         <mat-toolbar>
