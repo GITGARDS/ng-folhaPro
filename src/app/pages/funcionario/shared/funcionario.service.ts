@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc } from "firebase/firestore";
 import { Observable, delay } from "rxjs";
-import { db } from "../../firebase";
-import { FuncionarioModel } from "../models/funcionario";
+import { db } from "../../../../firebase";
+import { FuncionarioModel } from "./funcionario-model";
 
 @Injectable({
   providedIn: 'root',

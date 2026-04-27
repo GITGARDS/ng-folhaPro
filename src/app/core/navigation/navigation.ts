@@ -5,10 +5,10 @@ import { MatListModule } from "@angular/material/list";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { Router, RouterOutlet } from "@angular/router";
-import { NavigationService } from "../../services/navigation.service";
 import { Header } from "../components/header/header";
 import { HeaderLogo } from "../components/header/header-logo";
 import { NavigationListItem } from "./navigation-listitem";
+import { NavigationService } from "./navigation.service";
 
 export type NavItens = {
   label: string;

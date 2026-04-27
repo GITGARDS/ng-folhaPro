@@ -1,5 +1,5 @@
 import { Routes } from "@angular/router";
-import { empresaGuard } from "./guard/empresa-guard";
+import { empresaGuard } from "./pages/empresa/shared/empresa-guard";
 
 export const routes: Routes = [
   {

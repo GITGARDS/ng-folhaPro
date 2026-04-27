@@ -1,15 +1,15 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { IsLoading } from "../../core/components/is-loading";
-import { MiniCard } from "../../core/components/mini-card";
 import { Title } from "../../core/components/title";
-import { EmpresaStore } from "../../store/empresa.store";
-import { FuncionarioStore } from "../../store/funcionario/funcionario.store";
-import { EmpresaList } from "./empresa-list/empresa-list";
+import FuncionarioCard from "../funcionario/funcionario-card";
+import { FuncionarioStore } from "../funcionario/shared/funcionario.store";
+import { EmpresaList } from "./empresa-list";
+import { EmpresaStore } from "./shared/empresa.store";
 
 @Component({
   selector: 'app-empresa',
-  imports: [EmpresaList, CommonModule, MiniCard, Title, IsLoading],
+  imports: [EmpresaList, CommonModule, Title, IsLoading, FuncionarioCard],
   template: `
     <div class="grid grid-cols-6 gap-2 mt-4">
       <section class="hidden lg:flex lg:col-span-1 justify-center">
@@ -20,24 +20,10 @@ import { EmpresaList } from "./empresa-list/empresa-list";
 
       <section class="col-span-6 lg:col-span-4 relative">
         <div class="p-2">
-          @if (empresaStore.isLoading()) {
-            <app-is-loading />
-          }
+          <app-is-loading [isLoading]="empresaStore.isLoading()" />
           <div class="flex flex-col gap-2">
             <app-title [icone]="'business'" [title]="title" />
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
-              <app-mini-card
-                [icone]="'person_add'"
-                [title]="'funcionarios ativos'"
-                [appearance]="'filled'"
-              >
-                <ng-container>
-                  <span>
-                    {{ this.funcionarioStore.totalfuncionariosAtivos().length }}
-                  </span>
-                </ng-container>
-              </app-mini-card>
-            </div>
+            <app-funcionario-card />
             <app-empresa-list />
           </div>
         </div>

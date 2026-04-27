@@ -1,3 +1,4 @@
+import { CurrencyPipe, DatePipe } from "@angular/common";
 import { Component, ViewChild, effect, inject } from "@angular/core";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatCard } from "@angular/material/card";
@@ -8,12 +9,13 @@ import { MatMenuModule } from "@angular/material/menu";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { ProdesModel } from "../../../models/prodes";
-import { ProdesStore } from "../../../store/prodes.store";
-import { ProdesForm } from "../prodes-form/prodes-form";
+import { EmpresaStore } from "../empresa/shared/empresa.store";
+import { FuncionarioForm } from "./funcionario-form";
+import { FuncionarioModel } from "./shared/funcionario-model";
+import { FuncionarioStore } from "./shared/funcionario.store";
 
 @Component({
-  selector: 'app-prodes-list',
+  selector: 'app-funcionario-list',
   imports: [
     MatTableModule,
     MatPaginatorModule,
@@ -21,16 +23,21 @@ import { ProdesForm } from "../prodes-form/prodes-form";
     MatIconModule,
     MatIconButton,
     MatMenuModule,
+    CurrencyPipe,
+    DatePipe,
     MatButton,
     MatInputModule,
     MatInputModule,
     MatCard,
   ],
+
   template: `
     <div class="flex flex-col gap-2">
       <section>
         <div class="flex flex-wrap items-center justify-between gap-2">
-          <div class="w-full sm:w-auto flex gap-2 px-2 rounded-lg bg-[var(--var-fundo)]">
+          <div
+            class="w-full sm:w-auto flex gap-2 px-2 rounded-lg bg-[var(--var-fundo)]"
+          >
             <div class="flex items-center">
               <mat-icon class="!text-[var(--var-texto)]">search</mat-icon>
             </div>
@@ -48,14 +55,19 @@ import { ProdesForm } from "../prodes-form/prodes-form";
         <mat-card appearance="raised" class="overflow-hidden" class="!rounded-lg !overflow-hidden">
           <div class="h-[500px] overflow-auto">
             <table mat-table [dataSource]="dataSource" matSort aria-label="Elements">
-              <!-- Codigo Column -->
-              <ng-container matColumnDef="codigo">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo</th>
-                <td mat-cell *matCellDef="let row">{{ row.codigo }}</td>
+              <!-- Id Column -->
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+                <td mat-cell *matCellDef="let row">{{ row.id }}</td>
               </ng-container>
-              <!-- descricao Column -->
-              <ng-container matColumnDef="descricao">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Descricao</th>
+              <!-- empresa Column -->
+              <ng-container matColumnDef="empresa">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Empresa</th>
+                <td mat-cell *matCellDef="let row">{{ row.empresa }}</td>
+              </ng-container>
+              <!-- Nome Column -->
+              <ng-container matColumnDef="nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
                 <td mat-cell *matCellDef="let row">
                   <div class="flex items-center gap-2">
                     <div
@@ -63,42 +75,29 @@ import { ProdesForm } from "../prodes-form/prodes-form";
                       [style.background-color]="onGetColor(row.id.charAt(0))"
                     >
                       <p class="font-bold p-4">
-                        {{ row.descricao.charAt(0) }}
+                        {{ row.nome.charAt(0) }}
                       </p>
                     </div>
 
                     <span class="flex items-center">
-                      {{ row.descricao }}
+                      {{ row.nome }}
                     </span>
                   </div>
                 </td>
               </ng-container>
 
-              <!-- Tipo Column -->
-              <ng-container matColumnDef="tipo">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</th>
-                <td mat-cell *matCellDef="let row">{{ row.tipo }}</td>
-              </ng-container>
-              <!-- Incidencias Column -->
-              <ng-container matColumnDef="incidencias">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Incidencias</th>
-                <td mat-cell *matCellDef="let row">{{ row.incidencias }}</td>
+              <!-- Salario Base Column -->
+              <ng-container matColumnDef="salarioBase">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Salario</th>
+                <td mat-cell *matCellDef="let row">{{ row.salarioBase | currency: 'BRL' }}</td>
               </ng-container>
 
-              <!-- Automatico Column -->
-              <ng-container matColumnDef="automatico">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Automatico</th>
-                <td mat-cell *matCellDef="let row">
-                  <div
-                    [class]="row.automatico == true ? 'text-blue-500' : 'text-red-500'"
-                    class="h-8 w-8 flex items-center justify-center"
-                  >
-                    <mat-icon class="!font-bold !text-md ">{{
-                      row.automatico ? 'check' : 'close'
-                    }}</mat-icon>
-                  </div>
-                </td>
+              <!-- Data Admissao Column -->
+              <ng-container matColumnDef="dataAdmissao">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Admissao</th>
+                <td mat-cell *matCellDef="let row">{{ row.dataAdmissao | date: 'dd/MM/yyyy' }}</td>
               </ng-container>
+
               <!-- Status Column -->
               <ng-container matColumnDef="ativo">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Ativo</th>
@@ -161,62 +160,86 @@ import { ProdesForm } from "../prodes-form/prodes-form";
       </section>
     </div>
   `,
-
-  styles: ``,
+  styles: `
+    .full-width-table {
+      width: 100%;
+    }
+  `,
 })
-export class ProdesList {
-  prodesStore = inject(ProdesStore);
-  dataSource: MatTableDataSource<ProdesModel> = new MatTableDataSource<ProdesModel>(
-    this.prodesStore.list(),
+export class FuncionarioList {
+  funcionarioStore = inject(FuncionarioStore);
+  empresaStore = inject(EmpresaStore);
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  dataSource: MatTableDataSource<FuncionarioModel> = new MatTableDataSource<FuncionarioModel>(
+    this.funcionarioStore.list(),
   );
+
+  /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns: string[] = [
     // 'id',
-    'codigo',
-    'descricao',
-    'tipo',
-    'incidencias',
-    'automatico',
+    // 'empresa',
+    'nome',
+    'salarioBase',
+    'dataAdmissao',
     'ativo',
     'actions',
   ];
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
   constructor() {
+    // this.funcionarioStore.carregaLista({
+    //   empresa: this.empresaStore.empresaLogada().empresa.id as string,
+    // });
+
     effect(() => {
-      this.dataSource = new MatTableDataSource(this.prodesStore.list());
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      setTimeout(() => {
+        this.dataSource = new MatTableDataSource(this.funcionarioStore.list());
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }, 10);
     });
   }
 
   onFindById(id: number) {
-    console.log('onFindById', id);
+    console.log('onFindById', this.funcionarioStore.findById()({ id }));
+    window.alert(JSON.stringify(this.funcionarioStore.findById()({ id })));
   }
 
   readonly dialog = inject(MatDialog);
 
   onCreate() {
-    const ultimoProdes = this.prodesStore.list().length + 1;
-
-    const novo: Partial<ProdesModel> = {
-      codigo: `P${ultimoProdes}`,
-      descricao: `Descricao ${ultimoProdes}`,
-      tipo: 'provento',
-      incidencias: ['INSS', 'FGTS', 'IRRF'],
-      automatico: true,
+    const ultimoFuncionario = this.funcionarioStore.list().length + 1;
+    const novo: Partial<FuncionarioModel> = {
+      nome: `Funcionario ${ultimoFuncionario}`,
+      dataNascimento: new Date().toISOString().split('T')[0],
+      nacionalidade: 'BR',
+      naturalidade: 'BR',
+      genero: 'Masculino',
+      racaCor: 'Branco',
+      estadoCivil: 'Solteiro',
+      endereco: 'Endereco',
+      bairro: 'Bairro',
+      cidade: 'Cidade',
+      cep: '00000-000',
+      telefone: '(00) 0000-0000',
+      celular: '(00) 00000-0000',
+      email: 'a@b.com',
+      dataAdmissao: new Date().toISOString().split('T')[0],
+      salarioBase: ultimoFuncionario * 100,
       ativo: true,
     };
-    this.openDialog('new', novo as ProdesModel);
+    this.openDialog('new', novo as FuncionarioModel);
   }
 
-  onUpdateById(params: ProdesModel) {
+  onUpdateById(params: FuncionarioModel) {
     this.openDialog('update', params);
   }
 
-  openDialog(opcao: string, data: ProdesModel) {
-    const dialogRef = this.dialog.open(ProdesForm, {
+  openDialog(opcao: string, data: FuncionarioModel) {
+    const dialogRef = this.dialog.open(FuncionarioForm, {
+      width: 'auto',
+      height: '750px',
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '300ms',
       data: { opcao, data },
@@ -225,14 +248,16 @@ export class ProdesList {
       if (!result) {
         return;
       }
+      const empresaLogada = this.empresaStore.empresaLogada();
+      result.empresa = empresaLogada.empresa.id as string;
       switch (opcao) {
         case 'new':
-          this.prodesStore.create(result as ProdesModel);
+          this.funcionarioStore.create(result as FuncionarioModel);
           break;
         case 'update':
-          this.prodesStore.updateById({
+          this.funcionarioStore.updateById({
             id: data.id as string,
-            data: result as ProdesModel,
+            data: result as FuncionarioModel,
           });
           break;
       }
@@ -241,7 +266,7 @@ export class ProdesList {
 
   onDeleteById(id: number) {
     if (confirm('Tem certeza?')) {
-      this.prodesStore.deleteById(id);
+      this.funcionarioStore.deleteById(id);
     }
   }
 

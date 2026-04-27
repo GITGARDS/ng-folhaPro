@@ -1,45 +1,34 @@
 import { computed, inject } from "@angular/core";
 import { patchState, signalMethod, signalStore, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 import { delay } from "rxjs";
-import { FuncionarioModel } from "../../models/funcionario";
-import { EmpresaService } from "../../services/empresa.service";
-import { FuncionarioService } from "../../services/funcionario.service";
+import { ProdesModel } from "./prodes-model";
+import { ProdesService } from "./prodes.service";
 
-type FuncionarioState = {
-  list: FuncionarioModel[];
-  objeto: FuncionarioModel;
+type ProdesState = {
+  list: ProdesModel[];
   isLoading: boolean;
 };
 
-const initialState: FuncionarioState = {
+const initialState: ProdesState = {
   list: [],
-  objeto: {} as FuncionarioModel,
   isLoading: false,
 };
 
-export const FuncionarioStore = signalStore(
+export const ProdesStore = signalStore(
   {
     providedIn: 'root',
   },
   withState(initialState),
-
   withComputed(({ list }) => ({
-    totalfuncionariosAtivos: computed(() => list().filter((f) => f.ativo === true)),
-    totalSalarioBase: computed(() =>
-      list().reduce(
-        (acc, f) => (f.salarioBase && f.ativo ? acc + Number(f.salarioBase) : acc + 0),
-        0,
-      ),
-    ),
-    findById: computed(() => (params: { id: number }) => list().find((f) => f.id === params.id)),
+    totalProdesAtivos: computed(() => list().filter((f) => f.ativo)),
   })),
 
-  withMethods((store, funcionarioService = inject(FuncionarioService)) => ({
-    carregaLista: signalMethod((params: { empresa: string }) => {
+  withMethods((store, prodesService = inject(ProdesService)) => ({
+    carregaLista: signalMethod(() => {
       if (store.list.length > 0) return;
       patchState(store, { isLoading: true });
-      funcionarioService
-        .findAll({ empresa: params.empresa })
+      prodesService
+        .findAll()
         .pipe(delay(200))
         .subscribe({
           next: (list) => {
@@ -52,18 +41,11 @@ export const FuncionarioStore = signalStore(
           },
         });
     }),
-    carregaListaVazia: signalMethod(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 100));
-      patchState(store, (state) => ({
-        ...state,
-        list: [],
-      }));
-    }),
 
-    create: signalMethod(async (param: FuncionarioModel) => {
+    create: signalMethod(async (param: ProdesModel) => {
       patchState(store, { isLoading: true });
       await new Promise((resolve) => setTimeout(resolve, 200));
-      const id = await funcionarioService.create(param);
+      const id = await prodesService.create(param);
       patchState(store, (state) => ({
         ...state,
         list: [...state.list, { ...param, id }],
@@ -71,10 +53,10 @@ export const FuncionarioStore = signalStore(
       }));
     }),
 
-    updateById: signalMethod(async (params: { id: string; data: FuncionarioModel }) => {
+    updateById: signalMethod(async (params: { id: string; data: ProdesModel }) => {
       patchState(store, { isLoading: true });
       await new Promise((resolve) => setTimeout(resolve, 200));
-      await funcionarioService.updateById(params.id, params.data);
+      await prodesService.updateById(params.id, params.data);
       patchState(store, (state) => ({
         ...state,
         list: state.list.map((f) => (f.id === params.id ? { ...f, ...params.data } : f)),
@@ -85,7 +67,7 @@ export const FuncionarioStore = signalStore(
     deleteById: signalMethod(async (id: number) => {
       patchState(store, { isLoading: true });
       await new Promise((resolve) => setTimeout(resolve, 200));
-      await funcionarioService.deleteById(id.toString());
+      await prodesService.deleteById(id.toString());
       patchState(store, (state) => ({
         ...state,
         list: state.list.filter((f) => f.id !== id),
@@ -93,9 +75,9 @@ export const FuncionarioStore = signalStore(
       }));
     }),
   })),
-  withHooks((store, empresaService = inject(EmpresaService)) => ({
+  withHooks((store) => ({
     onInit: () => {
-      store.carregaLista({ empresa: empresaService.idEmpresaLogada() as string });
-    },
+      store.carregaLista(null);
+    }
   })),
 );

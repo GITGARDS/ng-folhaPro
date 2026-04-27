@@ -2,8 +2,8 @@ import { Component, inject, input } from "@angular/core";
 import { MatIcon } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
 import { Router, RouterLink, RouterLinkActive } from "@angular/router";
-import { NavigationService } from "../../services/navigation.service";
 import { NavItens } from "./navigation";
+import { NavigationService } from "./navigation.service";
 
 @Component({
   selector: 'app-navigation-listitem',

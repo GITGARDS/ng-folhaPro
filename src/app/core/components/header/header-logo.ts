@@ -4,7 +4,7 @@ import { Component, inject } from "@angular/core";
 import { MatIconButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { Observable, map, shareReplay } from "rxjs";
-import { NavigationService } from "../../../services/navigation.service";
+import { NavigationService } from "../../navigation/navigation.service";
 
 @Component({
   selector: 'app-header-logo',

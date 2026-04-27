@@ -1,42 +1,28 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { IsLoading } from "../../core/components/is-loading";
-import { MiniCard } from "../../core/components/mini-card";
 import { Title } from "../../core/components/title";
-import { ProdesStore } from "../../store/prodes.store";
-import { ProdesList } from "./prodes-list/prodes-list";
+import ProdesCard from "./prodes-card";
+import { ProdesList } from "./prodes-list";
+import { ProdesStore } from "./shared/prodes.store";
 
 @Component({
   selector: 'app-prodes',
-  imports: [ProdesList, CommonModule, IsLoading, MiniCard, Title],
+  imports: [ProdesList, CommonModule, IsLoading, Title, ProdesCard],
   template: `
     <div class="grid grid-cols-6 gap-2 mt-4">
       <section class="hidden lg:flex lg:col-span-1 justify-center">
         <div class="flex items-start">
           <img src="imagens/cadastros/prodes.png" alt="cadastros" class="object-contain" />
-          <!-- <img src="imagens/cadastros/prodes.png" alt="cadastros" class="object-contain contrast-50" /> -->
-          <!-- <img src="imagens/cadastros/prodes.png" alt="cadastros" class="object-contain blur-sm" /> -->
-          <!-- <img src="imagens/cadastros/prodes.png" alt="cadastros" class="object-contain brightness-125" /> -->
         </div>
       </section>
 
       <section class="col-span-6 lg:col-span-4">
         <div class="relative p-2">
-          @if (prodesStore.isLoading()) {
-            <app-is-loading />
-          }
+          <app-is-loading [isLoading]="prodesStore.isLoading()" />
           <div class="flex flex-col gap-2">
             <app-title [icone]="'compare_arrows'" [title]="title" />
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
-              <app-mini-card [icone]="'person_add'" [title]="'ativos'" [appearance]="'filled'">
-                <ng-container>
-                  <span>
-                    {{ this.prodesStore.totalProdesAtivos().length }}
-                  </span>
-                </ng-container>
-              </app-mini-card>
-            </div>
-
+            <app-prodes-card />
             <app-prodes-list />
           </div>
         </div>

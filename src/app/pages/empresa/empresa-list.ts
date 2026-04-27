@@ -11,10 +11,10 @@ import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { Router } from "@angular/router";
-import { EmpresaModel } from "../../../models/empresa";
-import { EmpresaService } from "../../../services/empresa.service";
-import { EmpresaStore } from "../../../store/empresa.store";
-import { EmpresaForm } from "../empresa-form/empresa-form";
+import { EmpresaForm } from "./empresa-form";
+import { EmpresaModel } from "./shared/empresa-model";
+import { EmpresaService } from "./shared/empresa.service";
+import { EmpresaStore } from "./shared/empresa.store";
 
 @Component({
   selector: 'app-empresa-list',

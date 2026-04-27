@@ -3,9 +3,9 @@ import { Router } from "@angular/router";
 import { patchState, signalMethod, signalStore, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { delay, pipe } from "rxjs";
-import { EmpresaLogadaModel, EmpresaModel } from "../models/empresa";
-import { EmpresaService } from "../services/empresa.service";
-import { FuncionarioStore } from "./funcionario/funcionario.store";
+import { FuncionarioStore } from "../../funcionario/shared/funcionario.store";
+import { EmpresaLogadaModel, EmpresaModel } from "./empresa-model";
+import { EmpresaService } from "./empresa.service";
 
 type EmpresaState = {
   list: EmpresaModel[];
