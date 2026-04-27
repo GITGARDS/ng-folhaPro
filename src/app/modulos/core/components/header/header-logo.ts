@@ -28,7 +28,8 @@ import { NavigationService } from "../../navigation/navigation.service";
         } @else {
           <span class="font-bold text-[var(--var-texto)] text-sm">FolhaPro</span>
         }
-      </div>        
+      </div>      
+        
     </div>
   `,
   styles: ``,

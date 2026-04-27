@@ -1,4 +1,5 @@
 import { Component, signal } from "@angular/core";
+import { version } from "../../package.json";
 import { Navigation } from "./modulos/core/navigation/navigation";
 
 @Component({
@@ -9,5 +10,9 @@ import { Navigation } from "./modulos/core/navigation/navigation";
 })
 export class App {
   protected readonly title = signal('ng-folhaPro');
-  constructor() {}
+  
+  
+  constructor() {
+    console.log('versao', version);
+  }
 }
