@@ -12,6 +12,7 @@ import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { EmpresaModel } from "../../../models/empresa";
+import { EmpresaService } from "../../../services/empresa.service";
 import { EmpresaStore } from "../../../store/empresa.store";
 import { EmpresaForm } from "../empresa-form/empresa-form";
 
@@ -31,7 +32,7 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
     MatCard,
     MatDivider,
   ],
-  template: `
+  template: `  
     <div class="flex flex-col gap-2">
       <section>
         <div class="flex flex-wrap items-center justify-between gap-2">
@@ -69,8 +70,8 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
                       {{ row.tipoInscricao }}
                     </span>
                     <span class="flex items-center justify-center">
-                      @if (row.id === empresaStore.empresaLogada().empresa?.id) {                        
-                        <span class="size-3 animate-ping rounded-lg bg-[var(--var-texto)]"></span>
+                      @if (row.id === empresaService.idEmpresaLogada()) {                        
+                        <span class="size-3 animate-ping rounded-lg bg-blue-500"></span>
                       }
                     </span>
                   </div>
@@ -136,7 +137,7 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
                       <span>Excluir</span>
                     </button>
                     @if (empresaStore.empresaLogada().isLogada) {
-                      @if (empresaStore.empresaLogada().empresa?.id === row.id) {
+                      @if (empresaService.idEmpresaLogada() === row.id) {
                         <mat-divider />
                         <button mat-menu-item (click)="empresaStore.logout()">
                           <mat-icon>logout</mat-icon>
@@ -176,6 +177,7 @@ import { EmpresaForm } from "../empresa-form/empresa-form";
 })
 export class EmpresaList {
   empresaStore = inject(EmpresaStore);
+  empresaService = inject(EmpresaService);
   router = inject(Router);
   dataSource: MatTableDataSource<EmpresaModel> = new MatTableDataSource<EmpresaModel>(
     this.empresaStore.list(),
@@ -190,6 +192,7 @@ export class EmpresaList {
 
   readonly paginator = viewChild.required(MatPaginator);
   readonly sort = viewChild.required(MatSort);
+
 
   constructor() {
     effect(() => {

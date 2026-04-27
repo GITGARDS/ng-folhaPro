@@ -4,10 +4,10 @@ import { Component } from "@angular/core";
   selector: 'app-is-loading',
   imports: [],
   template: `
-    @let eltexto = 'bg-[var(--var-texto)]';
+    @let eltexto = 'bg-[var(--var-fundo)]';
     @let animate = 'animate-pulse';
 
-    <div class="absolute w-full h-full rounded-lg inset-0 z-10 p-2 bg-[var(--body-fundo)]">
+    <div class="absolute w-full h-full rounded-lg inset-0 z-10 p-2 bg-[var(--mat-sys-surface)]">
       <div [class]="animate">
         <div class="flex flex-col gap-8">
           @for (item of [1, 2]; track $index) {

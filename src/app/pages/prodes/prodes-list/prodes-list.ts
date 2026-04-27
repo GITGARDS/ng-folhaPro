@@ -90,7 +90,7 @@ import { ProdesForm } from "../prodes-form/prodes-form";
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Automatico</th>
                 <td mat-cell *matCellDef="let row">
                   <div
-                    [class]="row.automatico == true ? 'text-(--var-texto)' : 'text-red-500'"
+                    [class]="row.automatico == true ? 'text-blue-500' : 'text-red-500'"
                     class="h-8 w-8 flex items-center justify-center"
                   >
                     <mat-icon class="!font-bold !text-md ">{{
@@ -104,7 +104,7 @@ import { ProdesForm } from "../prodes-form/prodes-form";
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Ativo</th>
                 <td mat-cell *matCellDef="let row">
                   <div
-                    [class]="row.ativo == true ? 'text-(--var-texto)' : 'text-red-500'"
+                    [class]="row.ativo == true ? 'text-blue-500' : 'text-red-500'"
                     class="h-8 w-8 flex items-center justify-center"
                   >
                     <mat-icon class="!font-bold !text-md ">{{

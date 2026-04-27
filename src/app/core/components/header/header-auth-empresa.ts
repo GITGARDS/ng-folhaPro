@@ -1,5 +1,5 @@
 import { Component, inject } from "@angular/core";
-import { MatAnchor, MatIconButton } from "@angular/material/button";
+import { MatIconButton } from "@angular/material/button";
 import { MatDivider } from "@angular/material/divider";
 import { MatIcon } from "@angular/material/icon";
 import { MatMenuModule } from "@angular/material/menu";
@@ -8,7 +8,7 @@ import { EmpresaStore } from "../../../store/empresa.store";
 
 @Component({
   selector: 'app-header-auth-empresa',
-  imports: [MatIcon, MatAnchor, MatTooltip, MatMenuModule, MatDivider, MatIconButton],
+  imports: [MatIcon, MatTooltip, MatMenuModule, MatDivider, MatIconButton],
   template: `
     <div>
       <!-- type TooltipPosition = 'left' | 'right' | 'above' | 'below' | 'before' | 'after'; -->
@@ -25,8 +25,8 @@ import { EmpresaStore } from "../../../store/empresa.store";
           </button>
           <mat-menu #menu="matMenu">
             <div class="flex flex-col p-2 gap-2">
-              <h3 class="">{{ empresaStore.empresaLogada().empresa?.nomeEmpresaRazaoSocial }}</h3>
-              <p class="text-[10px]">{{ empresaStore.empresaLogada().empresa?.email }}</p>
+              <h3 class="">{{ empresaStore.empresaLogada().empresa.nomeEmpresaRazaoSocial }}</h3>
+              <p class="text-[10px]">{{ empresaStore.empresaLogada().empresa.email }}</p>
             </div>
             <mat-divider></mat-divider>
             <button mat-menu-item (click)="empresaStore.logout()">

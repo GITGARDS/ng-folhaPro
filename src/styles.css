@@ -12,9 +12,6 @@
 :root {
   --var-fundo: var(--mat-sys-primary);
   --var-texto: var(--mat-sys-on-primary);
-
-  --body-fundo: var(--mat-sys-surface-variant);
-  --body-texto: var(--mat-sys-on-surface);
 }
 
 th {

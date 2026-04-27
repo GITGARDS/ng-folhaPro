@@ -35,8 +35,9 @@ export type NavItens = {
     <!-- [mode]="(isHandset$ | async) ? 'over' : 'side'" -->
     <!-- [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" -->
     <!-- class="sidenav-container !bg-[var(--body-fundo)] !text-[var(--body-texto)]" -->
+    <!-- class="sidenav-container !bg-[var(--body-fundo)] !text-[var(--body-texto)]" -->
     <mat-sidenav-container
-      class="sidenav-container !bg-[var(--body-fundo)] !text-[var(--body-texto)]"
+      class="sidenav-container"
     >
       <mat-sidenav
         #drawer
